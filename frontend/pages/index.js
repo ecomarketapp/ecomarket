@@ -9,7 +9,7 @@ import Link from 'next/link';
 const Home = () => {
 
     const fetchRequests = async ({ pageParam = 1 }) => {
-        const res = await fetch(`/api/requests?page=${pageParam}&size=9`);
+        const res = await fetch(`http://127.0.0.1:8080/api/requests?page=${pageParam}&size=9`);
         return res.json();
     }
 

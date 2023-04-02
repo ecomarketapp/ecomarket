@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
-import CompanyLayout from '../../../../components/CompanyLayout/Layout';
-import DropdownIcon from '../../../../components/Icons/DropdownIcon';
+import CompanyLayout from '../../../../../components/CompanyLayout/Layout';
+import DropdownIcon from '../../../../../components/Icons/DropdownIcon';
 
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -9,7 +9,7 @@ import LinearProgress, {
   linearProgressClasses,
 } from '@mui/material/LinearProgress';
 
-const SingleOffer = () => {
+const SingleDropoff = () => {
   const [createDispute, setCreateDispute] = useState();
   const [requestSuccessModal, setRequestSuccessModal] = useState();
 
@@ -56,185 +56,143 @@ const SingleOffer = () => {
                 </div>
               </div>
 
-              <div className="">
-                <div className="py-2 px-10 sticky top-0">
-                  {/* <div className="flex items-center justify-between mb-6">
-                    <div>
-                      <h2 className="text-3xl mb-2">120kg of PET Bottles</h2>
+              <div className=" w-full bg-white mt-3 py-6 md:mt-0  relative overflow-hidden rounded h-full">
+                {/* <div className="absolute h-full border border-[#E4E7EC] inset-0 z-0 mx-auto w-[0.5px] hidden md:block"></div> */}
 
-                      <p className="font-thin text-[#667085]">Ikeja, Lagos</p>
-                    </div>
+                <div className=" grid grid-cols-1 md:grid-cols-2  w-full gap-6 relative">
+                  
 
-                    <div>
-                      <div
-                        className="radial-progress text-sm text-center text-[#DD7D37]"
-                        style={{ '--value': 25, '--size': '5rem' }}
-                      >
-                        <span className="text-[#6D747D]">
-                          <span className="font-semibold text-[#3D4044]">
-                            25% <br />
-                          </span>{' '}
-                          provided
-                        </span>
-                      </div>
-                    </div>
-                  </div> */}
-                  <div>
-                    {/* flex items-center justify-between w-full */}
-                    <div className="grid grid-cols-2 gap-4 gap-y-12 py-3">
-                      <div className="flex-1">
-                        <span className="text-gray-700 font-base mb-3">
-                          Category of Scrap
-                        </span>
-                        <div className="w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                          Plastics
+                  <div className="px-4">
+                    <div className="py-6 px-6 sticky top-0 border border-gray-300 rounded-lg">
+                      <div className="flex items-start justify-start gap-4 mb-6">
+                        <div className="h-24 w-24">
+                          <img
+                            src="/images/Avatar-lg.png"
+                            className="w-full object-cover rounded-full"
+                          />
                         </div>
-                      </div>
-                      <div className="flex-1">
-                        <span className="text-gray-700 font-base mb-3">
-                          Type of Scrap
-                        </span>
-                        <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                          Polyethylene Terephthalate (PET)
-                        </div>
-                      </div>
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <h2 className="text-xl mb-2">
+                              120kg of PET Bottles
+                            </h2>
 
-                      <div className="flex-1">
-                        <span className="text-gray-700 font-base mb-3">
-                          Date Created
-                        </span>
-                        <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center gap-3 text-sm">
-                          <span className="text-xs">12:32pm</span>{' '}
-                          <span>20/10/2022</span>
-                        </div>
-                      </div>
-                      <div className="flex-1">
-                        <span className="text-gray-700 font-base mb-3">
-                          Expiry Date
-                        </span>
-                        <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                          30/10/2022
-                        </div>
-                      </div>
-                      <div className="flex-1">
-                        <span className="text-gray-700 font-base mb-3">
-                          Amount Paid
-                        </span>
-                        <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm justify-between">
-                          $7,500
-                          <span className="text-xs">1kg = $50</span>
-                        </div>
-                      </div>
-                      <div className="flex-1">
-                        <span className="text-gray-700 font-base mb-3">
-                          Days Left
-                        </span>
-                        <div className="w-full h-12 px-4 py-2 mt-2 text-[#12B76A]   border-0 border-gray-200  rounded-md flex items-center text-sm">
-                          10d : 24h : 15m : 32s
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="border-t border-gray-200 pt-6 pb-3 mt-9">
-                    <div className="mb-4">
-                      <h3 className="text-lg">Dropoffs</h3>
-                    </div>
-                    <div className="grid grids-cols-1 md:grid-cols-2 gap-5">
-                      <div className="flex items-center py-3 mb-2 text-sm w-full border-b border-gray-200">
-                        <div className="flex items-start gap-4 w-full">
-                          <div className="h-14 w-14">
-                            <img
-                              src="/images/Avatar.png"
-                              className="w-full object-cover rounded-full  "
-                            />
+                            <p className="font-thin text-[#667085] text-sm mb-2">
+                              Ikeja, Lagos
+                            </p>
+                            <p className="font-thin text-[#667085] text-sm">
+                              Dropoff Time: 10 October 2022. 10:10:22
+                            </p>
                           </div>
 
-                          <div className="w-full grow">
-                            <div className="flex gap-1 items-center flex-row justify-between w-full">
-                              <p className="text-lg text-[#5B5B5B] font-semibold">
-                                Demi Wikinson{' '}
-                                <span className="font-thin text-graay-400 text-xs">
-                                  2 mins ago
-                                </span>
-                              </p>
+                          <div>
+                            <p className="text-xs text-[#6D747D]">
+                              Dropoff center:{' '}
+                              <span className="text-[#344054] text-base">
+                                Lekki, Lagos
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="grid grid-cols-2 gap-4 gap-y-9 py-3">
+                          <div className="flex-1">
+                            <span className="text-gray-700 font-base mb-3">
+                              Category of Scrap
+                            </span>
+                            <div className="w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
+                              Plastics
                             </div>
-                            <div className="flex gap-1 flex-row justify-between items-center w-full">
-                              <p className="text-sm  text-[#5B2D0B] font-normal">
-                                <span className="font-thin text-[#5B5B5B] text-xs">
-                                  Deposited
-                                </span>{' '}
-                                10kg 0f PET Bottles
-                              </p>
+                          </div>
+                          <div className="flex-1">
+                            <span className="text-gray-700 font-base mb-3">
+                              Type of Scrap
+                            </span>
+                            <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
+                              Polyethylene Terephthalate (PET)
                             </div>
-                            <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                              <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
-                                <img src="/images/Icon.png" alt="" />
-                              </div>
-                              <div className="flex gap-1 flex-col items-start w-full">
-                                <p className="text-base  text-[#344054] font-normal">
-                                  {' '}
-                                  10kg 0f PET Bottles
-                                </p>
-                                <p className="text-sm  text-[#667085] font-normal">
-                                  720KB
-                                </p>
+                          </div>
+
+                          <div className="flex-1">
+                            <span className="text-gray-700 font-base mb-3">
+                              Quantity Provided
+                            </span>
+                            <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center gap-3 text-sm">
+                              15kg
+                            </div>
+                          </div>
+                          <div className="flex-1">
+                            <span className="text-gray-700 font-base mb-3">
+                              Amount to be disbursed
+                            </span>
+                            <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
+                              $250
+                            </div>
+                          </div>
+                          <div className="flex-1 w-full col-span-2">
+                            <span className="text-gray-700 font-base mb-3">
+                              Image
+                            </span>
+                            <div className="w-full px-4 py-4 mt-2 text-[#6B7280] bg-gray-100  border border-[#D1D5DB] border-dashed focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
+                              <div className="flex items-center justify-between w-full">
+                                <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
+                                  <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center border-4 border-[#FEF8F3]">
+                                    <img src="/images/Icon.png" alt="" />
+                                  </div>
+                                  <div className="flex gap-1 flex-col items-start w-full">
+                                    <p className="text-base  text-[#344054] font-normal">
+                                      {' '}
+                                      10kg 0f PET Bottles
+                                    </p>
+                                    <p className="text-sm  text-[#667085] font-normal">
+                                      720KB
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <div>
+                                  <button className="text-[#DD7D37] text-base">
+                                    Download
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="flex items-center py-3 mb-2 text-sm w-full border-b border-gray-200">
-                        <div className="flex items-start gap-4 w-full">
-                          <div className="h-14 w-14">
-                            <img
-                              src="/images/Avatar.png"
-                              className="w-full object-cover rounded-full  "
-                            />
-                          </div>
 
-                          <div className="w-full grow">
-                            <div className="flex gap-1 items-center flex-row justify-between w-full">
-                              <p className="text-lg text-[#5B5B5B] font-semibold">
-                                Demi Wikinson{' '}
-                                <span className="font-thin text-graay-400 text-xs">
-                                  2 mins ago
-                                </span>
-                              </p>
-                            </div>
-                            <div className="flex gap-1 flex-row justify-between items-center w-full">
-                              <p className="text-sm  text-[#5B2D0B] font-normal">
-                                <span className="font-thin text-[#5B5B5B] text-xs">
-                                  Deposited
-                                </span>{' '}
-                                10kg 0f PET Bottles
-                              </p>
-                            </div>
-                            <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                              <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
-                                <img src="/images/Icon.png" alt="" />
-                              </div>
-                              <div className="flex gap-1 flex-col items-start w-full">
-                                <p className="text-base  text-[#344054] font-normal">
-                                  {' '}
-                                  10kg 0f PET Bottles
-                                </p>
-                                <p className="text-sm  text-[#667085] font-normal">
-                                  720KB
-                                </p>
-                              </div>
-                            </div>
+                        <div className="text-center text-sm py-7 max-w-md mx-auto px-4">
+                          <div>
+                            <p className="text-[#6D747D] font-medium">
+                              Cool down Period:{' '}
+                              <span className="text-xl font-semibold">
+                                48hrs : 59mins : 32secs
+                              </span>
+                            </p>
+                          </div>
+                          <div className="text-[#A4A5A8] font-thin py-3">
+                            <p>
+                              Cooldown period is the time you can get to raise a
+                              complaint on a product.
+                            </p>
+                            <p>
+                              Want to read more on cooldown Period?{' '}
+                              <a href="" className="text-[#DD7D37]">
+                                Read Here
+                              </a>
+                            </p>
                           </div>
                         </div>
-                      </div>
-                    </div>
 
-                    <div className="mx-auto w-full flex items-center justify-center mt-6">
-                      <Link href="/company/offers/1/dropoffs">
-                        <a className="px-4 py-2 border border-gray-300 bg-white text-gray-600 rounded-md">
-                          View all Dropoffs
-                        </a>
-                      </Link>
+                        <div className="flex items-center justify-center gap-4 mt-5 mx-auto w-full">
+                          <button
+                            className="px-9 py-3 border border-[#DD7D37] bg-[#DD7D37] text-white rounded-full w-1/2"
+                            onClick={handleDispute}
+                          >
+                            Raise Dispute
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -428,4 +386,4 @@ const SingleOffer = () => {
   );
 };
 
-export default SingleOffer;
+export default SingleDropoff;

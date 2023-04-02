@@ -46,21 +46,21 @@ const StepOne = ({handleClick, currentStep, steps, data}) => {
                         <div className="flex-1 w-full col-span-2">
                             <span className="text-gray-700 font-base mb-3">Location</span>
                             <div className="w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                                {data && data.location.name}
+                                {data ? data.location?.name : ''}
                             </div>
                             
                         </div>
                         <div className="flex-1">
                             <span className="text-gray-700 font-base mb-3">Category of Scrap</span>
                             <div className="w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                                {data && data.scrap_category.name}    
+                                {data && data.scrap_category?.name}    
                             </div>
                             
                         </div>
                         <div className="flex-1">
                             <span className="text-gray-700 font-base mb-3">Type of Scrap</span>
                             <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                            {data && data.scrap_subcategory.name}    
+                            {data && data.scrap_subcategory?.name}    
 
                                 {/* Polyethylene Terephthalate (PET) */}
                             </div>
