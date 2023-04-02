@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useState } from 'react';
+import DropdownIcon from '../../Icons/DropdownIcon';
+import FormTimer from '../FormTimer';
 
-const StepOne = ({ handleClick, currentStep, steps, data }) => {
-  const [fulfillRequest, setfulfillRequest] = useState();
-
-  const handlefulfillRequest = () => {
-    setfulfillRequest(!fulfillRequest);
-  };
+const StepApprove = ({ handleClick, currentStep, steps, data }) => {
   return (
-    <>
+    <div>
       <div className="fade-in">
         {/* <div className='flex items-center justify-around gap-3 py-3'>
                     <div className='flex items-center gap-3'>
@@ -42,7 +40,7 @@ const StepOne = ({ handleClick, currentStep, steps, data }) => {
           </p>
         </div>
 
-        
+        <FormTimer />
 
         <div className="px-6 py-6  border border-gray-300 rounded-lg">
           <div>
@@ -134,85 +132,25 @@ const StepOne = ({ handleClick, currentStep, steps, data }) => {
                         </div> */}
             </div>
 
-            <div className="flex items-center justify-center gap-4 mt-5 mx-auto w-full">
+            <div className="flex items-center justify-center flex-col md:flex-row gap-4 mt-5 mx-auto w-full">
               <button
-                className="px-9 py-3 border border-[#DD7D37] bg-[#DD7D37] text-white rounded-full w-full md:w-1/2 "
-                onClick={handlefulfillRequest}
+                className="px-9 py-3  border border-gray-300 bg-white text-gray-700  rounded-full w-full  md:w-1/2"
+                onClick={() => handleClick()}
               >
-                Fulfill Request
+                Cancel Request
+              </button>
+              <button
+                className="px-9 py-3 border border-[#DD7D37] bg-[#DD7D37] text-white rounded-full  w-full md:w-1/2 "
+                onClick={() => handleClick('next')}
+              >
+                Deliver Plastics
               </button>
             </div>
           </div>
         </div>
       </div>
-
-      {/* fULFILL REQUEST MODAL */}
-      <div className={`modal__box ${fulfillRequest ? 'show' : ''}`}>
-        <div className="modal__box-wrapper shadow-lg rounded-2xl">
-          <div className="flex items-start justify-between mb-6">
-            <div className="grow">
-              <h1 className="text-2xl font-semibold mb-3">
-                You're are about to fulfill this request
-              </h1>
-
-              <p className="mb-3">
-                Kindly note the following before starting this request
-              </p>
-
-              <ul className="list-disc px-4">
-                <li className="text-sm text-gray-500">
-                  Make sure you have the ability to fulfill the requirements of
-                  this request.{' '}
-                </li>
-                <li className="text-sm text-gray-500">
-                  If request is not fulfilled within the particular period, your
-                  ratings would reduce, and this will affect your future orders.
-                </li>
-              </ul>
-            </div>
-
-            <button
-              className=" flex items-center rounded-full border-2 border-gray-700 absolute top-3 right-2  "
-              onClick={() => setfulfillRequest(false)}
-            >
-              <span className="pointer-events-none flex items-center p-1">
-                <svg
-                  className="h-3 w-3 "
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M15 5L5 15M5 5L15 15"
-                    stroke="currentColor"
-                    strokeWidth="1.67"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  ></path>
-                </svg>
-              </span>
-            </button>
-          </div>
-
-          <div className="flex items-center justify-center gap-4 mt-5 mx-auto w-full">
-            <button
-              className="px-9 py-3 border border-gray-300 bg-white text-gray-700 rounded-full w-1/2"
-              type="button"
-              onClick={() => setfulfillRequest(false)}
-            >
-              Cancel
-            </button>
-            <button
-              className="px-9 py-3 border border-[#DD7D37] bg-[#DD7D37] text-white rounded-full w-1/2"
-              onClick={() => handleClick('next')}
-            >
-              Proceed
-            </button>
-          </div>
-        </div>
-      </div>
-    </>
+    </div>
   );
 };
 
-export default StepOne;
+export default StepApprove;

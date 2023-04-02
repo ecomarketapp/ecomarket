@@ -291,7 +291,7 @@ const Dashboard = () => {
                         <h3 className="text-neutral800 text-4xl	">$ 2,000.00</h3>
                       </div>
                     </div>
-                      <div className="pt-4 border-t border-gray-100 flex items-center justify-end w-full">
+                    <div className="pt-4 border-t border-gray-100 flex items-center justify-end w-full">
                       <Link href="/company/wallet">
                         <a className="text-[#DD7D37] text-base px-6">
                           view wallet
@@ -302,7 +302,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <div>
-                <div className="flex items-center justify-between flex-row w-full  pb-4 ">
+                <div className="flex items-center justify-between flex-row w-full ">
                   <div>
                     <h5 className="text-gray-700">Recent activity</h5>
                   </div>

@@ -57,7 +57,7 @@ const SingleOffer = () => {
               </div>
 
               <div className="">
-                <div className="py-2 px-10 sticky top-0">
+                <div className="py-2 ">
                   {/* <div className="flex items-center justify-between mb-6">
                     <div>
                       <h2 className="text-3xl mb-2">120kg of PET Bottles</h2>

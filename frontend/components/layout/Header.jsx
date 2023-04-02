@@ -161,7 +161,7 @@ const Header = () => {
                     className="block lg:inline-block mt-4 lg:mt-0 text-white hover:text-[#DD7D37] hover:bg-white hover:border-[#DD7D37] border bg-[#DD7D37] rounded-full px-9 py-3 transition duration-300 ease"
                     onClick={onClickGetStarted}
                   >
-                    Connect Wallet
+                    Get Started
                   </button>
 
                   // <WalletConnectButton className='block lg:inline-block mt-4 lg:mt-0 text-white hover:text-[#DD7D37] hover:bg-white hover:border-[#DD7D37] border bg-[#DD7D37] rounded-full px-9 py-3 transition duration-300 ease'/>

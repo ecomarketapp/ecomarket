@@ -13,7 +13,7 @@ const wallet = () => {
   return (
     <>
       <CompanyLayout>
-        <section className="individual__orders">
+        <section className="eco__orders">
           <div className="container mx-auto px-6">
             <div className="h-full pb-24 px-4 md:px-12 py-12">
               <div className="grow py-4">

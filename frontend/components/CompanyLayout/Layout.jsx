@@ -1,17 +1,15 @@
-import React from 'react'
-import Footer from './Footer'
-import Header from './Header'
+import React from 'react';
+import Footer from './Footer';
+import Header from './Header';
 
-const CompanyLayout = ({children}) => {
+const CompanyLayout = ({ children }) => {
   return (
     <>
-        <Header />
+      <Header />
 
-        {children}
-
-    
+      {children}
     </>
-  )
-}
+  );
+};
 
-export default CompanyLayout
+export default CompanyLayout;

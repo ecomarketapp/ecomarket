@@ -96,9 +96,7 @@ const Dashboard = () => {
                     </div>
                     <div className="pt-4 border-t border-gray-100 flex items-center justify-end px-6  w-full">
                       <Link href="/collector/wallet">
-                        <a className="text-[#DD7D37] text-base ">
-                          View wallet
-                        </a>
+                        <a className="text-[#DD7D37] text-base ">View wallet</a>
                       </Link>
                     </div>
                   </div>

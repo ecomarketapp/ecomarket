@@ -80,8 +80,7 @@ const Header = () => {
                 <Link href="/collector/dashboard">
                   <a
                     className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${
-                      router.asPath === '/collector/dashboard' &&
-                      'bg-[#FEF0E6]'
+                      router.asPath === '/collector/dashboard' && 'bg-[#FEF0E6]'
                     }`}
                   >
                     Dashboard
@@ -99,13 +98,14 @@ const Header = () => {
                     Requests
                   </a>
                 </Link>
-                <Link href="/collector/orders">
+                <Link href="/collector/deliveries">
                   <a
                     className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${
-                      router.asPath === '/collector/orders' && 'bg-[#FEF0E6]'
+                      router.asPath === '/collector/deliveries' &&
+                      'bg-[#FEF0E6]'
                     }`}
                   >
-                    Orders
+                    Deliveries
                   </a>
                 </Link>
                 <Link href="/collector/wallet">
@@ -143,7 +143,7 @@ const Header = () => {
                             Profile
                           </a>
                         </Link>
-                        <button 
+                        <button
                           className="flex items-center py-2 px-4 text-sm justify-start bg-white border-0 w-full hover:bg-gray-100 "
                           onClick={(e) => handleLogout(e)}
                         >

@@ -5,23 +5,23 @@ import TabList from 'react-tabs/lib/components/TabList';
 import TabPanel from 'react-tabs/lib/components/TabPanel';
 import UserLayout from '../../components/UserLayout/Layout';
 
-const Orders = () => {
+const Deliveries = () => {
   return (
     <>
       <UserLayout>
-        <section className="individual__orders">
+        <section className="eco__orders">
           <div className="container mx-auto px-6">
             <div className="h-full pb-24 px-4 md:px-12 py-12">
               <Tabs>
                 <div className="flex items-center py-4 mb-3 flex-col lg:flex-row">
                   <div className="flex-1 w-full">
-                    <h3 className="h2">Orders</h3>
+                    <h3 className="h2">Deliveries</h3>
                   </div>
 
                   <TabList className="flex flex-row items-center justify-end  tabs-header rounded-md gap-3">
                     <Tab className="">
                       <button className="flex items-center text-sm border-white border-1 px-5 py-2 rounded h-12">
-                        Pending
+                        Awaiting Approval
                       </button>
                     </Tab>
                     <Tab className="">
@@ -325,4 +325,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default Deliveries;

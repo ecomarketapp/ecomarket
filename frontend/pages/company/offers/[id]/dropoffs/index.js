@@ -3,6 +3,10 @@ import React, { useState } from 'react';
 import CompanyLayout from '../../../../../components/CompanyLayout/Layout';
 import DropdownIcon from '../../../../../components/Icons/DropdownIcon';
 
+import { Tabs } from 'react-tabs';
+import Tab from 'react-tabs/lib/components/Tab';
+import TabList from 'react-tabs/lib/components/TabList';
+import TabPanel from 'react-tabs/lib/components/TabPanel';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import LinearProgress, {
@@ -25,9 +29,9 @@ const DropOffs = () => {
     <>
       <CompanyLayout>
         <section>
-          <div className="container mx-auto px-6">
+          <div className="container eco__orders mx-auto px-6">
             <div className="h-full pb-24 md:px-4 py-12">
-              <div className="flex items-center py-6 mb-8 flex-col lg:flex-row border-b border-gray-300">
+              <div className="flex items-center py-6 mb-8 flex-col lg:flex-row ">
                 <div className="flex-1 w-full flex-col items-start">
                   <h3 className="h2">120kg of PET Bottles</h3>
                   <p>Ikeja, Lagos</p>
@@ -56,228 +60,154 @@ const DropOffs = () => {
                 </div>
               </div>
 
-              <div className=" w-full bg-white mt-3 py-6 md:mt-0  relative overflow-hidden rounded h-full mx-auto max-w-4xl">
+              <Tabs>
+                <div className="flex items-center py-4 mb-3 flex-col lg:flex-row border-b border-gray-200 ">
+                  <div className="flex-1 w-full">
+                    <h5 className=" text-2xl text-gray-700">Dropoffs</h5>
+                  </div>
+
+                  <TabList className="flex flex-row items-center justify-end  tabs-header rounded-md gap-3">
+                    <Tab className="">
+                      <button className="flex items-center text-sm border-white border-1 px-5 py-2 rounded h-12">
+                        Pending Approval
+                      </button>
+                    </Tab>
+                    <Tab className="">
+                      <button className="flex items-center text-sm border-white border-1 px-5 py-2 rounded h-12">
+                        Approved
+                      </button>
+                    </Tab>
+                  </TabList>
+                </div>
+
+                <div className=" py-6">
+                  <TabPanel>
+                    <div className=" w-full bg-white mt-3 md:mt-0  relative overflow-hidden rounded h-full fade-in">
+                      <div className=" py-6 w-full relative">
+                        <div className=" grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-x-12 gap-y-4">
+                          <div className="flex flex-col">
+                            <div className="flex items-center py-4 px-4 mb-2 text-sm w-full border-b bg-gray-100 border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
+                              <div className="flex items-start gap-4 w-full">
+                                <div className="h-12 w-12 ">
+                                  <img
+                                    src="/images/Avatar.png"
+                                    className="w-full object-cover rounded-full  "
+                                  />
+                                </div>
+
+                                <div className="w-full grow">
+                                  <div className="flex gap-1 items-center flex-row justify-between w-full">
+                                    <p className="text-lg text-[#5B5B5B] font-semibold">
+                                      Demi Wikinson{' '}
+                                      <span className="font-thin text-graay-400 text-xs">
+                                        2 mins ago
+                                      </span>
+                                    </p>
+                                  </div>
+                                  <div className="flex gap-1 flex-row justify-between items-center w-full">
+                                    <p className="text-sm  text-[#5B2D0B] font-normal">
+                                      <span className="font-thin text-[#5B5B5B] text-xs">
+                                        Deposited
+                                      </span>{' '}
+                                      10kg 0f PET Bottles
+                                    </p>
+                                  </div>
+                                  <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
+                                    <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
+                                      <img src="/images/Icon.png" alt="" />
+                                    </div>
+                                    <div className="flex gap-1 flex-col items-start w-full">
+                                      <p className="text-base  text-[#344054] font-normal">
+                                        {' '}
+                                        10kg 0f PET Bottles
+                                      </p>
+                                      <p className="text-sm  text-[#667085] font-normal">
+                                        720KB
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center justify-end">
+                                    <Link href={`/company/offers/1/dropoffs/1`}>
+                                      <a className="text-white text-xs px-4 py-2 bg-[#DD7D37] rounded-md ">
+                                        view dropoff
+                                      </a>
+                                    </Link>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col">
+                            <div className="flex items-center py-4 px-4 mb-2 text-sm w-full border-b bg-gray-100 border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
+                              <div className="flex items-start gap-4 w-full">
+                                <div className="h-12 w-12 ">
+                                  <img
+                                    src="/images/Avatar.png"
+                                    className="w-full object-cover rounded-full  "
+                                  />
+                                </div>
+
+                                <div className="w-full grow">
+                                  <div className="flex gap-1 items-center flex-row justify-between w-full">
+                                    <p className="text-lg text-[#5B5B5B] font-semibold">
+                                      Demi Wikinson{' '}
+                                      <span className="font-thin text-graay-400 text-xs">
+                                        2 mins ago
+                                      </span>
+                                    </p>
+                                  </div>
+                                  <div className="flex gap-1 flex-row justify-between items-center w-full">
+                                    <p className="text-sm  text-[#5B2D0B] font-normal">
+                                      <span className="font-thin text-[#5B5B5B] text-xs">
+                                        Deposited
+                                      </span>{' '}
+                                      10kg 0f PET Bottles
+                                    </p>
+                                  </div>
+                                  <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
+                                    <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
+                                      <img src="/images/Icon.png" alt="" />
+                                    </div>
+                                    <div className="flex gap-1 flex-col items-start w-full">
+                                      <p className="text-base  text-[#344054] font-normal">
+                                        {' '}
+                                        10kg 0f PET Bottles
+                                      </p>
+                                      <p className="text-sm  text-[#667085] font-normal">
+                                        720KB
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center justify-end">
+                                    <Link href={`/company/offers/1/dropoffs/1`}>
+                                      <a className="text-white text-xs px-4 py-2 bg-[#DD7D37] rounded-md ">
+                                        view dropoff
+                                      </a>
+                                    </Link>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </TabPanel>
+                  <TabPanel>
+                    <div className=" w-full bg-white mt-3 md:mt-0  relative overflow-hidden rounded h-full fade-in">
+                      <div className="flex items-center justify-center flex-col gap-4">
+                        <img src="/images/file-not-found.svg" />
+                        <p>There no approved transactions dropoffs.</p>
+                      </div>
+                    </div>
+                  </TabPanel>
+                </div>
+              </Tabs>
+              <div className=" w-full bg-white mt-3 py-6 md:mt-0  relative overflow-hidden rounded h-full mx-auto">
                 {/* <div className="absolute h-full border border-[#E4E7EC] inset-0 z-0 mx-auto w-[0.5px] hidden md:block"></div> */}
 
                 <div className=" grid grid-cols-1  w-full gap-6 relative">
-                  <div className="px-4 flex flex-col">
-                    <div className="flex items-center py-4 px-4 mb-2 text-sm w-full border-b bg-gray-100 border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
-                      <div className="flex items-start gap-4 w-full">
-                        <div className="h-12 w-12 ">
-                          <img
-                            src="/images/Avatar.png"
-                            className="w-full object-cover rounded-full  "
-                          />
-                        </div>
-
-                        <div className="w-full grow">
-                          <div className="flex gap-1 items-center flex-row justify-between w-full">
-                            <p className="text-lg text-[#5B5B5B] font-semibold">
-                              Demi Wikinson{' '}
-                              <span className="font-thin text-graay-400 text-xs">
-                                2 mins ago
-                              </span>
-                            </p>
-                          </div>
-                          <div className="flex gap-1 flex-row justify-between items-center w-full">
-                            <p className="text-sm  text-[#5B2D0B] font-normal">
-                              <span className="font-thin text-[#5B5B5B] text-xs">
-                                Deposited
-                              </span>{' '}
-                              10kg 0f PET Bottles
-                            </p>
-                          </div>
-                          <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                            <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
-                              <img src="/images/Icon.png" alt="" />
-                            </div>
-                            <div className="flex gap-1 flex-col items-start w-full">
-                              <p className="text-base  text-[#344054] font-normal">
-                                {' '}
-                                10kg 0f PET Bottles
-                              </p>
-                              <p className="text-sm  text-[#667085] font-normal">
-                                720KB
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center py-4 px-4 mb-2 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
-                      <div className="flex items-start gap-4 w-full">
-                        <div className="h-12 w-12 ">
-                          <img
-                            src="/images/Avatar.png"
-                            className="w-full object-cover rounded-full  "
-                          />
-                        </div>
-
-                        <div className="w-full grow">
-                          <div className="flex gap-1 items-center flex-row justify-between w-full">
-                            <p className="text-lg text-[#5B5B5B] font-semibold">
-                              Demi Wikinson{' '}
-                              <span className="font-thin text-graay-400 text-xs">
-                                2 mins ago
-                              </span>
-                            </p>
-                          </div>
-                          <div className="flex gap-1 flex-row justify-between items-center w-full">
-                            <p className="text-sm  text-[#5B2D0B] font-normal">
-                              <span className="font-thin text-[#5B5B5B] text-xs">
-                                Deposited
-                              </span>{' '}
-                              10kg 0f PET Bottles
-                            </p>
-                          </div>
-                          <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                            <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
-                              <img src="/images/Icon.png" alt="" />
-                            </div>
-                            <div className="flex gap-1 flex-col items-start w-full">
-                              <p className="text-base  text-[#344054] font-normal">
-                                {' '}
-                                10kg 0f PET Bottles
-                              </p>
-                              <p className="text-sm  text-[#667085] font-normal">
-                                720KB
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center py-4 px-4 mb-2 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
-                      <div className="flex items-start gap-4 w-full">
-                        <div className="h-12 w-12 ">
-                          <img
-                            src="/images/Avatar.png"
-                            className="w-full object-cover rounded-full  "
-                          />
-                        </div>
-
-                        <div className="w-full grow">
-                          <div className="flex gap-1 items-center flex-row justify-between w-full">
-                            <p className="text-lg text-[#5B5B5B] font-semibold">
-                              Demi Wikinson{' '}
-                              <span className="font-thin text-graay-400 text-xs">
-                                2 mins ago
-                              </span>
-                            </p>
-                          </div>
-                          <div className="flex gap-1 flex-row justify-between items-center w-full">
-                            <p className="text-sm  text-[#5B2D0B] font-normal">
-                              <span className="font-thin text-[#5B5B5B] text-xs">
-                                Deposited
-                              </span>{' '}
-                              10kg 0f PET Bottles
-                            </p>
-                          </div>
-                          <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                            <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
-                              <img src="/images/Icon.png" alt="" />
-                            </div>
-                            <div className="flex gap-1 flex-col items-start w-full">
-                              <p className="text-base  text-[#344054] font-normal">
-                                {' '}
-                                10kg 0f PET Bottles
-                              </p>
-                              <p className="text-sm  text-[#667085] font-normal">
-                                720KB
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center py-4 px-4 mb-2 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
-                      <div className="flex items-start gap-4 w-full">
-                        <div className="h-12 w-12 ">
-                          <img
-                            src="/images/Avatar.png"
-                            className="w-full object-cover rounded-full  "
-                          />
-                        </div>
-
-                        <div className="w-full grow">
-                          <div className="flex gap-1 items-center flex-row justify-between w-full">
-                            <p className="text-lg text-[#5B5B5B] font-semibold">
-                              Demi Wikinson{' '}
-                              <span className="font-thin text-graay-400 text-xs">
-                                2 mins ago
-                              </span>
-                            </p>
-                          </div>
-                          <div className="flex gap-1 flex-row justify-between items-center w-full">
-                            <p className="text-sm  text-[#5B2D0B] font-normal">
-                              <span className="font-thin text-[#5B5B5B] text-xs">
-                                Deposited
-                              </span>{' '}
-                              10kg 0f PET Bottles
-                            </p>
-                          </div>
-                          <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                            <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
-                              <img src="/images/Icon.png" alt="" />
-                            </div>
-                            <div className="flex gap-1 flex-col items-start w-full">
-                              <p className="text-base  text-[#344054] font-normal">
-                                {' '}
-                                10kg 0f PET Bottles
-                              </p>
-                              <p className="text-sm  text-[#667085] font-normal">
-                                720KB
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center py-4 px-4 mb-2 text-sm w-full hover:bg-gray-100 transition duration-200 ease-in-out">
-                      <div className="flex items-start gap-4 w-full">
-                        <div className="h-12 w-12 ">
-                          <img
-                            src="/images/Avatar.png"
-                            className="w-full object-cover rounded-full  "
-                          />
-                        </div>
-
-                        <div className="w-full grow">
-                          <div className="flex gap-1 items-center flex-row justify-between w-full">
-                            <p className="text-lg text-[#5B5B5B] font-semibold">
-                              Demi Wikinson{' '}
-                              <span className="font-thin text-graay-400 text-xs">
-                                2 mins ago
-                              </span>
-                            </p>
-                          </div>
-                          <div className="flex gap-1 flex-row justify-between items-center w-full">
-                            <p className="text-sm  text-[#5B2D0B] font-normal">
-                              <span className="font-thin text-[#5B5B5B] text-xs">
-                                Deposited
-                              </span>{' '}
-                              10kg 0f PET Bottles
-                            </p>
-                          </div>
-                          <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                            <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
-                              <img src="/images/Icon.png" alt="" />
-                            </div>
-                            <div className="flex gap-1 flex-col items-start w-full">
-                              <p className="text-base  text-[#344054] font-normal">
-                                {' '}
-                                10kg 0f PET Bottles
-                              </p>
-                              <p className="text-sm  text-[#667085] font-normal">
-                                720KB
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
                   {/* <div className="px-4">
                     <div className="py-6 px-6 sticky top-0 border border-gray-300 rounded-lg">
                       <div className="flex items-start justify-start gap-4 mb-6">

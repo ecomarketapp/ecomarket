@@ -21,18 +21,11 @@ const Final = () => {
     setConfirmTransfer(false);
     setSuccessTransfer(!successTransfer);
 
-    // router.push('/collector/wallet');
-
-
     const moneyClaimInterval = setInterval(() => {
       setMoneyClaimed(true);
     }, 1000);
 
     return () => clearInterval(moneyClaimInterval);
-    
-
-
-    // return yo;
   };
 
   useEffect(() => {
@@ -48,6 +41,7 @@ const Final = () => {
     }, 3000);
     return () => clearTimeout(timeout);
   });
+
   return (
     <>
       {/* Fourth Step */}
@@ -564,7 +558,7 @@ const Final = () => {
         <div className="modal__box-wrapper shadow-lg rounded-2xl">
           <div className=" mb-6">
             <div className="grow mb-3">
-              <h1 className="text-2xl font-semibold ">Transfer Success</h1>
+              <h1 className="text-2xl font-semibold ">Transfer Initiated</h1>
             </div>
 
             <div>
@@ -606,14 +600,14 @@ const Final = () => {
             {/* <Link href="/individual/transactions">
                             <a className='px-9 py-3 border border-[#DD7D37] bg-[#DD7D37] text-white rounded-full w-1/2'>View transactions</a>
                         </Link> */}
-            {/* <Link href="/individual/transactions"> */}
-            <button
-              className="px-9 py-3 border border-[#DD7D37] bg-[#DD7D37] text-white rounded-full w-1/2"
-              onClick={() => setSuccessTransfer(false)}
-            >
-              View transactions
-            </button>
-            {/* </Link> */}
+            <Link href="/collector/wallet">
+              <a
+                className="px-9 py-3 border border-[#DD7D37] bg-[#DD7D37] text-white rounded-full w-1/2"
+                //   onClick={() => router.push('/collector/wallet')}
+              >
+                View wallet
+              </a>
+            </Link>
           </div>
         </div>
       </div>

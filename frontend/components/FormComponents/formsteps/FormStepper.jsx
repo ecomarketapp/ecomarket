@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 
 const FormStepper = ({ steps, currentStep }) => {
   const [newStep, setNewStep] = useState([]);
@@ -69,16 +69,16 @@ const FormStepper = ({ steps, currentStep }) => {
         key={index}
         className={
           index !== newStep.length - 1
-            ? "w-full flex items-center"
-            : "flex items-center"
+            ? 'w-full flex items-center'
+            : 'flex items-center'
         }
       >
         <div className="relative flex flex-col items-center text-gray-500">
           <div
             className={`rounded-full transition duration-500 ease-in-out border-2 border-gray-300 h-12 w-12 flex items-center justify-center py-3  ${
               step.selected
-                ? "bg-[#DD7D37] text-white font-bold border border-[#DD7D37] "
-                : ""
+                ? 'bg-[#DD7D37] text-white font-bold border border-[#DD7D37] '
+                : ''
             }`}
           >
             {step.completed ? (
@@ -89,7 +89,7 @@ const FormStepper = ({ steps, currentStep }) => {
           </div>
           <div
             className={`absolute top-0  text-center mt-16 w-32 text-xs font-medium uppercase ${
-              step.highlighted ? "text-gray-900" : "text-gray-400"
+              step.highlighted ? 'text-gray-900' : 'text-gray-400'
             }`}
           >
             {step.description}
@@ -97,7 +97,7 @@ const FormStepper = ({ steps, currentStep }) => {
         </div>
         <div
           className={`flex-auto border-t-2 border-dotted transition duration-500 ease-in-out  relative ${
-            step.completed ? "border-[#DD7D37]" : "border-gray-300 test"
+            step.completed ? 'border-[#DD7D37]' : 'border-gray-300 test'
           }  `}
         ></div>
       </div>

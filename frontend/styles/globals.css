@@ -219,12 +219,12 @@ a {
 
 
 
-.individual__orders .react-tabs li.react-tabs__tab--selected{
+.eco__orders .react-tabs li.react-tabs__tab--selected{
   background: #FEF0E6;
   border-color: #FEF0E6;
   
 }
-.individual__orders .react-tabs li{
+.eco__orders .react-tabs li{
  border-radius: 0.25rem;
   
 }
@@ -740,5 +740,8 @@ background-color: #45CD85;
 }
 
 .adapter-react-button[disabled]{
+  opacity: 0.4;
+}
+button[disabled]{
   opacity: 0.4;
 }
