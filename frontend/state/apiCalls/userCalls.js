@@ -12,7 +12,7 @@ export const login = async (dispatch, user) => {
     try{
         const res = await axios.post("http://127.0.0.1:8080/api/collectors/auth/login", user)
         dispatch(loginSuccess(res.data));
-        // router.path("individual/dashboard");
+        // router.path("collector/dashboard");
 
     }catch(err){
         dispatch(loginFailure())

@@ -108,32 +108,34 @@ const Offers = () => {
                 <div className=" grid grid-cols-1 py-6 w-full gap-6 relative">
                   <div className=" flex flex-col px-4 justify-between">
                     <div className=" flex flex-col px-4 ">
-                      <div className="flex items-center py-4 px-4  text-sm w-full border-b bg-gray-100 border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
-                        <div className="flex items-start gap-3 w-full">
-                          <div className="w-full">
-                            <div className="flex gap-1 items-center flex-row justify-between w-full">
-                              <p className="text-lg text-[#5B5B5B] font-semibold">
-                                120kg of PET Bottles
-                              </p>
+                      <Link href={`/company/offers/1`}>
+                        <a className="flex items-center py-4 px-4  text-sm w-full border-b bg-gray-100 border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
+                          <div className="flex items-start gap-3 w-full">
+                            <div className="w-full">
+                              <div className="flex gap-1 items-center flex-row justify-between w-full">
+                                <p className="text-lg text-[#5B5B5B] font-semibold">
+                                  120kg of PET Bottles
+                                </p>
 
-                              <p className="text-xs font-normal">
-                                Expires: 20/10/22
-                              </p>
-                            </div>
-                            <div className="flex gap-1 flex-row justify-between items-center w-full">
-                              <p className="text-sm text-[#5B5B5B] font-normal">
-                                $500
-                              </p>
-                              <p className="text-sm text-[#12B76A]">
-                                25% Provided
-                              </p>
-                            </div>
-                            <div className="flex gap-1 flex-row justify-between items-end w-full">
-                              <p className="text-sm">Ikeja, Lagos</p>
+                                <p className="text-xs font-normal">
+                                  Expires: 20/10/22
+                                </p>
+                              </div>
+                              <div className="flex gap-1 flex-row justify-between items-center w-full">
+                                <p className="text-sm text-[#5B5B5B] font-normal">
+                                  $500
+                                </p>
+                                <p className="text-sm text-[#12B76A]">
+                                  25% Provided
+                                </p>
+                              </div>
+                              <div className="flex gap-1 flex-row justify-between items-end w-full">
+                                <p className="text-sm">Ikeja, Lagos</p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
+                        </a>
+                      </Link>
                       <div className="flex items-center py-4 px-4 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
                         <div className="flex items-start gap-3 w-full">
                           <div className="w-full">

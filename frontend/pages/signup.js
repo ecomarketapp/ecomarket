@@ -21,11 +21,11 @@ const SignUp = () => {
   const [error, setError] = useState(null);
   const user = localStorage.getItem('user');
 
-  useEffect(() => {
-    if (user) {
-      router.push('/individual/dashboard');
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (user) {
+  //     router.push('/collector/dashboard');
+  //   }
+  // }, []);
 
   const toastOptions = {
     duration: 8000,

@@ -37,16 +37,14 @@ const wallet = () => {
                       </div>
                     </div>
                     <div className="pt-4 border-t border-gray-100 flex items-center gap-2 justify-end px-6  w-full">
-                      <Link href="/individual/transactions">
+                      {/* <Link href="/collector/transactions">
                         <a className="text-white text-base px-4 py-2 bg-[#DD7D37] rounded-md">
                           Top Up
                         </a>
-                      </Link>
-                      <Link href="/individual/transactions">
-                        <a className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md">
-                          Withdraw
-                        </a>
-                      </Link>
+                      </Link> */}
+                      <button className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md">
+                        Withdraw
+                      </button>
                     </div>
                   </div>
                 </div>

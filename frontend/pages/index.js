@@ -82,7 +82,7 @@ const Home = () => {
                             <Tabs>
                                 <TabList className='flex flex-row items-center justify-center w-full tabs-header rounded-md gap-16 mb-6'>
                                     <Tab className='p-6 border-b-4 outline-none cursor-pointer tablist__header'>Company</Tab>
-                                    <Tab className='p-6 border-b-4 outline-none cursor-pointer tablist__header'>Individual</Tab>
+                                    <Tab className='p-6 border-b-4 outline-none cursor-pointer tablist__header'>Collector</Tab>
                                 </TabList>
 
                                 <div className='tab-content py-10'>
@@ -199,7 +199,7 @@ const Home = () => {
                                             </div>
                                             <div className='flex items-center justify-center mt-8 pt-8'>
                                                 <Link href='/signup'>
-                                                    <a className='text-white bg-[#DD7D37] px-12 py-3 text-sm border border-[#DD7D37] rounded-full'>Get Started as an Individual</a>
+                                                    <a className='text-white bg-[#DD7D37] px-12 py-3 text-sm border border-[#DD7D37] rounded-full'>Get Started as a Collector</a>
                                                 </Link>
                                             </div>
                             

@@ -139,7 +139,7 @@ const MarketPlace = () => {
                                         {data.pages.map(page =>
                                                     page.data.map((request, index) => (
                                                         <>
-                                                            <Link href={`/individual/requests/${request.id}`} key={index}>
+                                                            <Link href={`/collector/requests/${request.id}`} key={index}>
                                                             
                                                                 <a key={index}>
 

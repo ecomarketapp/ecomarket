@@ -150,7 +150,7 @@ const Requests = () => {
                         {data.pages.map(page =>
                             page.data.map((request, index) => (
                                 <>
-                                    <Link href={`/individual/requests/${request.id}`}>
+                                    <Link href={`/collector/requests/${request.id}`}>
                                     
                                         <a key={index}>
 

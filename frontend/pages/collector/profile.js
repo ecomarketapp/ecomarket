@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
 import Loader from '../../components/Icons/Loader';
 import axios from 'axios';
-import CompanyLayout from '../../components/CompanyLayout/Layout';
+import UserLayout from '../../components/UserLayout/Layout';
 
 const profile = () => {
   const [loading, setLoading] = useState('');
@@ -24,7 +24,7 @@ const profile = () => {
 
   // useEffect(() => {
   //   if (user) {
-  //     router.push('/individual/dashboard');
+  //     router.push('/collector/dashboard');
   //   }
   // }, []);
 
@@ -122,7 +122,7 @@ const profile = () => {
     <div>
       <Toaster />
 
-      <CompanyLayout>
+      <UserLayout>
         <section className="">
           <div className="  h-full">
             <div className="flex justify-between items-center h-full g-6 text-gray-800">
@@ -248,7 +248,7 @@ const profile = () => {
             </div>
           </div>
         </section>
-      </CompanyLayout>
+      </UserLayout>
     </div>
   );
 };

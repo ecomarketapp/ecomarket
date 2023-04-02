@@ -77,10 +77,10 @@ const Header = () => {
             </div>
             <div className="w-full hidden  flex-grow lg:flex lg:items-center lg:w-auto">
               <div className="text-sm lg:flex-grow">
-                <Link href="/individual/dashboard">
+                <Link href="/collector/dashboard">
                   <a
                     className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${
-                      router.asPath === '/individual/dashboard' &&
+                      router.asPath === '/collector/dashboard' &&
                       'bg-[#FEF0E6]'
                     }`}
                   >
@@ -88,30 +88,30 @@ const Header = () => {
                   </a>
                 </Link>
 
-                <Link href="/individual/requests">
+                <Link href="/collector/requests">
                   <a
                     className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${
-                      (router.asPath === '/individual/requests' ||
-                        router.pathname.startsWith('/individual/requests')) &&
+                      (router.asPath === '/collector/requests' ||
+                        router.pathname.startsWith('/collector/requests')) &&
                       'bg-[#FEF0E6]'
                     }`}
                   >
                     Requests
                   </a>
                 </Link>
-                <Link href="/individual/orders">
+                <Link href="/collector/orders">
                   <a
                     className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${
-                      router.asPath === '/individual/orders' && 'bg-[#FEF0E6]'
+                      router.asPath === '/collector/orders' && 'bg-[#FEF0E6]'
                     }`}
                   >
                     Orders
                   </a>
                 </Link>
-                <Link href="/individual/wallet">
+                <Link href="/collector/wallet">
                   <a
                     className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${
-                      router.asPath === '/individual/wallet' && 'bg-[#FEF0E6]'
+                      router.asPath === '/collector/wallet' && 'bg-[#FEF0E6]'
                     }`}
                   >
                     Wallet
@@ -127,7 +127,7 @@ const Header = () => {
                     >
                       <div className="flex items-start justify-start flex-col">
                         {/* <span className="text-sm">{currentUser && currentUser.user.name}</span> */}
-                        <span className="text-sm">0x346932...gq382nk</span>
+                        <span className="text-xs">0x346932...gq382nk</span>
                       </div>
                       <ExpandMoreHorizontal />
                     </button>
@@ -138,7 +138,7 @@ const Header = () => {
                       } dropdown-menu large-dropdown shadow-md rounded-md w-full border-0 fade-in transition duration-300 ease bg-white`}
                     >
                       <div className=" py-2">
-                        <Link href="/individual/profile">
+                        <Link href="/collector/profile">
                           <a className="flex items-center py-2 px-4 text-sm justify-start bg-white border-0 w-full hover:bg-gray-100 ">
                             Profile
                           </a>
@@ -196,7 +196,7 @@ const Header = () => {
                 >
                   <NotificationIcon />
                 </a> */}
-                <span className="inline-block text-sm leading-none rounded-full border-[#FDEFE5] border-4 lg:mt-0 w-12 h-12 ml-2">
+                <span className="inline-block text-sm leading-none rounded-full border-[#FDEFE5] border-4 lg:mt-0 w-10 h-10 ml-2">
                   <img
                     src="/images/avatar-1.png"
                     className="w-full h-full object-cover rounded-full"

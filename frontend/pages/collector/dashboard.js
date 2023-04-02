@@ -95,9 +95,9 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div className="pt-4 border-t border-gray-100 flex items-center justify-end px-6  w-full">
-                      <Link href="/individual/transactions">
+                      <Link href="/collector/wallet">
                         <a className="text-[#DD7D37] text-base ">
-                          View Transactions
+                          View wallet
                         </a>
                       </Link>
                     </div>
@@ -115,7 +115,7 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div className="pt-4 border-t border-gray-100 flex items-center justify-end px-6  w-full">
-                      <Link href="/individual/orders">
+                      <Link href="/collector/orders">
                         <a className="text-[#DD7D37] text-base ">
                           Complete Offers
                         </a>
@@ -201,7 +201,7 @@ const Dashboard = () => {
                               page.data.map((request, index) => (
                                 <>
                                   <Link
-                                    href={`/individual/requests/${request.id}`}
+                                    href={`/collector/requests/${request.id}`}
                                   >
                                     <a key={index}>
                                       <div className="card shadow-lg py-3 rounded-md">
@@ -278,7 +278,7 @@ const Dashboard = () => {
                                             </div> } */}
 
                     <div className="flex items-center justify-center mt-8">
-                      <Link href="/individual/requests">
+                      <Link href="/collector/requests">
                         <a className="text-[#DD7D37] px-12 py-2 mt-7 text-sm border border-[#DD7D37] rounded-full">
                           View All Requests
                         </a>

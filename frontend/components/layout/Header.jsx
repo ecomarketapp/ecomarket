@@ -20,7 +20,8 @@ const Header = () => {
   const depthLevel = 0;
   const dropdownClass = depthLevel > 1 ? 'inner-menu' : '';
 
-  const user = localStorage.getItem('user');
+  const user = null;
+  // const user = localStorage.getItem('user');
 
   useEffect(() => {
     const handler = (e) => {
@@ -150,19 +151,20 @@ const Header = () => {
                 </div>
 
                 {user ? (
-                  <Link href="individual/dashboard">
+                  <Link href="collector/dashboard">
                     <a className="block lg:inline-block mt-4 lg:mt-0 hover:text-white hover:bg-[#DD7D37] text-[#DD7D37] bg-white hover:border-[#DD7D37] border border-[#DD7D37] rounded-full px-7 py-2 transition duration-300 ease">
-                      owcnwocnwoco
+                    0x346932...gq382nk
                     </a>
                   </Link>
                 ) : (
-                  // <button
-                  //   className="block lg:inline-block mt-4 lg:mt-0 text-white hover:text-[#DD7D37] hover:bg-white hover:border-[#DD7D37] border bg-[#DD7D37] rounded-full px-9 py-3 transition duration-300 ease"
-                  //   onClick={onClickGetStarted}
-                  // >
-                  //   Connect Wallet
-                  // </button>
-                  <WalletConnectButton />
+                  <button
+                    className="block lg:inline-block mt-4 lg:mt-0 text-white hover:text-[#DD7D37] hover:bg-white hover:border-[#DD7D37] border bg-[#DD7D37] rounded-full px-9 py-3 transition duration-300 ease"
+                    onClick={onClickGetStarted}
+                  >
+                    Connect Wallet
+                  </button>
+
+                  // <WalletConnectButton className='block lg:inline-block mt-4 lg:mt-0 text-white hover:text-[#DD7D37] hover:bg-white hover:border-[#DD7D37] border bg-[#DD7D37] rounded-full px-9 py-3 transition duration-300 ease'/>
                 )}
               </div>
             </div>

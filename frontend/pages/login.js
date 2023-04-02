@@ -49,7 +49,7 @@ const Login = () => {
     // const { loading, currentUser, error } = useSelector((state) => state.user)
     const dispatch = useDispatch()
     useEffect(() => {
-        router.prefetch('/individual/dashboard')
+        router.prefetch('/collector/dashboard')
     }, [])
 
     const handleSubmit = async (e) => {
@@ -68,7 +68,7 @@ const Login = () => {
                         setEmail("");
 
                         setTimeout(()=>{
-                            router.push("/individual/dashboard");
+                            router.push("/collector/dashboard");
                         }, 3000)
                     }else{
                         toast.error(res.data.msg, toastOptions);
@@ -89,7 +89,7 @@ const Login = () => {
     useEffect(() => {
         
         if (user) {
-        router.push('/individual/dashboard')
+        router.push('/collector/dashboard')
         }
     }, [])
 

@@ -292,9 +292,9 @@ const Dashboard = () => {
                       </div>
                     </div>
                       <div className="pt-4 border-t border-gray-100 flex items-center justify-end w-full">
-                      <Link href="/individual/transactions">
+                      <Link href="/company/wallet">
                         <a className="text-[#DD7D37] text-base px-6">
-                          view transactions
+                          view wallet
                         </a>
                       </Link>
                     </div>
