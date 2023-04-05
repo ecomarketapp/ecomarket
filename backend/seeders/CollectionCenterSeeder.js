@@ -39,7 +39,7 @@ let seedCollectionCenters = [
 
 const seedDB = async () => {
   /*
-    Select one of 3 random companies & locations, and add to each collector
+    Select one of 3 random companies & locations, and add to each collection center
   */
   const promises = await Promise.all([
     Location.aggregate([{ $sample: { size: 3 } }]),

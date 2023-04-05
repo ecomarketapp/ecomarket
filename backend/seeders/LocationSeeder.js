@@ -18,32 +18,22 @@ const seedLocations = [
   {
     name: 'Alimosho',
     state: 'Lagos',
-    // country: '123123',
   },
   {
     name: 'Ajeromi-Ifelodun',
     state: 'Lagos',
-    // country: '123123',
   },
   {
     name: 'Mushin',
     state: 'Lagos',
-    // country: '123123',
-  },
-  {
-    name: 'Ajeromi-Ifelodun',
-    state: 'Lagos',
-    // country: '123123',
   },
   {
     name: 'Oshodi-Isolo',
     state: 'Lagos',
-    // country: '123123',
   },
   {
     name: 'Ojo',
     state: 'Lagos',
-    // country: '123123',
   },
 ];
 
