@@ -18,6 +18,7 @@ module.exports = {
       amount_per_unit,
       collection_center,
       company,
+      expires_at,
       location,
     } = req.body;
     // const companyid = req.params.id
@@ -44,8 +45,12 @@ module.exports = {
         amount_per_unit,
         collection_center,
         company,
+        expires_at,
         location,
       });
+
+      // return res.send({data: request });
+
       // Save request in the database
       request = request.save(request);
       return res.send({ status: true, data: request });
@@ -79,7 +84,7 @@ module.exports = {
         // confirm that location exists, if not - pass error
         if (location === "all" ) {
           requests = await Request.find()
-            .sort({ id: -1 })
+            .sort({ datefield: -1 })
             .limit(limit)
             .populate({ path: 'location', model: Location })
             .populate({ path: 'company', model: Company })
@@ -101,7 +106,7 @@ module.exports = {
 
             /* location exists */
             requests = await Request.find({ location: foundlocation._id })
-            .sort({ id: -1 })
+            .sort({ datefield: -1 })
             .limit(limit)
             .populate({ path: 'location', model: Location })
             .populate({ path: 'company', model: Company })
@@ -118,7 +123,7 @@ module.exports = {
       } else if (filter === 'company' && companyId) {
         // confirm that company exists, if not - pass error
         const foundcompany = await Company.findById(companyId)
-        .sort({ id: -1 })
+        .sort({ datefield: -1 })
         .limit(limit)
         .populate({ path: 'location', model: Location })
         .populate({ path: 'company', model: Company })
@@ -139,7 +144,7 @@ module.exports = {
       } else {
         // get all requests
         requests = await Request.find()
-          .sort({ id: -1 })
+          .sort({ datefield: -1 })
           .limit(limit)
           .populate({ path: 'location', model: Location })
           .populate({ path: 'company', model: Company })
@@ -151,6 +156,7 @@ module.exports = {
             populate: { path: 'children', model: Category },
           })
           .exec();
+          // id: -1, 
       }
       // no requests found
       if (!requests) {
@@ -158,6 +164,7 @@ module.exports = {
           message: `No requests found for your query.`,
         });
       }
+
       const count = requests.length;
       return res.send({ count, page, size, data: requests });
     } catch (error) {

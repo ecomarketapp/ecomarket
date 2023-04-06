@@ -2,6 +2,8 @@ const db = require('../models');
 
 const Requests = db.requests;
 const Company = db.companies;
+const CollectionCenter = db.collectioncenter;
+const Location = db.locations;
 
 module.exports = {
   getCompanies: async (req, res) => {
@@ -37,6 +39,22 @@ module.exports = {
       res.json({ success: true, data: requests });
     } catch (error) {
       res.status(500).send({ message: `Error retrieving company requests` });
+    }
+  },
+  CompanyCollectionCenters: async (req, res) => {
+    // const id = req.params.id
+    try {
+      const collection_centers = await CollectionCenter.find({
+        company: req.params.id,
+      })
+        .populate({ path: 'location', model: Location })
+        .populate({ path: 'company', model: Company });
+      return res.json({ status: true, collection_centers });
+    } catch (error) {
+      return res.status(500).send({
+        message:
+          error.message || 'Some error occurred while retrieving locations.',
+      });
     }
   },
   // companyRequests: (req, res) =>{
