@@ -9,56 +9,77 @@ import StepThree from '../../../components/FormComponents/formsteps/StepThree';
 import StepTwo from '../../../components/FormComponents/formsteps/StepTwo';
 import DropdownIcon from '../../../components/Icons/DropdownIcon';
 import LoadingState from '../../../components/LoadingState';
+import backend from '../../../components/services/backend';
 import UserLayout from '../../../components/UserLayout/Layout';
 import { UseContextProvider } from '../../../contexts/NavigationContext';
+import { dateFromNow } from '../../../utils/date';
 
-export const getStaticPaths = async () => {
-  const res = await axios.get(`http://127.0.0.1:8080/api/requests`);
-  if (res) {
-    const data = await res.data.data;
+// export const getStaticPaths = async () => {
+//   const res = await axios.get(`http://127.0.0.1:8080/api/requests`);
+//   if (res) {
+//     const data = await res.data.data;
 
-    const paths = data.map((request) => {
-      return {
-        params: {
-          id: request.id.toString(),
-        },
-      };
-    });
+//     const paths = data.map((request) => {
+//       return {
+//         params: {
+//           id: request.id.toString(),
+//         },
+//       };
+//     });
 
-    return {
-      paths,
-      fallback: false,
-    };
-  }
-};
+//     return {
+//       paths,
+//       fallback: false,
+//     };
+//   }
+// };
 
-export const getStaticProps = async (context) => {
-  try {
-    const id = context.params.id;
-    // const id = (location.pathname.split("/")[3]);
-    console.log(id);
-    const res = await axios.get('http://127.0.0.1:8080/api/requests/' + id);
+// export const getStaticProps = async (context) => {
+//   try {
+//     const id = context.params.id;
+//     // const id = (location.pathname.split("/")[3]);
+//     console.log(id);
+//     const res = await axios.get('http://127.0.0.1:8080/api/requests/' + id);
 
-    if (res) {
-      console.log(res, 'ress');
-      const data = await res.data;
+//     if (res) {
+//       console.log(res, 'ress');
+//       const data = await res.data;
 
-      return {
-        props: { data },
-      };
-    }
-  } catch (err) {
-    return {
-      redirect: {
-        destination: '/login',
-        statusCode: 307,
-      },
-    };
-  }
-};
+//       return {
+//         props: { data },
+//       };
+//     }
+//   } catch (err) {
+//     return {
+//       redirect: {
+//         destination: '/login',
+//         statusCode: 307,
+//       },
+//     };
+//   }
+// };
 
-const RequestDetail = ({ data }) => {
-  console.log(data);
+const RequestDetail = ({ id }) => {
+
+  const [request, setRequest] = useState({});
+
+  const loadSingleRequest = () => {
+    backend
+      .getRequest(id)
+      .then((request) => {
+        setRequest(request);
+        console.log(request);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  useEffect(loadSingleRequest, [id]);
+
+
+
+
+  console.log(request);
   const [fulfillRequest, setfulfillRequest] = useState();
   const [confirmTransfer, setConfirmTransfer] = useState();
   const [successTransfer, setSuccessTransfer] = useState();
@@ -92,7 +113,7 @@ const RequestDetail = ({ data }) => {
             handleClick={handleClick}
             currentStep={currentStep}
             steps={steps}
-            data={data}
+            data={request}
           />
         );
       case 2:
@@ -101,7 +122,7 @@ const RequestDetail = ({ data }) => {
             handleClick={handleClick}
             currentStep={currentStep}
             steps={steps} 
-            data={data}
+            data={request}
           />
         );
       case 3:
@@ -154,7 +175,7 @@ const RequestDetail = ({ data }) => {
                           <div className=" flex items-start justify-between mt-3 px-5 py-4 flex-col w-full gap-2">
                             <div className="flex items-center justify-between w-full">
                               <h4 className="font-semibold text-[#3D4044] text-lg">
-                                {data.title}
+                                {request.title}
                               </h4>
                               <p>PET Bottles</p>
                             </div>
@@ -164,8 +185,8 @@ const RequestDetail = ({ data }) => {
                                 <img src="/images/location.svg" className="" />
                                 <div>
                                   <p className="text-base text-[#6D747D]">
-                                    {data.location && data.location.name}{' '}
-                                    {data.location && data.location.state}
+                                    {request.location && request.location.name}{' '}
+                                    {request.location && request.location.state}
                                   </p>
                                 </div>
                               </div>
@@ -173,14 +194,15 @@ const RequestDetail = ({ data }) => {
                               <h4 className="">300kg</h4>
                             </div>
                             <div className="flex items-start justify-between w-full gap-2">
-                              <p className="flex-1 text-xs text-[#878A90]">
-                                {data.description.substring(0, 150)}
+                              <p className="flex-1 text-xs text-[rgb(135,138,144)]">
+                                {request.description?.substring(0, 150)}
                               </p>
                               <div className="flex items-end justify-start flex-col gap-1 flex-1">
                                 <p className="text-xs">Request expires in:</p>
                                 <div>
-                                  <p className="text-base text-[#3D4044] font-semibold">
-                                    12d : 24h : 34m : 32s
+                                  <p className="text-base text-[#3D4044] font-semibold capitalize">
+                                    {/* 12d : 24h : 34m : 32s */}
+                                    {dateFromNow(request.request_expires_at)}
                                   </p>
                                 </div>
                               </div>
@@ -242,6 +264,11 @@ const RequestDetail = ({ data }) => {
       </UserLayout>
     </>
   );
+};
+
+
+RequestDetail.getInitialProps = ({ query }) => {
+  return { id: query.id };
 };
 
 export default RequestDetail;

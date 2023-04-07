@@ -41,8 +41,8 @@ export class Backend {
   //   return data;
   // }
 
+  // Save Request
   async saveOffer(form) {
-    console.log(form, "form in backend")
     const { data } = await this.#http.post(BACKEND_BASE_URL + "/requests", form);
     if(data.success){
       console.log('sucessfull');
@@ -50,6 +50,35 @@ export class Backend {
     return data;
   }
 
+  // All Requests
+  async listRequests(query = {}) {
+    const queryParams = Object.keys(query)
+      .map((key) => `${key}=${query[key]}`)
+      .join("&");
+
+    const { data } = await this.#http.get(BACKEND_BASE_URL + `/requests?${queryParams}`);
+    return data;
+  }
+
+  // Company Requests
+  async listRequestsByCompany(id) {
+    const { data } = await this.#http.get(BACKEND_BASE_URL + `/companies/${id}/requests`);
+    return data;
+  }
+
+  // Single Request
+  async getRequest(id) {
+    const { data } = await this.#http.get(BACKEND_BASE_URL + `/requests/${id}`);
+    return data;
+  }
+
+
+
+
+
+
+
+  
   async storeAgency(form) {
     const { data } = await this.#http.post("agency/store", form);
 
@@ -66,6 +95,7 @@ export class Backend {
     return data;
   }
 
+  
   async getInvoice(id) {
     const { data } = await this.#http.get(`invoice/${id}`);
     return data;

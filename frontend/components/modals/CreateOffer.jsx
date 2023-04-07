@@ -25,7 +25,12 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 function ModToast({ open, handleClose }) {
   return (
-    <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
+    <Snackbar
+      open={open}
+      autoHideDuration={1000}
+      onClose={handleClose}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+    >
       <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
         Succesfully created request!
       </Alert>
@@ -61,10 +66,11 @@ export function CreateOffer({ createOffer, setCreateOffer }) {
     try {
       const data = await backend.saveOffer(formstate);
       console.log(data);
-      if (data.status== true) {
+      if (data.status == true) {
         setOpen(true);
-        
-
+        setCreateOffer(false);
+        setAlertModal(false);
+        setApproveOfferModal(!approveOfferModal);
       }
     } catch (e) {
       console.log(e);
@@ -145,6 +151,7 @@ function CreateOfferForm({
   //   if(title === ''){
   //   }
   // }
+
 
   const formInitialState = {
     title: null,
