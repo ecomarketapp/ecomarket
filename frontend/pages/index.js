@@ -104,7 +104,7 @@ const Home = () => {
                             <div className="text-center">
                               <h4>Create Account</h4>
                               <p className="text-sm">
-                                Create a EcoMarket account with MetaMask and set
+                                Create an EcoMarket account with TronLink and set
                                 up your company profile.
                               </p>
                             </div>
@@ -122,7 +122,7 @@ const Home = () => {
                               <h4>Submit Request</h4>
                               <p className="text-sm">
                                 Submit Requests for recycled and scrap plastics,
-                                specifying the type, weight and location.
+                                specifying the type, weight and dropoff location.
                               </p>
                             </div>
                           </div>
@@ -137,7 +137,7 @@ const Home = () => {
                             <div className="text-center">
                               <h4>Make Payment</h4>
                               <p className="text-sm">
-                                EcoMarket places your cUSD in escrow, paying out
+                                EcoMarket places your TRX in escrow, paying out
                                 only to collectors who successfully fulfill your
                                 requests without disputes.
                               </p>
@@ -152,9 +152,9 @@ const Home = () => {
                               </div>
                             </div>
                             <div className="text-center">
-                              <h4>Collect scrap & earn GS Credits</h4>
+                              <h4>Collect scrap & earn EcoCredits</h4>
                               <p className="text-sm">
-                                Earn the GS Credit NFT, which proves the amount
+                                Earn the EcoCredit NFT, which proves the amount
                                 of plastic waste recovered by your company, thus
                                 verifying your commitment to sustainability.
                               </p>
@@ -184,8 +184,8 @@ const Home = () => {
                             <div className="text-center">
                               <h4>Join EcoMarket</h4>
                               <p className="text-sm">
-                                Sign up on EcoMarket using your phone number,
-                                and get assigned a wallet automatically.
+                                Sign up on EcoMarket using your email address,
+                                and get assigned a non-custodial wallet address automatically.
                               </p>
                             </div>
                           </div>
@@ -235,7 +235,7 @@ const Home = () => {
                             <div className="text-center">
                               <h4>Get Rewards</h4>
                               <p className="text-sm">
-                                After the 48-hour cooldown period has elapsed
+                                After the 48-hour cooloff period has elapsed
                                 without any disputes, you can claim your payment
                                 into your wallet.
                               </p>
@@ -637,21 +637,25 @@ const Home = () => {
                 </div>
 
                 <div className="flex items-center justify-end">
-                  <div className="features-img"></div>
+                  <div className="features-img">
+                    <img src='/images/ecomarket-marketplace.jpg'/>
+                  </div>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 py-14 gap-10">
                 <div className="flex items-center justify-start">
-                  <div className="features-img"></div>
+                  <div className="features-img">
+                    <img src='/images/carbon-credit-nft.jpeg'/>
+                  </div>
                 </div>
                 <div>
                   <div className="pl-0 md:pl-0 lg:pl-16">
                     <h3 className="mb-4 text-[#351F0F]">
-                      EcoMarket NFT - GSCredit
+                      EcoMarket NFT - EcoCredit
                     </h3>
                     <p className="mb-3">
                       For brands who are looking for ways to make impact and
-                      meet their environmental pledges, EcoMarket's GSCredit NFT
+                      meet their environmental pledges, EcoMarket's EcoCredit NFT
                       provides a publicly verifiable way to showcase your
                       organization's commitment to sustainability.
                     </p>
@@ -696,7 +700,9 @@ const Home = () => {
                 </div>
 
                 <div className="flex items-center justify-end">
-                  <div className="features-img"></div>
+                  <div className="features-img">
+                  <img src='/images/ecomarket-tracking.jpg'/>
+                  </div>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 py-14 gap-10">
@@ -741,10 +747,10 @@ const Home = () => {
           </div>
         </section>
 
-        <section className="antialised bg-[#FFFBF9] py-12">
+        <section className="antialised bg-[#FFFBF9] py-14">
           <div className="container mx-auto px-6">
             <div className="mb-9">
-              <h2 className="text-center text-xl h2">Future Roadmap</h2>
+              <h2 className="text-center text-xl h2">Roadmap</h2>
             </div>
 
             <div className="flex items-center justify-center mx-auto max-w-3xl">
@@ -758,16 +764,15 @@ const Home = () => {
                   </div>
                   <div className="bg-white col-start-6 col-end-10 p-4 rounded-xl my-4 mr-auto shadow-md">
                     <p className="leading-tight text-justify">
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                      Vitae, facilis.
+                    Integrate Web3Auth for easier sign-up for collectors, most of whom may not be crypto-savvy.
                     </p>
                   </div>
                 </div>
                 <div className="flex flex-row-reverse md:contents">
                   <div className="bg-white col-start-1 col-end-5 p-4 rounded-xl my-4 ml-auto shadow-md">
                     <p className="leading-tight text-justify">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Modi, quaerat?
+                    NFTs — companies can earn EcoCredit, a digital collectible that showcases the company’s commitment to eco-friendly initiatives.
+
                     </p>
                   </div>
                   <div className="col-start-5 col-end-6 md:mx-auto relative mr-10">
@@ -787,8 +792,7 @@ const Home = () => {
                   </div>
                   <div className="bg-white col-start-6 col-end-10 p-4 rounded-xl my-4 mr-auto shadow-md">
                     <p className="leading-tight text-justify">
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                      Vitae, facilis.
+                      Enable offer creation & deliveries for other scrap types (metals, batteries, etc)
                     </p>
                   </div>
                 </div>
@@ -796,8 +800,7 @@ const Home = () => {
                 <div className="flex flex-row-reverse md:contents">
                   <div className="bg-white col-start-1 col-end-5 p-4 rounded-xl my-4 ml-auto shadow-md">
                     <p className="leading-tight text-justify">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Modi, quaerat heyy herfe?
+                    Conversion of TRX to stablecoins for easier off-ramping for customers.
                     </p>
                   </div>
                   <div className="col-start-5 col-end-6 md:mx-auto relative mr-10">
@@ -817,8 +820,7 @@ const Home = () => {
                   </div>
                   <div className="bg-white col-start-6 col-end-10 p-4 rounded-xl my-4 mr-auto shadow-md">
                     <p className="leading-tight text-justify">
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                      Vitae, facilis.
+                      Token-based Governance Model & DAO
                     </p>
                   </div>
                 </div>
@@ -826,8 +828,7 @@ const Home = () => {
                 <div className="flex flex-row-reverse md:contents">
                   <div className="bg-white col-start-1 col-end-5 p-4 rounded-xl my-4 ml-auto shadow-md">
                     <p className="leading-tight text-justify">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Modi, quaerat heyy herfe?
+                      Decentralized verification for Company & Collector
                     </p>
                   </div>
                   <div className="col-start-5 col-end-6 md:mx-auto relative mr-10">
@@ -847,8 +848,7 @@ const Home = () => {
                   </div>
                   <div className="bg-white col-start-6 col-end-10 p-4 rounded-xl my-4 mr-auto shadow-md">
                     <p className="leading-tight text-justify">
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                      Vitae, facilis.
+                      Supply-driven Marketplace (where a user can upload plastics, or other scrap items available for sale)
                     </p>
                   </div>
                 </div>
@@ -856,8 +856,7 @@ const Home = () => {
                 <div className="flex flex-row-reverse md:contents">
                   <div className="bg-white col-start-1 col-end-5 p-4 rounded-xl my-4 ml-auto shadow-md">
                     <p className="leading-tight text-justify">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Modi, quaerat heyy herfe?
+                      Recycler-Company Chat
                     </p>
                   </div>
                   <div className="col-start-5 col-end-6 md:mx-auto relative mr-10">
@@ -877,8 +876,7 @@ const Home = () => {
                   </div>
                   <div className="bg-white col-start-6 col-end-10 p-4 rounded-xl my-4 mr-auto shadow-md">
                     <p className="leading-tight text-justify">
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                      Vitae, facilis.
+                      One-on-One Matching (match companies with recyclers directly)
                     </p>
                   </div>
                 </div>
@@ -886,8 +884,7 @@ const Home = () => {
                 <div className="flex flex-row-reverse md:contents">
                   <div className="bg-white col-start-1 col-end-5 p-4 rounded-xl my-4 ml-auto shadow-md">
                     <p className="leading-tight text-justify">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Modi, quaerat heyy herfe?
+                      Outreach & Education Initiatives (in schools, marketplaces, and universities)
                     </p>
                   </div>
                   <div className="col-start-5 col-end-6 md:mx-auto relative mr-10">

@@ -129,7 +129,7 @@ const SignUp = () => {
               <div className="container mx-auto fixed top-0 right-0 left-0 w-full px-6 py-3 bg-white">
                 <Link href="/">
                   <a>
-                    <img src="/images/logo.svg" />
+                    <img src="/images/ecomarket-logo.svg" />
                   </a>
                 </Link>
               </div>

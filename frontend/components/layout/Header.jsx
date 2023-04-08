@@ -73,7 +73,7 @@ const Header = () => {
             <div className="lg:order-1 w-auto lg:w-1/4 lg:text-center">
               <Link href="/">
                 <a className="text-xl text-gray-800 font-semibold font-heading">
-                  <img src="/images/logo.svg" />
+                  <img src="/images/ecomarket-logo.svg" />
                 </a>
               </Link>
             </div>
@@ -130,7 +130,7 @@ const Header = () => {
                       </Link>
                       <Link href="/">
                         <a className="flex items-center py-2 px-4 text-sm justify-start bg-white border-0 w-full hover:bg-gray-100 ">
-                          EcoMarket NFT - GSCredit
+                          EcoMarket NFT - EcoCredit
                         </a>
                       </Link>
                       <Link href="/">
@@ -177,7 +177,7 @@ const Header = () => {
           <div className=" mb-6">
             <div className="flex items-center justify-center flex-col gap-3 grow">
               <div>
-                <img src="/images/logo.svg" />
+                <img src="/images/ecomarket-logo.svg" />
               </div>
 
               <p className="mb-3">Kindly Select your role</p>
@@ -253,7 +253,7 @@ const Header = () => {
           <div className=" mb-6">
             <div className="flex items-center justify-center flex-col gap-3 grow">
               <div>
-                <img src="/images/logo.svg" />
+                <img src="/images/ecomarket-logo.svg" />
               </div>
 
               <p className="mb-3">Kindly Select your role</p>
