@@ -1,6 +1,7 @@
 import axios from "axios";
 import { BACKEND_BASE_URL } from "../../utils/api";
 
+const key = "backend:api:token";
 
 function getTokenFromPersistedStorage() {
   if (typeof window !== "undefined") return window.localStorage.getItem(key);
