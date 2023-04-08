@@ -9,7 +9,7 @@ module.exports = {
         try{
             const location = new Location({name, state, country});
 
-            location
+            await location
                 .save(location)
                 .then(data => {
                 res.send({status: true, data});

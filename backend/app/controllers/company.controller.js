@@ -2,6 +2,9 @@ const db = require('../models');
 
 const Requests = db.requests;
 const Company = db.companies;
+const CollectionCenter = db.collectioncenter;
+const Location = db.locations;
+const Category = db.categories;
 
 module.exports = {
   getCompanies: async (req, res) => {
@@ -33,10 +36,35 @@ module.exports = {
     // const { requestId } = req.params.id;
     // console.log(req.params.id)
     try {
-      const requests = await Requests.find({ company: req.params.id });
+      const requests = await Requests.find({ company: req.params.id })
+        .populate({ path: 'location', model: Location })
+        .populate({ path: 'company', model: Company })
+        .populate({ path: 'scrap_category', model: Category })
+        .populate({ path: 'collection_center', model: CollectionCenter })
+        .populate({
+          path: 'scrap_subcategory',
+          model: Category,
+          populate: { path: 'children', model: Category },
+        });
       res.json({ success: true, data: requests });
     } catch (error) {
       res.status(500).send({ message: `Error retrieving company requests` });
+    }
+  },
+  CompanyCollectionCenters: async (req, res) => {
+    // const id = req.params.id
+    try {
+      const collection_centers = await CollectionCenter.find({
+        company: req.params.id,
+      })
+        .populate({ path: 'location', model: Location })
+        .populate({ path: 'company', model: Company });
+      return res.json({ status: true, collection_centers });
+    } catch (error) {
+      return res.status(500).send({
+        message:
+          error.message || 'Some error occurred while retrieving locations.',
+      });
     }
   },
   // companyRequests: (req, res) =>{
