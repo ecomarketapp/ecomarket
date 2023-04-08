@@ -143,7 +143,7 @@ const StepApprove = ({ handleClick, currentStep, steps, data }) => {
                 className="px-9 py-3 border border-[#DD7D37] bg-[#DD7D37] text-white rounded-full  w-full md:w-1/2 "
                 onClick={() => handleClick('next')}
               >
-                Deliver Plastics
+                Gather Plastics
               </button>
             </div>
           </div>

@@ -214,7 +214,7 @@ const Dashboard = () => {
                                         <div className=" flex items-start justify-between mt-3 px-5 py-4 flex-col w-full gap-2">
                                           <div className="flex items-center justify-between w-full">
                                             <h4 className="font-semibold text-[#3D4044] text-lg">
-                                              Jana Plasteeks LTD
+                                              {request.title}
                                             </h4>
                                             <p>PET Bottles</p>
                                           </div>

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CompanyLayout from '../../../../components/CompanyLayout/Layout';
 import DropdownIcon from '../../../../components/Icons/DropdownIcon';
 
@@ -8,10 +8,13 @@ import Box from '@mui/material/Box';
 import LinearProgress, {
   linearProgressClasses,
 } from '@mui/material/LinearProgress';
+import backend from '../../../../components/services/backend';
+import { formatLocation } from '../../../../utils/other';
 
-const SingleOffer = () => {
+const SingleOffer = ({ id }) => {
   const [createDispute, setCreateDispute] = useState();
   const [requestSuccessModal, setRequestSuccessModal] = useState();
+  const [request, setRequest] = useState({});
 
   const handleDispute = () => {
     setCreateDispute(!createDispute);
@@ -21,6 +24,19 @@ const SingleOffer = () => {
     setRequestSuccessModal(!requestSuccessModal);
   };
 
+  const loadSingleRequest = () => {
+    backend
+      .getRequest(id)
+      .then((request) => {
+        setRequest(request);
+        console.log(request);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  useEffect(loadSingleRequest, [id]);
+
   return (
     <>
       <CompanyLayout>
@@ -29,8 +45,8 @@ const SingleOffer = () => {
             <div className="h-full pb-24 md:px-4 py-12">
               <div className="flex items-center py-6 mb-8 flex-col lg:flex-row border-b border-gray-300">
                 <div className="flex-1 w-full flex-col items-start">
-                  <h3 className="h2">120kg of PET Bottles</h3>
-                  <p>Ikeja, Lagos</p>
+                  <h3 className="h2">{request.title}</h3>
+                  <p>{formatLocation((request.location?.name), (request.location?.state) )}</p>
                 </div>
 
                 <div className="mt-1 relative rounded-full flex-1  items-center grow flex w-full ">
@@ -230,7 +246,7 @@ const SingleOffer = () => {
                     </div>
 
                     <div className="mx-auto w-full flex items-center justify-center mt-6">
-                      <Link href="/company/offers/1/dropoffs">
+                      <Link href={`/company/offers/${request.id}/dropoffs`}>
                         <a className="px-4 py-2 border border-gray-300 bg-white text-gray-600 rounded-md">
                           View all Dropoffs
                         </a>
@@ -426,6 +442,10 @@ const SingleOffer = () => {
       </CompanyLayout>
     </>
   );
+};
+
+SingleOffer.getInitialProps = ({ query }) => {
+  return { id: query.id };
 };
 
 export default SingleOffer;

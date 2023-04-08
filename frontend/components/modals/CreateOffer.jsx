@@ -1,16 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import DropdownIcon from '../Icons/DropdownIcon';
+import dayjs from 'dayjs';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import toast, { Toaster } from 'react-hot-toast';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import axios from 'axios';
+import Link from 'next/link';
+import backend from '../services/backend';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+function ModToast({ open, handleClose }) {
+  return (
+    <Snackbar
+      open={open}
+      autoHideDuration={1000}
+      onClose={handleClose}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+    >
+      <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+        Succesfully created request!
+      </Alert>
+    </Snackbar>
+  );
+}
 
 export function CreateOffer({ createOffer, setCreateOffer }) {
   const [alertModal, setAlertModal] = useState();
+  const [formstate, setFormState] = useState();
   const [approveOfferModal, setApproveOfferModal] = useState();
+  const [submit, setSubmit] = useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    setOpen(false);
+  };
 
   const handleCreateOffer = () => {
     setCreateOffer(!createOffer);
@@ -19,11 +56,35 @@ export function CreateOffer({ createOffer, setCreateOffer }) {
     setAlertModal(!alertModal);
   };
 
-  const submitOffer = () => {
-    setCreateOffer(false);
+  const submitOffer = async (confirm) => {
+    // e.preventDefault();
 
-    setAlertModal(false);
-    setApproveOfferModal(!approveOfferModal);
+    console.log(formstate, 'winwowcinw');
+    // return
+    // if (confirm) {
+    console.log('entereddd this mf');
+    try {
+      const data = await backend.saveOffer(formstate);
+      console.log(data);
+      if (data.status == true) {
+        setOpen(true);
+        setCreateOffer(false);
+        setAlertModal(false);
+        setApproveOfferModal(!approveOfferModal);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    setSubmit(true);
+    // return true;
+    // } else {
+    //   return false;
+    // }
+
+    // setCreateOffer(false);
+
+    // setAlertModal(false);
+    // setApproveOfferModal(!approveOfferModal);
   };
 
   return (
@@ -32,6 +93,8 @@ export function CreateOffer({ createOffer, setCreateOffer }) {
         createOffer={createOffer}
         setCreateOffer={setCreateOffer}
         confirm={verifyOffer}
+        submit={submitOffer}
+        setFormState={setFormState}
       />
 
       <ConfirmVerifyOffer
@@ -39,14 +102,26 @@ export function CreateOffer({ createOffer, setCreateOffer }) {
         setShow={setAlertModal}
         confirm={submitOffer}
       />
+
+      <ModToast open={open} handleClose={handleClose} />
     </>
   );
 }
 
-function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
+function CreateOfferForm({
+  createOffer,
+  setCreateOffer,
+  confirm,
+  submit,
+  setFormState,
+}) {
+  const company_id = '642dcf9cda01b4cdf1749f41';
+  const today = dayjs().format('YYYY-MM-DD');
+
+  const [date, setDate] = useState('');
+
   const [categories, setCategories] = useState();
   const [centers, setCenters] = useState();
-
   const [catDropdown, setCatDropdown] = useState();
   const [typeDropdown, setypeDropdown] = useState();
   const [centerDropdown, setCenterDropdown] = useState();
@@ -54,6 +129,7 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
   const [hasSubCategory, setHasSubCategory] = useState('');
   const [selectedSubCategory, setSelectedSubCategory] = useState('');
   const [selectedCenter, setSelectedCenter] = useState('');
+  const [centerLocation, setCenterLocation] = useState('');
 
   const toastOptions = {
     duration: 8000,
@@ -78,32 +154,38 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
 
 
   const formInitialState = {
-    agency: null,
-    name: null,
-    email: null,
+    title: null,
     description: null,
-    amount: null,
-    interest: 0,
-    url: null,
+    category: null,
+    subcategory: null,
+    collection_center: null,
+    quantity_required: null,
+    amount_per_unit: null,
+    expires_at: null,
+    location: null,
+    escrow_payment: null,
+    deliveries: null,
   };
+
   const [form, setForm] = useState({
     title: null,
     description: null,
     category: null,
     subcategory: null,
-    center: null,
+    collection_center: null,
     quantity_required: null,
     amount_per_unit: null,
-    request_expires_at: null,
-    company: 0,
+    expires_at: null,
+    company: company_id,
     location: null,
     escrow_payment: null,
     deliveries: null,
   });
 
   useEffect(() => {
-    if (selectedCategory)
+    if (selectedCategory) {
       setForm((form) => ({ ...form, category: selectedCategory }));
+    }
   }, [selectedCategory]);
 
   useEffect(() => {
@@ -112,17 +194,30 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
   }, [selectedSubCategory]);
 
   useEffect(() => {
-    if (selectedCenter)
-      setForm((form) => ({ ...form, center: selectedCenter }));
-  }, [selectedCenter]);
+    if (selectedCenter) {
+      let center = centers.find((x) => x.id == selectedCenter);
+      console.log(center.location._id, 'center.location._id');
+      // return
+      setCenterLocation(center.location._id);
+      console.log(centerLocation);
+      setForm((form) => ({
+        ...form,
+        collection_center: selectedCenter,
+        location: centerLocation,
+      }));
+    }
+  }, [selectedCenter, centerLocation]);
 
+  useEffect(() => {
+    if (date) setForm((form) => ({ ...form, expires_at: date }));
+  }, [date]);
 
   const [offer, setOffer] = useState({
     title: '',
     description: '',
     quantity_required: '',
     amount_per_unit: '',
-    request_expires_at: '',
+    expires_at: '',
     company: '',
     location: '',
     escrow_payment: '',
@@ -133,10 +228,10 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
   const handleCategory = (event) => {
     let cat = categories.find((x) => x.id == event.target.value);
     setSelectedCategory(event.target.value);
-    if(cat.children.length > 0){
+    if (cat.children.length > 0) {
       setHasSubCategory(cat.children);
-    }else{
-        return
+    } else {
+      return;
     }
   };
 
@@ -145,7 +240,7 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
   };
 
   const handleCollectionCenter = (e) => {
-    setSelectedCenter(e.target.value)
+    setSelectedCenter(e.target.value);
   };
 
   // const handleChange = (e) => {
@@ -186,7 +281,8 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
     const getCenters = async () => {
       try {
         const res = await axios.get(
-          'http://127.0.0.1:8080/api/collectioncenters',
+          `http://127.0.0.1:8080/api/companies/${company_id}/collectioncenters`,
+          // 'http://127.0.0.1:8080/api/collectioncenters',
           { cancelToken: source.token }
         );
         console.log(res, 'res');
@@ -210,27 +306,46 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
   const handleCat = () => {
     setCatDropdown(!catDropdown);
   };
-  const handleType = () => {
-    setypeDropdown(!typeDropdown);
-  };
+  // const handleType = () => {
+  //   setypeDropdown(!typeDropdown);
+  // };
 
   const handleInput = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // const confirmSubmitForm = ({confirm}) =>{
+  //   if(confirm){
+  //     return true
+  //   }
+
+  // }
   const submitForm = async (e) => {
     e.preventDefault();
 
-    console.log("enterss");
-    try {
-      console.log(form);
-      // const invoice = await backend.storeInvoice(form);
-      setForm(formInitialState);
-      dismiss();
-      // router.push({ path: "/a", query: { id: invoice.id } });
-    } catch (e) {
-      console.log(e);
-    }
+    console.log('enterss');
+    // try {
+    confirm();
+    setFormState(form);
+    // submit(form);
+    // if () {
+    //   console.log(form, 'yuyuyfyufx');
+    //   // const offer = await backend.saveOffer(form);
+    // }
+
+    // if(submit == true){
+    //   console.log(form);
+    //   const offer = await backend.saveOffer(form);
+    // }
+    // setTimeout(function(){
+    //   submit = false
+    // }, 2000);
+    // setForm(formInitialState);
+    // dismiss();
+    // router.push({ path: "/a", query: { id: invoice.id } });
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
   return (
@@ -283,6 +398,7 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
                   placeholder="What's the title?"
                   name="title"
                   onChange={handleInput}
+                  required
                 />
               </div>
             </div>
@@ -301,8 +417,9 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
                     value={selectedCategory.length ? selectedCategory : ''}
                     onChange={handleCategory}
                     displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }} 
-                    defaultValue="" required 
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    defaultValue=""
+                    required
                     name="category"
                   >
                     <MenuItem value="" disabled>
@@ -310,7 +427,11 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
                     </MenuItem>
                     {categories &&
                       categories.map((item, index) => {
-                        return <MenuItem value={item.id} key={item.id}>{item.name}</MenuItem>;
+                        return (
+                          <MenuItem value={item.id} key={item.id}>
+                            {item.name}
+                          </MenuItem>
+                        );
                       })}
                   </Select>
                 </FormControl>
@@ -382,14 +503,14 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
                     value={selectedSubCategory}
                     onChange={SelectSubCategory}
                     displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }} 
-                    defaultValue="" 
-                    required 
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    defaultValue=""
+                    required
                     name="subcategory"
                   >
                     {
                       // selectedCategory ? (
-                        hasSubCategory.length < 1 && (
+                      hasSubCategory.length < 1 && (
                         // <div className="text-center h-full flex items-center justify-center flex-col">
                         //   <div className="h-24 w-24">
                         //     <img
@@ -399,7 +520,9 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
                         //   </div>
                         //   <div>No SubCategory</div>
                         // </div>
-                        <MenuItem disabled value="">No SubCategory</MenuItem>
+                        <MenuItem disabled value="">
+                          No SubCategory
+                        </MenuItem>
                       )
                     }
                     {/* <MenuItem value="">
@@ -407,7 +530,11 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
                     </MenuItem> */}
                     {hasSubCategory.length > 0 &&
                       hasSubCategory.map((item, index) => {
-                        return <MenuItem value={item._id}  key={item._id}>{item.name}</MenuItem>;
+                        return (
+                          <MenuItem value={item._id} key={item._id}>
+                            {item.name}
+                          </MenuItem>
+                        );
                       })}
                     {/* // </> 
                      
@@ -508,6 +635,7 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
                   placeholder="Description of the scrap"
                   name="description"
                   onChange={handleInput}
+                  required
                 ></textarea>
               </div>
             </div>
@@ -537,6 +665,7 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
                     placeholder="What's the quantity you need"
                     name="quantity_required"
                     onChange={handleInput}
+                    required
                   />
                 </div>
 
@@ -601,7 +730,7 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
                     type="button"
                   >
                     <span className=" text-gray-500 px-3 flex items-center bg-white ">
-                      kg
+                      per kg
                       <DropdownIcon />
                     </span>
                   </button>
@@ -611,6 +740,7 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
                     placeholder="How much are you willing to pay for this?"
                     name="amount_per_unit"
                     onChange={handleInput}
+                    required
                   />
                 </div>
 
@@ -661,12 +791,21 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
                 </div>
               </div>
               <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-500">1kg = $50</p>
+                <p className="text-sm text-gray-500">
+                  Total amount = 0
+                  {/* QUANTITY REQUIRED MULIPLIED BY AMOUNT in trx */}
+                </p>
                 <p className="text-gray-700">
                   <span className="font-thin text-xs text-gray-400">
                     suggested amount
                   </span>{' '}
-                  150kg = $7,500
+                  1kg ={' '}
+                  <Link
+                    href="https://coinmarketcap.com/currencies/tron/"
+                    target="_blank"
+                  >
+                    <a>2 TRX</a>
+                  </Link>
                 </p>
               </div>
             </div>
@@ -691,17 +830,21 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
                     value={selectedCenter}
                     onChange={handleCollectionCenter}
                     displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }} 
-                    defaultValue="" required 
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    defaultValue=""
+                    required
                     name="center"
-                    
                   >
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
                     {centers &&
                       centers.map((item, index) => {
-                        return <MenuItem value={item.id} key={item.id}>{item.title}</MenuItem>;
+                        return (
+                          <MenuItem value={item.id} key={item.id}>
+                            {item.title}
+                          </MenuItem>
+                        );
                       })}
                   </Select>
                 </FormControl>
@@ -755,6 +898,37 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
               </div>
             </div>
 
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-2">
+                <label className="text-gray-700 font-medium">
+                  Set Expiry date
+                </label>
+              </div>
+              <div className=" relative rounded-lg  items-center flex w-full h-12 ">
+                {/* <input
+                  type="datetime-local"
+                  className=" border border-gray-300 py-3 px-4  block w-full pl-4 pr-20 rounded-lg h-full focus:outline-none focus:border-gray-400 transition duration-300 ease"
+                  placeholder="How much are you willing to pay for this?"
+                  name="expires_at"
+                  onChange={handleInput}
+                  required
+                /> */}
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  {/* <DateTimePicker
+                      label="Uncontrolled picker"
+                      defaultValue={dayjs('2022-04-17T15:30')}
+                    /> */}
+                  <DateTimePicker
+                    fullWidth
+                    required
+                    value={date}
+                    onChange={(newValue) => setDate(newValue)}
+                    className="datetime  border border-gray-300"
+                    variant="standard"
+                  />
+                </LocalizationProvider>
+              </div>
+            </div>
             {/* // border-l border-[#E6E3E3] border-r */}
           </div>
 
@@ -762,7 +936,7 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
             <button
               className="px-8 py-3 rounded-full shadow-md bg-[#DD7D37] hover:shadow-lg text-white transition duration-150 ease-in-out border-0 w-full"
               type="submit"
-              onSubmit={(e)=>submitForm(e)}
+              onSubmit={(e) => submitForm(e)}
             >
               Create Offer
             </button>
@@ -773,7 +947,7 @@ function CreateOfferForm({ createOffer, setCreateOffer, confirm }) {
   );
 }
 
-function ConfirmVerifyOffer({ show, setShow }) {
+function ConfirmVerifyOffer({ show, setShow, confirm }) {
   return (
     <div>
       <div className={`modal__box ${show ? 'show' : ''}`}>
@@ -822,8 +996,9 @@ function ConfirmVerifyOffer({ show, setShow }) {
               Go back to offer
             </button>
             <button
+              type="button"
               className="px-4 py-2 border border-[#DD7D37] bg-[#DD7D37] text-white rounded-full"
-              onClick={confirm}
+              onClick={(e) => confirm('hello')}
             >
               Yes, I'm sure
             </button>
