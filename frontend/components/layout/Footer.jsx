@@ -8,7 +8,7 @@ const Footer = () => {
             <div className='container mx-auto px-6'>
                 <div className='flex items-center justify-between py-10'>
                     <div>
-                        <img src='/images/logo-white.svg'/>
+                        <img src='/images/ecomarket-logo-white.svg'/>
                     </div>
                     <div>
                         <p className='text-[#C9C4B5]'>&copy; {currentYear} EcoMarket. All rights reserved</p>
