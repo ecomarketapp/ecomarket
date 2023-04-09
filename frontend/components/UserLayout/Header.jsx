@@ -226,12 +226,12 @@ const Header = () => {
               </div>
             )}
 
-            {!connected && <div className="text-sm lg:flex-grow"></div>}
-
-            <div className="lg:flex lg:items-center lg:w-auto">
-              <div className="flex items-center justify-center relative gap-4 px-4 border-r border-r-border-border_cl">
-                <div className=" relative">
-                  {connected && (
+            {!connected && (
+              <div className="text-sm lg:flex-grow">
+                <div className="lg:flex lg:items-center lg:w-auto">
+                  <div className="flex items-center justify-center relative gap-4 px-4 border-r border-r-border-border_cl">
+                    <div className=" relative">
+                      {/* {connected && (
                     <button
                       className="flex items-center gap-2 bg-gray-100 py-3 px-5 rounded-full"
                       onClick={ToggleUserMenu}
@@ -243,85 +243,87 @@ const Header = () => {
                       </div>
                       <ExpandMoreHorizontal />
                     </button>
-                  )}
+                  )} */}
 
-                  {!connected && (
-                    <button className="flex items-center gap-2 bg-gray-100 py-3 px-5 rounded-full">
-                      <div className="flex items-start justify-start flex-col">
-                        <a
-                          href={`${window.location.origin}/connect-wallet/${
-                            window.location.pathname.split('/')[1]
-                          }`}
-                          className="text-xs"
-                        >
-                          Connect Wallet
-                        </a>
-                      </div>
-                    </button>
-                  )}
+                      {!connected && (
+                        <button className="flex items-center gap-2 bg-gray-100 py-3 px-5 rounded-full">
+                          <div className="flex items-start justify-start flex-col">
+                            <a
+                              href={`${window.location.origin}/connect-wallet/${
+                                window.location.pathname.split('/')[1]
+                              }`}
+                              className="text-xs"
+                            >
+                              Connect Wallet
+                            </a>
+                          </div>
+                        </button>
+                      )}
 
-                  <div
-                    className={`absolute user-menu ${
-                      showUserMenu ? 'show' : ''
-                    } dropdown-menu large-dropdown shadow-md rounded-md w-full border-0 fade-in transition duration-300 ease bg-white`}
-                  >
-                    <div className=" py-2">
-                      <Link href="/collector/profile">
-                        <a className="flex items-center py-2 px-4 text-sm justify-start bg-white border-0 w-full hover:bg-gray-100 ">
-                          Profile
-                        </a>
-                      </Link>
-
-                      <button
-                        onClick={disconnect}
-                        className="flex items-center py-2 px-4 text-sm justify-start bg-white border-0 w-full hover:bg-gray-100 "
+                      <div
+                        className={`absolute user-menu ${
+                          showUserMenu ? 'show' : ''
+                        } dropdown-menu large-dropdown shadow-md rounded-md w-full border-0 fade-in transition duration-300 ease bg-white`}
                       >
-                        <span className="mr-3">
-                          <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
+                        <div className=" py-2">
+                          <Link href="/collector/profile">
+                            <a className="flex items-center py-2 px-4 text-sm justify-start bg-white border-0 w-full hover:bg-gray-100 ">
+                              Profile
+                            </a>
+                          </Link>
+
+                          <button
+                            onClick={disconnect}
+                            className="flex items-center py-2 px-4 text-sm justify-start bg-white border-0 w-full hover:bg-gray-100 "
                           >
-                            <path
-                              d="M8.89844 7.55999C9.20844 3.95999 11.0584 2.48999 15.1084 2.48999H15.2384C19.7084 2.48999 21.4984 4.27999 21.4984 8.74999V15.27C21.4984 19.74 19.7084 21.53 15.2384 21.53H15.1084C11.0884 21.53 9.23844 20.08 8.90844 16.54"
-                              stroke="#EF4444"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></path>
-                            <path
-                              d="M15.0011 12H3.62109"
-                              stroke="#EF4444"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></path>
-                            <path
-                              d="M5.85 8.6499L2.5 11.9999L5.85 15.3499"
-                              stroke="#EF4444"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></path>
-                          </svg>
-                        </span>
-                        Sign Out
-                      </button>
+                            <span className="mr-3">
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M8.89844 7.55999C9.20844 3.95999 11.0584 2.48999 15.1084 2.48999H15.2384C19.7084 2.48999 21.4984 4.27999 21.4984 8.74999V15.27C21.4984 19.74 19.7084 21.53 15.2384 21.53H15.1084C11.0884 21.53 9.23844 20.08 8.90844 16.54"
+                                  stroke="#EF4444"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                ></path>
+                                <path
+                                  d="M15.0011 12H3.62109"
+                                  stroke="#EF4444"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                ></path>
+                                <path
+                                  d="M5.85 8.6499L2.5 11.9999L5.85 15.3499"
+                                  stroke="#EF4444"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                ></path>
+                              </svg>
+                            </span>
+                            Sign Out
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              {/* <a href="#" className="inline-block text-sm ml-4 px-2  py-2 leading-none rounded text-[#667085] hover:bg-white lg:mt-0 mr-2"><SettingsIcon/></a> */}
-              {/* <a href="#" className="inline-block text-sm mr-2 px-2 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white lg:mt-0"><NotificationIcon/></a> */}
-              <span className="inline-block text-sm leading-none rounded-full border-[#FDEFE5] border-4 lg:mt-0 w-10 h-10 ml-2">
+                  {/* <a href="#" className="inline-block text-sm ml-4 px-2  py-2 leading-none rounded text-[#667085] hover:bg-white lg:mt-0 mr-2"><SettingsIcon/></a> */}
+                  {/* <a href="#" className="inline-block text-sm mr-2 px-2 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white lg:mt-0"><NotificationIcon/></a> */}
+                  {/* <span className="inline-block text-sm leading-none rounded-full border-[#FDEFE5] border-4 lg:mt-0 w-10 h-10 ml-2">
                 <img
                   src="/images/avatar-1.png"
                   className="w-full h-full object-cover rounded-full"
                 />
-              </span>
-            </div>
+              </span> */}
+                </div>
+              </div>
+            )}
           </nav>
         </div>
       </header>
