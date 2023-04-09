@@ -1,15 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
-import toast, { Toaster } from 'react-hot-toast';
-import { useRouter } from 'next/router';
-import axios from 'axios';
 import ConectWallet from '../../components/ConectWallet';
 
 const CompanyAuth = () => {
-  const router = useRouter();
   const currentYear = new Date().getFullYear();
-  router.id = 1;
   return (
     <>
       <section className="h-screen">
@@ -25,7 +19,7 @@ const CompanyAuth = () => {
               </div>
               <div className="max-w-[500px] mx-auto flex flex-col justify-between h-full">
                 <div className="flex items-center flex-grow">
-                  <ConectWallet page={router.id} />
+                  <ConectWallet page={'company'} />
                 </div>
 
                 <div className="container mx-auto w-full px-6 mt-4">

@@ -1,14 +1,9 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React from 'react';
 import ConectWallet from '../../components/ConectWallet';
 const CollectorAuth = () => {
-  const router = useRouter();
   const currentYear = new Date().getFullYear();
 
-  router.id = 2;
-
-  console.log(router.id);
   return (
     <>
       <section className="h-screen">
@@ -24,11 +19,11 @@ const CollectorAuth = () => {
               </div>
               <div className="max-w-[500px] mx-auto flex flex-col justify-between h-full">
                 <div className="flex items-center flex-grow">
-                  <ConectWallet page={router.id} />
+                  <ConectWallet page={'collector'} />
                 </div>
 
                 <div className="container mx-auto w-full px-6 mt-4">
-                  <div className="flex items-center justify-between flex-wrap gap-3">
+                  <div className="flex sitems-center justify-between flex-wrap gap-3">
                     <div>
                       <p>&copy; EcoMarket {currentYear}</p>
                     </div>

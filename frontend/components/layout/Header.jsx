@@ -3,6 +3,7 @@ import Link from 'next/link';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Dropdown from '../Dropdown';
 import GetStartedModal from '../../components/modals/GetStartedModal';
+import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import {
   WalletActionButton,
   WalletConnectButton,
