@@ -163,7 +163,10 @@ const Header = () => {
                         </Link>
 
                         <button
-                          onClick={disconnect}
+                          onClick={() => {
+                            disconnect();
+                            window.location.reload();
+                          }}
                           className="flex items-center py-2 px-4 text-sm justify-start bg-white border-0 w-full hover:bg-gray-100 "
                         >
                           <span className="mr-3">

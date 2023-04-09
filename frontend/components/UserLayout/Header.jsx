@@ -165,7 +165,10 @@ const Header = () => {
                           </Link>
                           <button
                             className="flex items-center py-2 px-4 text-sm justify-start bg-white border-0 w-full hover:bg-gray-100 "
-                            onClick={(e) => handleLogout(e)}
+                            onClick={(e) => {
+                              disconnect();
+                              window.location.reload();
+                            }}
                           >
                             <span className="mr-3">
                               <svg
@@ -226,8 +229,9 @@ const Header = () => {
               </div>
             )}
 
+            {!connected && <div className="text-sm lg:flex-grow"></div>}
             {!connected && (
-              <div className="text-sm lg:flex-grow">
+              <>
                 <div className="lg:flex lg:items-center lg:w-auto">
                   <div className="flex items-center justify-center relative gap-4 px-4 border-r border-r-border-border_cl">
                     <div className=" relative">
@@ -322,7 +326,13 @@ const Header = () => {
                 />
               </span> */}
                 </div>
-              </div>
+                <span className="inline-block text-sm leading-none rounded-full border-[#FDEFE5] border-4 lg:mt-0 w-10 h-10 ml-2">
+                  <img
+                    src="/images/avatar-1.png"
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                </span>
+              </>
             )}
           </nav>
         </div>
