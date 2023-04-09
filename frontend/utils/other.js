@@ -6,3 +6,10 @@ export function formatLocation(name, state) {
     return reqlocation = name + ', ' + state;
 }
 
+export function getTotal(quantity, amount){
+    let total;
+    if(!quantity || !amount) return
+
+    total = quantity * amount;
+    return total
+}

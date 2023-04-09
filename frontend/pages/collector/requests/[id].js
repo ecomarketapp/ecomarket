@@ -15,7 +15,7 @@ import { UseContextProvider } from '../../../contexts/NavigationContext';
 import { dateFromNow } from '../../../utils/date';
 
 // export const getStaticPaths = async () => {
-//   const res = await axios.get(`http://127.0.0.1:8080/api/requests`);
+//   const res = await axios.get(`{process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests`);
 //   if (res) {
 //     const data = await res.data.data;
 
@@ -39,7 +39,7 @@ import { dateFromNow } from '../../../utils/date';
 //     const id = context.params.id;
 //     // const id = (location.pathname.split("/")[3]);
 //     console.log(id);
-//     const res = await axios.get('http://127.0.0.1:8080/api/requests/' + id);
+//     const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests/` + id);
 
 //     if (res) {
 //       console.log(res, 'ress');
@@ -60,7 +60,6 @@ import { dateFromNow } from '../../../utils/date';
 // };
 
 const RequestDetail = ({ id }) => {
-
   const [request, setRequest] = useState({});
 
   const loadSingleRequest = () => {
@@ -75,9 +74,6 @@ const RequestDetail = ({ id }) => {
       });
   };
   useEffect(loadSingleRequest, [id]);
-
-
-
 
   console.log(request);
   const [fulfillRequest, setfulfillRequest] = useState();
@@ -121,7 +117,7 @@ const RequestDetail = ({ id }) => {
           <StepApprove
             handleClick={handleClick}
             currentStep={currentStep}
-            steps={steps} 
+            steps={steps}
             data={request}
           />
         );
@@ -265,7 +261,6 @@ const RequestDetail = ({ id }) => {
     </>
   );
 };
-
 
 RequestDetail.getInitialProps = ({ query }) => {
   return { id: query.id };

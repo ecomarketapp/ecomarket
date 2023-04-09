@@ -7,9 +7,11 @@ import Link from 'next/link';
 // import 'react-tabs/style/react-tabs.css';
 
 const Home = () => {
+  console.log(process.env.GREETING);
+
   const fetchRequests = async ({ pageParam = 1 }) => {
     const res = await fetch(
-      `http://127.0.0.1:8080/api/requests?page=${pageParam}&size=9`
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests?page=${pageParam}&size=9`
     );
     return res.json();
   };

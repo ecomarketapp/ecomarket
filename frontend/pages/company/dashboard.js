@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 
 // export const getStaticProps = async () => {
 //     try{
-//       const res = await fetch('http://127.0.0.1:8080/api/categories')
+//       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/categories`)
 //       if(res){
 //         console.log(res.data);
 //         const data = await res.json();
@@ -70,9 +70,12 @@ const Dashboard = () => {
 
     const getCategories = async () => {
       try {
-        const res = await axios.get('http://127.0.0.1:8080/api/categories', {
-          cancelToken: source.token,
-        });
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/categories`,
+          {
+            cancelToken: source.token,
+          }
+        );
         setCategories(res.data.data);
         // console.log(res)
       } catch (err) {
@@ -96,7 +99,7 @@ const Dashboard = () => {
     const getCenters = async () => {
       try {
         const res = await axios.get(
-          'http://127.0.0.1:8080/api/collectioncenters',
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/collectioncenters`,
           { cancelToken: source.token }
         );
         console.log(res, 'res');

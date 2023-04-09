@@ -10,6 +10,7 @@ import LinearProgress, {
 } from '@mui/material/LinearProgress';
 import backend from '../../../../components/services/backend';
 import { formatLocation } from '../../../../utils/other';
+import { dateFormat, dateFromNow, dateTimeFormat } from '../../../../utils/date';
 
 const SingleOffer = ({ id }) => {
   const [createDispute, setCreateDispute] = useState();
@@ -46,7 +47,12 @@ const SingleOffer = ({ id }) => {
               <div className="flex items-center py-6 mb-8 flex-col lg:flex-row border-b border-gray-300">
                 <div className="flex-1 w-full flex-col items-start">
                   <h3 className="h2">{request.title}</h3>
-                  <p>{formatLocation((request.location?.name), (request.location?.state) )}</p>
+                  <p>
+                    {formatLocation(
+                      request.location?.name,
+                      request.location?.state
+                    )}
+                  </p>
                 </div>
 
                 <div className="mt-1 relative rounded-full flex-1  items-center grow flex w-full ">
@@ -103,7 +109,7 @@ const SingleOffer = ({ id }) => {
                           Category of Scrap
                         </span>
                         <div className="w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                          Plastics
+                          {request?.scrap_category?.name}
                         </div>
                       </div>
                       <div className="flex-1">
@@ -111,7 +117,7 @@ const SingleOffer = ({ id }) => {
                           Type of Scrap
                         </span>
                         <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                          Polyethylene Terephthalate (PET)
+                          {request?.scrap_subcategory?.name}
                         </div>
                       </div>
 
@@ -120,8 +126,10 @@ const SingleOffer = ({ id }) => {
                           Date Created
                         </span>
                         <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center gap-3 text-sm">
-                          <span className="text-xs">12:32pm</span>{' '}
-                          <span>20/10/2022</span>
+                          <span className="text-xs">
+                            {dateTimeFormat(request?.createdAt)}
+                          </span>{' '}
+                          <span>{dateFormat(request?.createdAt)}</span>
                         </div>
                       </div>
                       <div className="flex-1">
@@ -129,7 +137,9 @@ const SingleOffer = ({ id }) => {
                           Expiry Date
                         </span>
                         <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                          30/10/2022
+                          {request?.request_expires_at
+                            ? dateFormat(request?.request_expires_at)
+                            : ''}
                         </div>
                       </div>
                       <div className="flex-1">
@@ -146,7 +156,9 @@ const SingleOffer = ({ id }) => {
                           Days Left
                         </span>
                         <div className="w-full h-12 px-4 py-2 mt-2 text-[#12B76A]   border-0 border-gray-200  rounded-md flex items-center text-sm">
-                          10d : 24h : 15m : 32s
+                          {request?.request_expires_at
+                            ? dateFromNow(request.request_expires_at)
+                            : ''}
                         </div>
                       </div>
                     </div>
@@ -156,8 +168,66 @@ const SingleOffer = ({ id }) => {
                     <div className="mb-4">
                       <h3 className="text-lg">Dropoffs</h3>
                     </div>
-                    <div className="grid grids-cols-1 md:grid-cols-2 gap-5">
-                      <div className="flex items-center py-3 mb-2 text-sm w-full border-b border-gray-200">
+                    {request?.deliveries?.length < 1 ? (
+                      <>
+                        <div className=" w-full bg-white mt-3 md:mt-0  relative overflow-hidden rounded h-full fade-in">
+                          <div className="flex items-center justify-center flex-col gap-4">
+                            <img src="/images/file-not-found.svg" />
+                            <p>There no dropoffs.</p>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="grid grids-cols-1 md:grid-cols-2 gap-5">
+                        {request?.deliveries?.slice(0, 2).map((delivery) => {
+                          <div className="flex items-center py-3 mb-2 text-sm w-full border-b border-gray-200">
+                            <div className="flex items-start gap-4 w-full">
+                              <div className="h-14 w-14">
+                                <img
+                                  src="/images/Avatar.png"
+                                  className="w-full object-cover rounded-full  "
+                                />
+                              </div>
+
+                              <div className="w-full grow">
+                                <div className="flex gap-1 items-center flex-row justify-between w-full">
+                                  <p className="text-lg text-[#5B5B5B] font-semibold">
+                                    Demi Wikinson{' '}
+                                    <span className="font-thin text-graay-400 text-xs">
+                                      2 mins ago
+                                    </span>
+                                  </p>
+                                </div>
+                                <div className="flex gap-1 flex-row justify-between items-center w-full">
+                                  <p className="text-sm  text-[#5B2D0B] font-normal">
+                                    <span className="font-thin text-[#5B5B5B] text-xs">
+                                      Deposited
+                                    </span>{' '}
+                                    10kg 0f PET Bottles
+                                  </p>
+                                </div>
+                                <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
+                                  <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
+                                    <img src="/images/Icon.png" alt="" />
+                                  </div>
+                                  <div className="flex gap-1 flex-col items-start w-full">
+                                    <p className="text-base  text-[#344054] font-normal">
+                                      {' '}
+                                      10kg 0f PET Bottles
+                                    </p>
+                                    <p className="text-sm  text-[#667085] font-normal">
+                                      720KB
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>;
+                        })}
+                      </div>
+                    )}
+
+                    {/* <div className="flex items-center py-3 mb-2 text-sm w-full border-b border-gray-200">
                         <div className="flex items-start gap-4 w-full">
                           <div className="h-14 w-14">
                             <img
@@ -199,59 +269,19 @@ const SingleOffer = ({ id }) => {
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="flex items-center py-3 mb-2 text-sm w-full border-b border-gray-200">
-                        <div className="flex items-start gap-4 w-full">
-                          <div className="h-14 w-14">
-                            <img
-                              src="/images/Avatar.png"
-                              className="w-full object-cover rounded-full  "
-                            />
-                          </div>
+                      </div> */}
 
-                          <div className="w-full grow">
-                            <div className="flex gap-1 items-center flex-row justify-between w-full">
-                              <p className="text-lg text-[#5B5B5B] font-semibold">
-                                Demi Wikinson{' '}
-                                <span className="font-thin text-graay-400 text-xs">
-                                  2 mins ago
-                                </span>
-                              </p>
-                            </div>
-                            <div className="flex gap-1 flex-row justify-between items-center w-full">
-                              <p className="text-sm  text-[#5B2D0B] font-normal">
-                                <span className="font-thin text-[#5B5B5B] text-xs">
-                                  Deposited
-                                </span>{' '}
-                                10kg 0f PET Bottles
-                              </p>
-                            </div>
-                            <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                              <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
-                                <img src="/images/Icon.png" alt="" />
-                              </div>
-                              <div className="flex gap-1 flex-col items-start w-full">
-                                <p className="text-base  text-[#344054] font-normal">
-                                  {' '}
-                                  10kg 0f PET Bottles
-                                </p>
-                                <p className="text-sm  text-[#667085] font-normal">
-                                  720KB
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                    {request?.deliveries?.length > 0 ? (
+                      <div className="mx-auto w-full flex items-center justify-center mt-6">
+                        <Link href={`/company/offers/${request.id}/dropoffs`}>
+                          <a className="px-4 py-2 border border-gray-300 bg-white text-gray-600 rounded-md">
+                            View all Dropoffs
+                          </a>
+                        </Link>
                       </div>
-                    </div>
-
-                    <div className="mx-auto w-full flex items-center justify-center mt-6">
-                      <Link href={`/company/offers/${request.id}/dropoffs`}>
-                        <a className="px-4 py-2 border border-gray-300 bg-white text-gray-600 rounded-md">
-                          View all Dropoffs
-                        </a>
-                      </Link>
-                    </div>
+                    ) : (
+                      ''
+                    )}
                   </div>
                 </div>
               </div>
