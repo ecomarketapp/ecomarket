@@ -29,6 +29,8 @@ const ConectWallet = ({ page }) => {
   } = useWallet();
   const router = useRouter();
 
+  console.log(address);
+
   const user = localStorage.getItem('user');
   // redirect authenticated user to profile screen
   const [showFormDropdown, setShowFormDropdown] = useState();
@@ -38,6 +40,7 @@ const ConectWallet = ({ page }) => {
   };
 
   useEffect(() => {
+
     // select('TronLink');
   }, []);
   return (
