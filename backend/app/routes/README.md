@@ -115,7 +115,7 @@
     - `delivery.can_claim` which is a boolean that highlights if the collector can claim the delivery
     - `delivery.collector`, which are the collector details
 ---
-### Approve delivery
+### Complete delivery
 
 **Endpoint**
 
