@@ -236,7 +236,7 @@ module.exports = {
       // ensure that delivery is > 48 hours
       const cooloff_period_elapsed = dayjs().isAfter(dayjs(delivery.delivered_at).add(process.env.COOL_OFF_PERIOD, hour));
       if (!cooloff_period_elapsed) {
-        return res.status(404).json({
+        return res.status(403).json({
           status: false,
           message: `Cool off period has not elapsed`,
         });
