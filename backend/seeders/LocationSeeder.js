@@ -16,24 +16,39 @@ db.mongoose
 
 const seedLocations = [
   {
-    name: 'Alimosho',
-    state: 'Lagos',
+    name: 'Adams Arcade',
+    state: 'Nairobi City',
+    country: `Kenya`
   },
   {
-    name: 'Ajeromi-Ifelodun',
-    state: 'Lagos',
+    name: 'Airport North',
+    state: 'Nairobi City',
+    country: `Kenya`
   },
   {
-    name: 'Mushin',
-    state: 'Lagos',
+    name: 'Airport View',
+    state: 'Nairobi City',
+    country: `Kenya`
   },
   {
-    name: 'Oshodi-Isolo',
-    state: 'Lagos',
+    name: `Akiba South 'C'`,
+    state: 'Nairobi City',
+    country: `Kenya`
   },
   {
-    name: 'Ojo',
-    state: 'Lagos',
+    name: 'Amboseli',
+    state: 'Nairobi City',
+    country: `Kenya`
+  },
+  {
+    name: 'Ongata Rongai',
+    state: 'Nairobi City',
+    country: `Kenya`
+  },
+  {
+    name: 'Outer Ring Road',
+    state: 'Nairobi City',
+    country: `Kenya`
   },
 ];
 

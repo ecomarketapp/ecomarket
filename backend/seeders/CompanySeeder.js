@@ -16,20 +16,21 @@ db.mongoose
 
 const seedCompanies = [
   {
-    name: 'OladimejiInc',
-    contact_person: 'Oladimeji Paul',
-    contact_email: 'test@gmail.com',
-    contact_phone: '09028950691',
+    name: 'Darabong Plastics Co.',
+    contact_person: 'Darabong E.',
+    contact_email: 'darabong_e@gmail.com',
+    contact_phone: '+23055053879',
     wallet_address: '1234567890abc',
+    wallet_provider: `tronlink`,
     verified_at: '2022-10-12',
   },
   {
-    name: 'PraiseInc',
-    contact_person: 'Udeh Praise',
-    contact_email: 'test2@gmail.com',
-    contact_phone: '09028950691',
-    wallet_address: '0987654321abc',
-    wallet_provider: 'trustwallet',
+    name: 'ChainBuilder Bottling Co.',
+    contact_person: 'ChainBuilder PO',
+    contact_email: 'habibidev@proton.me',
+    contact_phone: '+23055053879',
+    wallet_address: 'abc1234567890abc',
+    wallet_provider: `tronlink`,
     verified_at: '2022-10-12',
   },
 ];

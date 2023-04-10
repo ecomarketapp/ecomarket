@@ -33,7 +33,8 @@ module.exports = (mongoose) => {
         required: true
       },
       total_amount: {
-        type: Number
+        type: Number,
+        required: true
       },
       request_expires_at: {
         type: Date,

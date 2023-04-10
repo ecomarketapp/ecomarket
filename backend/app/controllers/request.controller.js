@@ -16,53 +16,57 @@ module.exports = {
       description,
       category,
       subcategory,
+      expires_at,
+      unit,
       quantity_required,
       amount_per_unit,
-      collection_center,
+      collection_center: c_center_id,
       company: companyId,
-      expires_at,
-      location,
-      escrow_payment,
-      deliveries,
     } = req.body;
     try {
       /**
        * TODO: generate title
-       * todo: get location - from collection center
+       * verify - scrap category and subcategory
        */
-
-      const expiry_date = dayjs(expires_at).add(1, 'd').toJSON();
+      const collection_center = await CollectionCenter.findById(c_center_id)
+      .populate({ path: `location`, model: Location })
+      .lean().exec();
+      if (!collection_center || !collection_center.location) {
+        return res.status(404).json({
+          status: false,
+          message: `Collection center / collection center location not found.`,
+        });
+      }
       // verify company
-      let company_find = Company.findById(companyId);
+      let company_find = await Company.findById(companyId);
       if (!company_find) {
         return res.status(404).json({
           status: false,
           message: `Company not found.`,
         });
       }
-      // todo: verify - collection center, scrap category and subcategory
+      const expiry_date = dayjs(expires_at).add(1, 'd').toJSON();
       // Create a request
+      const total_amount = quantity_required * amount_per_unit;
       let request = new Request({
         title,
         description,
         scrap_category: category,
         scrap_subcategory: subcategory,
+        request_expires_at: expiry_date,
+        unit,
         quantity_required,
         amount_per_unit,
-        collection_center,
-        company,
-        request_expires_at: expiry_date,
-        location,
+        total_amount,
+        collection_center: c_center_id,
+        location: collection_center.location._id,
+        companyId,
       });
       // Save request in the database
-      request = await request.save().populate({
-        path: 'company'
-      }).populate({
-        path: 'category'
-      }).populate({
-        path: 'subcategory'
-      });
-
+      request = await request.save()
+      .populate({ path: 'company', model: Company, })
+      .populate({ path: 'category', model: Category, })
+      .populate({ path: 'subcategory', model: Category, });
       return res.send({ status: true, data: request });
     } catch (error) {
       return res.status(500).send({
@@ -236,6 +240,7 @@ module.exports = {
     }
   },
   getOneRequest: async (req, res) => {
+    const { id: requestId } = req.params;
     /**
      * TODO: query TheGraph to get on-chain data
      * TODO: calculate total % provided (query deliveries collection)
@@ -244,9 +249,8 @@ module.exports = {
      *      ? use dayjs library
      * ? filter properties from the model file or here
      */
-    // const { requestId } = req.params;
     try {
-      const request = await Request.findById(req.params.id)
+      const request = await Request.findById(requestId)
         .populate({ path: 'location', model: Location })
         .populate({ path: 'company', model: Company })
         .populate({ path: 'scrap_category', model: Category })
@@ -256,9 +260,14 @@ module.exports = {
           model: Category,
           populate: { path: 'children', model: Category },
         });
-      res.send(request);
+        if (request.request_expires_at > new Date()) {
+          request.expired = true;
+        } else {
+          request.expired = false;
+        }
+      return res.send({ status: true, request });
     } catch (error) {
-      res.status(500).send({ message: `Error retrieving request ` });
+      return res.status(500).send({ message: `Error retrieving request details` });
     }
   },
   updateRequest: async (req, res) => {},
