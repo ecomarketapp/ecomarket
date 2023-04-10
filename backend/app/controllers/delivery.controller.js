@@ -236,7 +236,7 @@ module.exports = {
         });
       }
       /* we found delivery, so now, we can do claim */
-      delivery.delivery_status = 'CLAIMED';
+      delivery.delivery_status = 'REWARD_CLAIMED';
       delivery.claimed_at = new Date();
       delivery = await delivery.save();
       return res.send({ status: true, data: delivery });
@@ -259,9 +259,26 @@ module.exports = {
           message: `Could not find request of ID ${requestId}`,
         });
       }
-      const deliveries = await Delivery.find({ request: requestId }).populate({
-        path: 'collector',
-        model: Collector,
+      let deliveries = {};
+      // all deliveries
+      deliveries.all = await Delivery.find({ request: requestId }).populate({
+        path: 'collector'
+      });
+      // pending approval
+      deliveries.pending_approval = await Delivery.find({ request: requestId, delivery_status: 'AWAITING_APPROVAL' }).populate({
+        path: 'collector'
+      });
+      // approved & otherwise
+      deliveries.approved = await Delivery.find({ request: requestId, delivery_status: { $ne: ['AWAITING_APPROVAL'] } }).populate({
+        path: 'collector'
+      });
+      // reward claimed
+      deliveries.claimed = await Delivery.find({ request: requestId, delivery_status: 'REWARD_CLAIMED' }).populate({
+        path: 'collector'
+      });
+      // disputed
+      deliveries.disputed = await Delivery.find({ request: requestId, delivery_status: 'DISPUTED' }).populate({
+        path: 'collector'
       });
       return res.json({ success: true, data: deliveries });
     } catch (error) {
