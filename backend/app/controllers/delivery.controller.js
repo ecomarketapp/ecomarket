@@ -84,7 +84,9 @@ module.exports = {
         collector: collectorId,
         request: requestId
       });
-      delivery = await delivery.save();
+      delivery = await delivery.save().populate({
+        path: 'collector'
+      });
       delivery.can_claim = false;
       return res.send({ status: true, data: delivery });
     } catch (error) {
@@ -119,6 +121,8 @@ module.exports = {
         approver_wallet_address
       }, {
         new: true
+      }).populate({
+        path: 'collector'
       }).exec();
       if (!delivery) {
         return res.status(404).json({
@@ -176,7 +180,9 @@ module.exports = {
         delivery.delivery_proof = delivery_proof;
         delivery.delivery_status = 'DELIVERED';
         delivery.delivered_at = new Date();
-        delivery = await delivery.save();
+        delivery = await delivery.save().populate({
+          path: 'collector'
+        });
         delivery.can_claim = false;
         return res.send({ status: true, data: delivery });
       } else {
@@ -238,7 +244,9 @@ module.exports = {
       /* we found delivery, so now, we can do claim */
       delivery.delivery_status = 'REWARD_CLAIMED';
       delivery.claimed_at = new Date();
-      delivery = await delivery.save();
+      delivery = await delivery.save().populate({
+        path: 'collector'
+      });
       return res.send({ status: true, data: delivery });
     } catch (error) {
       return res.status(500).json({
@@ -295,7 +303,9 @@ module.exports = {
     try {
       // first, check expiry, just to be safe
       await this.checkExpiry(deliveryId);
-      const delivery = await Delivery.findById(deliveryId).exec();
+      const delivery = await Delivery.findById(deliveryId).populate({
+        path: 'collector'
+      }).exec();
       if (!delivery) {
         return res.status(404).json({
           status: false,
