@@ -10,10 +10,10 @@ module.exports = withPWA({
     skipWaiting: true,
     disable: process.env.NODE_ENV === "development",
   },
-  env: {
-    Greeting: "Hello World",
+  // env: {
+    // Greeting: "Hello World",
     // BACKEND_BASE_URL: process.env.BACKEND_BASE_URL,
-  },
+  // },
   webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
