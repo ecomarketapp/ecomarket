@@ -1,6 +1,7 @@
 const db = require('../models');
 
 const Requests = db.requests;
+const Delivery = db.deliveries;
 const Company = db.companies;
 const CollectionCenter = db.collectioncenter;
 const Location = db.locations;
@@ -19,11 +20,9 @@ module.exports = {
     }
   },
   getOneCompany: async (req, res) => {
-    const { id } = req.params;
-
+    const { id: companyId } = req.params;
     try {
-      console.log(id);
-      const company = await Company.findOne({ id });
+      const company = await Company.findById(companyId);
       return res.json({ status: true, data: company });
     } catch (error) {
       return res.status(500).send({
@@ -33,10 +32,9 @@ module.exports = {
     }
   },
   companyRequests: async (req, res) => {
-    // const { requestId } = req.params.id;
-    // console.log(req.params.id)
+    const { id: companyId } = req.params;
     try {
-      const requests = await Requests.find({ company: req.params.id })
+      const requests = await Requests.find({ company: companyId })
         .populate({ path: 'location', model: Location })
         .populate({ path: 'company', model: Company })
         .populate({ path: 'scrap_category', model: Category })
@@ -51,11 +49,11 @@ module.exports = {
       res.status(500).send({ message: `Error retrieving company requests` });
     }
   },
-  CompanyCollectionCenters: async (req, res) => {
-    // const id = req.params.id
+  companyCollectionCenters: async (req, res) => {
+    const { id: companyId } = req.params
     try {
       const collection_centers = await CollectionCenter.find({
-        company: req.params.id,
+        company: companyId,
       })
         .populate({ path: 'location', model: Location })
         .populate({ path: 'company', model: Company });
@@ -67,17 +65,31 @@ module.exports = {
       });
     }
   },
-  // companyRequests: (req, res) =>{
-  //   const id = req.params.id;
-  //   Requests.find({ company: id })
-  //   .then(data => {
-  //     res.send(data);
-  //   })
-  //   .catch(err => {
-  //     res.status(500).send({
-  //       message:
-  //         err.message || "Some error occurred while retrieving tutorials."
-  //     });
-  //   });
-  // }
+  companyAmountLocked: async (req, res) => {
+    const { id: companyId } = req.params;
+    try {
+      const requests = await Request.find({
+        company: companyId,
+        request_expires_at: { $lt: new Date() } // not yet expired
+      }).lean().exec();
+      const request_amounts = [...new Set(requests.map(request => request.total_amount))];
+
+      const deliveries = await Delivery.find({
+        request: { $nin: [...new Set(requests.map(request => request._id))] },
+        delivery_status: 'REWARD_CLAIMED'
+      });
+      const delivered_amounts = [...new Set(deliveries.map(delivery => delivery.delivery_amount))];
+      
+      const amount_locked = request_amounts.reduce((a, b) => a + b) - delivered_amounts.reduce((a, b) => a + b);
+      return res.json({
+        status: true,
+        amount_locked
+      })
+    } catch (error) {
+      return res.status(500).send({
+        message:
+          error.message || 'Some error occurred while computing total amount locked.',
+      });
+    }
+  }
 };

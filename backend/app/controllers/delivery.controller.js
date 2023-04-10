@@ -8,7 +8,7 @@ const Collector = db.collectors;
 
 module.exports = {
   // check expiry
-  checkExpiry: async (deliveryId) => {
+  checkDeliveryExpiry: async (deliveryId) => {
     /* use this expiry check in getDelivery method */
     try {
       // make sure the delivery exists, and if it doesn't, throw an error
@@ -25,6 +25,25 @@ module.exports = {
           delivery = await delivery.save();
         }
         return time_has_elapsed;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      throw new Error(error.message || `There was an error checking this delivery's Expiry status`)
+    }
+  },
+
+  checkRequestExpiry: async (requestId) => {
+    /* use this request expiry check in create, approve, complete, and claim endpoints */
+    try {
+      // make sure the request exists, and if it doesn't, throw an error
+      let request = await Request.findById(requestId).lean().exec();
+      if (!request) {
+        throw new Error(`Could not find request of ID ${requestId}`);
+      }
+      // if we find request, we'll check that its not yet expired
+      if (request.request_expires_at > new Date()) {
+        return true
       } else {
         return false;
       }
@@ -78,6 +97,14 @@ module.exports = {
   createDelivery: async (req, res) => {
     const { collectorId, requestId } = req.body;
     try {
+      // verify request expiry
+      const request_has_expired = await this.checkRequestExpiry(requestId);
+      if (request_has_expired) {
+        return res.status(403).json({
+          status: false,
+          message: `Delivery cannot be created, as the request has expired.`,
+        });
+      }
       let delivery = new Delivery({
         delivery_status: 'AWAITING_APPROVAL',
         started_at: new Date(),
@@ -100,8 +127,16 @@ module.exports = {
   },
   approveDelivery: async (req, res) => {
     const { id: deliveryId } = req.params;
-    const { approver_signature, approver_wallet_address } = req.body;
+    const { approver_signature, approver_wallet_address, requestId } = req.body;
     try {
+      // verify request expiry
+      const request_has_expired = await this.checkRequestExpiry(requestId);
+      if (request_has_expired) {
+        return res.status(403).json({
+          status: false,
+          message: `Delivery cannot be approved, as the request has expired.`,
+        });
+      }
       // make sure the logged-in user doing this approval is the company that owns the request
       const valid_company = await this.checkCompany(deliveryId, approver_wallet_address);
       if (!valid_company) {
@@ -143,10 +178,18 @@ module.exports = {
   },
   completeDelivery: async (req, res) => {
     const { id: deliveryId } = req.params;
-    const { delivery_size, delivery_amount, delivery_proof, collector_wallet_address } = req.body;
+    const { delivery_size, delivery_amount, delivery_proof, collector_wallet_address, requestId } = req.body;
     try {
-      // first, check expiry, just to be safe
-      const expired = await this.checkExpiry(deliveryId);
+      // verify request expiry
+      const request_has_expired = await this.checkRequestExpiry(requestId);
+      if (request_has_expired) {
+        return res.status(403).json({
+          status: false,
+          message: `Delivery cannot be completed, as the request has expired.`,
+        });
+      }
+      // check delivery expiry, just to be safe
+      const expired = await this.checkDeliveryExpiry(deliveryId);
       if (expired) {
         return res.status(403).json({
           status: false,
@@ -202,10 +245,18 @@ module.exports = {
   },
   claimRewardForDelivery: async (req, res) => {
     const { id: deliveryId } = req.params;
-    const { collector_wallet_address } = req.body;
+    const { collector_wallet_address, requestId } = req.body;
     try {
-      /* first, check expiry, just to be safe */
-      const expired = await this.checkExpiry(deliveryId);
+      // verify request expiry
+      const request_has_expired = await this.checkRequestExpiry(requestId);
+      if (request_has_expired) {
+        return res.status(403).json({
+          status: false,
+          message: `Delivery reward cannot be claimed, as the request has expired.`,
+        });
+      }
+      /* check delivery expiry, just to be safe */
+      const expired = await this.checkDeliveryExpiry(deliveryId);
       if (expired) {
         return res.status(403).json({
           status: false,
@@ -302,7 +353,7 @@ module.exports = {
     const { id: deliveryId } = req.params;
     try {
       // first, check expiry, just to be safe
-      await this.checkExpiry(deliveryId);
+      await this.checkDeliveryExpiry(deliveryId);
       const delivery = await Delivery.findById(deliveryId).populate({
         path: 'collector'
       }).exec();

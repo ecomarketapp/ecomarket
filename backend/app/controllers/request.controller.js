@@ -13,39 +13,34 @@ module.exports = {
   create: async (req, res) => {
     const {
       title,
-
       description,
       category,
       subcategory,
       quantity_required,
       amount_per_unit,
       collection_center,
-      company,
+      company: companyId,
       expires_at,
       location,
       escrow_payment,
       deliveries,
     } = req.body;
-
-    // const companyid = req.params.id
     try {
       /**
        * TODO: generate title
-       * todo: generate expiry date (and send in result)
        * todo: get location - from collection center
-       * todo: get company
        */
-      const EXPIRY_PERIOD = 30;
-      console.log(expires_at);
 
       const expiry_date = dayjs(expires_at).add(1, 'd').toJSON();
-
-      // return console.log(expiry_date);
-      // const title = ``;
-      // let company_find = Company.findById(companyid)
-      /**
-       * todo: verify - collection center, scrap category and subcategory
-       */
+      // verify company
+      let company_find = Company.findById(companyId);
+      if (!company_find) {
+        return res.status(404).json({
+          status: false,
+          message: `Company not found.`,
+        });
+      }
+      // todo: verify - collection center, scrap category and subcategory
       // Create a request
       let request = new Request({
         title,
@@ -56,18 +51,17 @@ module.exports = {
         amount_per_unit,
         collection_center,
         company,
-        request_expires_at:expiry_date,
+        request_expires_at: expiry_date,
         location,
       });
-
-      // return console.log(request.save(request));
-
-      // return res.send({data: request });
-
-      console.log(request, 'before');
       // Save request in the database
-      request = await request.save(request);
-      // return console.log(request, "after");
+      request = await request.save().populate({
+        path: 'company'
+      }).populate({
+        path: 'category'
+      }).populate({
+        path: 'subcategory'
+      });
 
       return res.send({ status: true, data: request });
     } catch (error) {
@@ -89,18 +83,14 @@ module.exports = {
         // Make the Default value one
         page = 1;
       }
-
       if (!size) {
         size = 10;
       }
-
       const limit = parseInt(size, 10);
 
       
       // if filter query exists, run filter by param (maybe location)
       if (filter === 'location' && location) {
-        // return console.log('yup')
-        // confirm that location exists, if not - pass error
         if (location === 'all') {
           requests = await Request.find()
             .sort({ createdAt: -1 })
@@ -116,15 +106,15 @@ module.exports = {
             })
             .exec();
         } else {
+          // confirm that location exists, if not - pass error
           const foundlocation = await Location.findOne({
             name: location,
           }).exec();
           if (!foundlocation) {
-            return res.status(500).send({
+            return res.status(404).send({
               message: `Location not found.`,
             });
           }
-
           /* location exists */
           requests = await Request.find({ location: foundlocation._id })
             .sort({ createdAt: -1 })
@@ -186,12 +176,12 @@ module.exports = {
       }
       // no requests found
       if (!requests) {
-        return res.status(404).send({
+        return res.status(404).json({
+          status: false,
           message: `No requests found for your query.`,
         });
       }
       if (location) {
-        // return console.log('yup')
         // confirm that location exists, if not - pass error
         if (location === 'all') {
           requests = await Request.find()
@@ -273,32 +263,6 @@ module.exports = {
   },
   updateRequest: async (req, res) => {},
   deleteRequest: async (req, res) => {},
-
-  // Delete all Tutorials from the database.
-  deleteAll: (req, res) => {
-    Request.deleteMany({})
-      .then((data) => {
-        res.send({
-          message: `${data.deletedCount} Requests were deleted successfully!`,
-        });
-      })
-      .catch((err) => {
-        res.status(500).send({
-          message:
-            err.message || 'Some error occurred while removing all tutorials.',
-        });
-      });
-  },
-
-  getCompanyRequests: async (req, res) => {
-    const { requestId } = req.params;
-    try {
-      const request = await Request.find({ company: requestId });
-      res.send(request);
-    } catch (error) {
-      res.status(500).send({
-        message: `Error retrieving company requests with id=${requestId}`,
-      });
-    }
-  },
+  /* expire request, check all amounts that are locked in escrow and are not fulfilled, and release it */
+  expireRequest: async (req, res) => {}
 };
