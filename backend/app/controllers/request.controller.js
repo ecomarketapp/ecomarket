@@ -236,6 +236,7 @@ module.exports = {
     }
   },
   getOneRequest: async (req, res) => {
+    const { id: requestId } = req.params;
     /**
      * TODO: query TheGraph to get on-chain data
      * TODO: calculate total % provided (query deliveries collection)
@@ -244,9 +245,8 @@ module.exports = {
      *      ? use dayjs library
      * ? filter properties from the model file or here
      */
-    // const { requestId } = req.params;
     try {
-      const request = await Request.findById(req.params.id)
+      const request = await Request.findById(requestId)
         .populate({ path: 'location', model: Location })
         .populate({ path: 'company', model: Company })
         .populate({ path: 'scrap_category', model: Category })
@@ -256,9 +256,14 @@ module.exports = {
           model: Category,
           populate: { path: 'children', model: Category },
         });
-      res.send(request);
+        if (request.request_expires_at > new Date()) {
+          request.expired = true;
+        } else {
+          request.expired = false;
+        }
+      return res.send({ status: true, request });
     } catch (error) {
-      res.status(500).send({ message: `Error retrieving request ` });
+      return res.status(500).send({ message: `Error retrieving request details` });
     }
   },
   updateRequest: async (req, res) => {},
