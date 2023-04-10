@@ -5,14 +5,14 @@ module.exports = (mongoose) => {
     {
       name: {
         type: String,
-        required: [true, 'Company name is required.'],
+        // required: [true, 'Company name is required.'],
       },
       contact_person: {
         tpe: String
       },
       contact_email: {
         type: String,
-        required: [true, 'Company email is required.'],
+        // required: [true, 'Company email is required.'],
         validate: [isEmail, 'Provided email is invalid.']
       },
       contact_phone: {
@@ -21,7 +21,7 @@ module.exports = (mongoose) => {
       wallet_address: {
         type: String,
         required: [true, 'Wallet Address is required for company'],
-        unique: [true, 'Wallet address is unique for each copmpany']
+        unique: [true, 'Wallet address is unique for each company']
       },
       wallet_provider: {
         type: String,
