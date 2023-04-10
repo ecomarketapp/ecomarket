@@ -6503,7 +6503,7 @@
   "resolved" "https://registry.npmjs.org/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz"
   "version" "2.3.0"
 
-"validator@^13.7.0":
+"validator@^13.9.0":
   "integrity" "sha512-B+dGG8U3fdtM0/aNK4/X8CXq/EcxU2WPrPEkJGslb47qyHsxmbggTWK0yEA4qnYVNF+nxNlN88o14hIcPmSIEA=="
   "resolved" "https://registry.npmjs.org/validator/-/validator-13.9.0.tgz"
   "version" "13.9.0"

@@ -7,18 +7,31 @@ module.exports = (mongoose) => {
         type: String,
         required: [true, 'Company name is required.'],
       },
-      contact_person: String,
-      contact_email: String,
-      contact_phone: String,
+      contact_person: {
+        tpe: String
+      },
+      contact_email: {
+        type: String,
+        required: [true, 'Company email is required.'],
+        validate: [isEmail, 'Provided email is invalid.']
+      },
+      contact_phone: {
+        type: String
+      },
       wallet_address: {
         type: String,
-        required: [true, 'Wallet Address is required for collector'],
+        required: [true, 'Wallet Address is required for company'],
+        unique: [true, 'Wallet address is unique for each copmpany']
       },
       wallet_provider: {
         type: String,
-        enum: ['metamask', 'trustwallet'],
-        default: 'metamask',
-        required: [true, 'Wallet Provider is required for collector'],
+        enum: ['tronlink', 'metamask', 'trustwallet'],
+        default: 'tronlink',
+        required: [true, 'Wallet Provider is required for each company'],
+      },
+      verified_status: {
+        type: Boolean,
+        default: true
       },
       verified_at: Date,
     },
