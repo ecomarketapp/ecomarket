@@ -7,7 +7,7 @@ import axios from 'axios';
 import Loading from '../../loading';
 import LoadingState from '../../../components/LoadingState';
 import backend from '../../../components/services/backend';
-import { dateExpire } from '../../../utils/date';
+import { dateFormat } from '../../../utils/date';
 import { formatLocation } from '../../../utils/other';
 
 const Offers = () => {
@@ -20,7 +20,7 @@ const Offers = () => {
   // const fetchRequests = async () => {
   //   try {
   //     const res = await axios.get(
-  //       `http://127.0.0.1:8080/api/companies/${id}/requests`
+  //       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/companies/${id}/requests`
   //     );
   //     return res.json();
   //     // setRequests(res.data.data)
@@ -79,7 +79,7 @@ const Offers = () => {
 
   //     const getCategories = async ()=>{
   //         try{
-  //             const res = await axios.get( "http://127.0.0.1:8080/api/categories", { cancelToken: source.token } );
+  //             const res = await axios.get( `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/categories`, { cancelToken: source.token } );
   //             setCategories(res.data.data)
   //             // console.log(res)
   //         }catch(err){
@@ -166,7 +166,12 @@ const Offers = () => {
                                         </p>
 
                                         <p className="text-xs font-normal">
-                                          Expires: {request.request_expires_at ? dateExpire(request.request_expires_at) : 'Not entered'}
+                                          Expires:{' '}
+                                          {request.request_expires_at
+                                            ? dateFormat(
+                                                request.request_expires_at
+                                              )
+                                            : 'Not entered'}
                                         </p>
                                       </div>
                                       <div className="flex gap-1 flex-row justify-between items-center w-full">
@@ -179,8 +184,16 @@ const Offers = () => {
                                       </div>
                                       <div className="flex gap-1 flex-row justify-between items-start w-full mt-1">
                                         {/* <p className="text-sm"> {request.location?.name} {request.location?.state}</p> */}
-                                        <p className="text-sm"> {formatLocation((request.location?.name), (request.location?.state) )}</p>
-                                        <Link href={`/company/offers/${request.id}`}>
+                                        <p className="text-sm">
+                                          {' '}
+                                          {formatLocation(
+                                            request.location?.name,
+                                            request.location?.state
+                                          )}
+                                        </p>
+                                        <Link
+                                          href={`/company/offers/${request.id}`}
+                                        >
                                           <a className="text-white text-xs px-4 py-2 bg-[#DD7D37] rounded-md hover:bg-[#DD7D37]/90">
                                             view offer
                                           </a>

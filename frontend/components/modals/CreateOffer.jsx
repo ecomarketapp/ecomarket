@@ -18,6 +18,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import axios from 'axios';
 import Link from 'next/link';
 import backend from '../services/backend';
+import { getTotal } from '../../utils/other';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -152,7 +153,6 @@ function CreateOfferForm({
   //   }
   // }
 
-
   const formInitialState = {
     title: null,
     description: null,
@@ -255,9 +255,12 @@ function CreateOfferForm({
 
     const getCategories = async () => {
       try {
-        const res = await axios.get('http://127.0.0.1:8080/api/categories', {
-          cancelToken: source.token,
-        });
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/categories`,
+          {
+            cancelToken: source.token,
+          }
+        );
         setCategories(res.data.data);
         // console.log(res)
       } catch (err) {
@@ -281,7 +284,7 @@ function CreateOfferForm({
     const getCenters = async () => {
       try {
         const res = await axios.get(
-          `http://127.0.0.1:8080/api/companies/${company_id}/collectioncenters`,
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/companies/${company_id}/collectioncenters`,
           // 'http://127.0.0.1:8080/api/collectioncenters',
           { cancelToken: source.token }
         );
@@ -385,7 +388,7 @@ function CreateOfferForm({
             </span>
           </button>
         </div>
-        <form className="" onSubmit={submitForm}>
+        <form className="" onSubmit={submitForm} autoComplete="off">
           <div>
             <div className="mb-6">
               <div className="flex justify-between items-center mb-2">
@@ -792,7 +795,7 @@ function CreateOfferForm({
               </div>
               <div className="flex items-center justify-between">
                 <p className="text-sm text-gray-500">
-                  Total amount = 0
+                  Total amount = {form?.quantity_required && form?.amount_per_unit ? getTotal(form?.quantity_required, form?.amount_per_unit) : '0'} TRX
                   {/* QUANTITY REQUIRED MULIPLIED BY AMOUNT in trx */}
                 </p>
                 <p className="text-gray-700">

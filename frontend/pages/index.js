@@ -7,9 +7,11 @@ import Link from 'next/link';
 // import 'react-tabs/style/react-tabs.css';
 
 const Home = () => {
+  console.log(process.env.GREETING);
+
   const fetchRequests = async ({ pageParam = 1 }) => {
     const res = await fetch(
-      `http://127.0.0.1:8080/api/requests?page=${pageParam}&size=9`
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests?page=${pageParam}&size=9`
     );
     return res.json();
   };
@@ -104,8 +106,8 @@ const Home = () => {
                             <div className="text-center">
                               <h4>Create Account</h4>
                               <p className="text-sm">
-                                Create an EcoMarket account with TronLink and set
-                                up your company profile.
+                                Create an EcoMarket account with TronLink and
+                                set up your company profile.
                               </p>
                             </div>
                           </div>
@@ -122,7 +124,8 @@ const Home = () => {
                               <h4>Submit Request</h4>
                               <p className="text-sm">
                                 Submit Requests for recycled and scrap plastics,
-                                specifying the type, weight and dropoff location.
+                                specifying the type, weight and dropoff
+                                location.
                               </p>
                             </div>
                           </div>
@@ -162,7 +165,7 @@ const Home = () => {
                           </div>
                         </div>
                         <div className="flex items-center justify-center mt-8 pt-8">
-                          <Link href="/connect-wallet">
+                          <Link href="/connect-wallet/company">
                             <a className="text-white bg-[#DD7D37] px-12 py-3 text-sm border border-[#DD7D37] rounded-full">
                               Get Started as a Company
                             </a>
@@ -185,7 +188,8 @@ const Home = () => {
                               <h4>Join EcoMarket</h4>
                               <p className="text-sm">
                                 Sign up on EcoMarket using your email address,
-                                and get assigned a non-custodial wallet address automatically.
+                                and get assigned a non-custodial wallet address
+                                automatically.
                               </p>
                             </div>
                           </div>
@@ -243,7 +247,7 @@ const Home = () => {
                           </div>
                         </div>
                         <div className="flex items-center justify-center mt-8 pt-8">
-                          <Link href="/signup">
+                          <Link href="/connect-wallet/collector">
                             <a className="text-white bg-[#DD7D37] px-12 py-3 text-sm border border-[#DD7D37] rounded-full">
                               Get Started as a Collector
                             </a>
@@ -582,12 +586,11 @@ const Home = () => {
                 </div>
 
                 <div className="flex items-center justify-center mt-8">
-                  <a
-                    href=""
-                    className="text-[#DD7D37] px-12 py-2 text-sm border border-[#DD7D37] rounded-full"
-                  >
-                    View all Requests
-                  </a>
+                  <Link href="">
+                    <a className="text-[#DD7D37] px-12 py-2 text-sm border border-[#DD7D37] rounded-full">
+                      View all Requests
+                    </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -638,14 +641,14 @@ const Home = () => {
 
                 <div className="flex items-center justify-end">
                   <div className="features-img">
-                    <img src='/images/ecomarket-marketplace.jpg'/>
+                    <img src="/images/ecomarket-marketplace.jpg" />
                   </div>
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 py-14 gap-10">
                 <div className="flex items-center justify-start">
                   <div className="features-img">
-                    <img src='/images/carbon-credit-nft.jpeg'/>
+                    <img src="/images/carbon-credit-nft.jpeg" />
                   </div>
                 </div>
                 <div>
@@ -655,8 +658,8 @@ const Home = () => {
                     </h3>
                     <p className="mb-3">
                       For brands who are looking for ways to make impact and
-                      meet their environmental pledges, EcoMarket's EcoCredit NFT
-                      provides a publicly verifiable way to showcase your
+                      meet their environmental pledges, EcoMarket's EcoCredit
+                      NFT provides a publicly verifiable way to showcase your
                       organization's commitment to sustainability.
                     </p>
                     <p className="mb-3">
@@ -670,8 +673,16 @@ const Home = () => {
                       proves the plastic has been recovered somewhere in the
                       world.
                     </p>
-                    <p className="mb-3"></p>
-                    <p className="mb-3">Get Started</p>
+                    <div className="mt-5">
+                      <Link href="#/">
+                        <a
+                          className="text-[#DD7D37] px-12 py-2 text-sm border border-[#DD7D37] rounded-full "
+                          aria-disabled
+                        >
+                          Get Started
+                        </a>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -695,13 +706,22 @@ const Home = () => {
                       completely trust and verify the source and validity of the
                       recycled plastics they receive.
                     </p>
-                    <p className="">Coming Soon button</p>
+                    <div className="mt-5">
+                      <Link href="#/">
+                        <a
+                          className="text-[#DD7D37] px-12 py-2 text-sm border border-[#DD7D37] rounded-full "
+                          aria-disabled
+                        >
+                          Coming Soon..
+                        </a>
+                      </Link>
+                    </div>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-end">
                   <div className="features-img">
-                  <img src='/images/ecomarket-tracking.jpg'/>
+                    <img src="/images/ecomarket-tracking.jpg" />
                   </div>
                 </div>
               </div>
@@ -739,7 +759,16 @@ const Home = () => {
                       </a>
                       .
                     </p>
-                    <p className="">Coming Soon button</p>
+                    <div className="mt-5">
+                      <Link href="#/">
+                        <a
+                          className="text-[#DD7D37] px-12 py-2 text-sm border border-[#DD7D37] rounded-full "
+                          aria-disabled
+                        >
+                          Coming Soon..
+                        </a>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -764,15 +793,17 @@ const Home = () => {
                   </div>
                   <div className="bg-white col-start-6 col-end-10 p-4 rounded-xl my-4 mr-auto shadow-md">
                     <p className="leading-tight text-justify">
-                    Integrate Web3Auth for easier sign-up for collectors, most of whom may not be crypto-savvy.
+                      Integrate Web3Auth for easier sign-up for collectors, most
+                      of whom may not be crypto-savvy.
                     </p>
                   </div>
                 </div>
                 <div className="flex flex-row-reverse md:contents">
                   <div className="bg-white col-start-1 col-end-5 p-4 rounded-xl my-4 ml-auto shadow-md">
                     <p className="leading-tight text-justify">
-                    NFTs — companies can earn EcoCredit, a digital collectible that showcases the company’s commitment to eco-friendly initiatives.
-
+                      NFTs — companies can earn EcoCredit, a digital collectible
+                      that showcases the company’s commitment to eco-friendly
+                      initiatives.
                     </p>
                   </div>
                   <div className="col-start-5 col-end-6 md:mx-auto relative mr-10">
@@ -792,7 +823,8 @@ const Home = () => {
                   </div>
                   <div className="bg-white col-start-6 col-end-10 p-4 rounded-xl my-4 mr-auto shadow-md">
                     <p className="leading-tight text-justify">
-                      Enable offer creation & deliveries for other scrap types (metals, batteries, etc)
+                      Enable offer creation & deliveries for other scrap types
+                      (metals, batteries, etc)
                     </p>
                   </div>
                 </div>
@@ -800,7 +832,8 @@ const Home = () => {
                 <div className="flex flex-row-reverse md:contents">
                   <div className="bg-white col-start-1 col-end-5 p-4 rounded-xl my-4 ml-auto shadow-md">
                     <p className="leading-tight text-justify">
-                    Conversion of TRX to stablecoins for easier off-ramping for customers.
+                      Conversion of TRX to stablecoins for easier off-ramping
+                      for customers.
                     </p>
                   </div>
                   <div className="col-start-5 col-end-6 md:mx-auto relative mr-10">
@@ -848,7 +881,8 @@ const Home = () => {
                   </div>
                   <div className="bg-white col-start-6 col-end-10 p-4 rounded-xl my-4 mr-auto shadow-md">
                     <p className="leading-tight text-justify">
-                      Supply-driven Marketplace (where a user can upload plastics, or other scrap items available for sale)
+                      Supply-driven Marketplace (where a user can upload
+                      plastics, or other scrap items available for sale)
                     </p>
                   </div>
                 </div>
@@ -876,7 +910,8 @@ const Home = () => {
                   </div>
                   <div className="bg-white col-start-6 col-end-10 p-4 rounded-xl my-4 mr-auto shadow-md">
                     <p className="leading-tight text-justify">
-                      One-on-One Matching (match companies with recyclers directly)
+                      One-on-One Matching (match companies with recyclers
+                      directly)
                     </p>
                   </div>
                 </div>
@@ -884,7 +919,8 @@ const Home = () => {
                 <div className="flex flex-row-reverse md:contents">
                   <div className="bg-white col-start-1 col-end-5 p-4 rounded-xl my-4 ml-auto shadow-md">
                     <p className="leading-tight text-justify">
-                      Outreach & Education Initiatives (in schools, marketplaces, and universities)
+                      Outreach & Education Initiatives (in schools,
+                      marketplaces, and universities)
                     </p>
                   </div>
                   <div className="col-start-5 col-end-6 md:mx-auto relative mr-10">

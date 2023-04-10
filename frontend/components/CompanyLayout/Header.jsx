@@ -1,15 +1,34 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
-import DropdownIcon from '../Icons/DropdownIcon';
-import NotificationIcon from '../Icons/NotificationIcon';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import SettingsIcon from '../Icons/SettingsIcon';
 import ExpandMoreHorizontal from '../Icons/ExpandMoreHorizontal';
+import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
+import {
+  WalletActionButton,
+  WalletConnectButton,
+  WalletDisconnectButton,
+  WalletModalProvider,
+  WalletSelectButton,
+} from '@tronweb3/tronwallet-adapter-react-ui';
+
+const truncateAddress = (address) => {
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+};
 
 const Header = () => {
   const [showMobile, setShowMobile] = useState();
   const [showUserMenu, setShowUserMenu] = useState();
   const router = useRouter();
+  const {
+    wallet,
+    address,
+    connected,
+    select,
+    connect,
+    disconnect,
+    signMessage,
+    signTransaction,
+  } = useWallet();
 
   const ToggleMobileMenu = () => {
     setShowMobile(!showMobile);
@@ -18,6 +37,7 @@ const Header = () => {
   const ToggleUserMenu = () => {
     setShowUserMenu(!showUserMenu);
   };
+
   return (
     <>
       <header className="bg-white shadow-header sticky top-0 z-10">
@@ -53,59 +73,82 @@ const Header = () => {
               </div>
             </div>
             <div className="w-full hidden  flex-grow lg:flex lg:items-center lg:w-auto">
-              <div className="text-sm lg:flex-grow">
-                <Link href="/company/dashboard">
-                  <a
-                    className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${
-                      router.asPath === '/company/dashboard' && 'bg-[#FEF0E6]'
-                    }`}
-                  >
-                    Dashboard
-                  </a>
-                </Link>
+              {connected && (
+                <div className="text-sm lg:flex-grow">
+                  <Link href="/company/dashboard">
+                    <a
+                      className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${
+                        router.asPath === '/company/dashboard' && 'bg-[#FEF0E6]'
+                      }`}
+                    >
+                      Dashboard
+                    </a>
+                  </Link>
 
-                <Link href="/company/offers">
-                  <a
-                    className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${
-                      (router.asPath === '/company/offers' ||
-                        router.pathname.startsWith('/company/offers')) &&
-                      'bg-[#FEF0E6]'
-                    }`}
-                  >
-                    Offers
-                  </a>
-                </Link>
-                <Link href="/company/dashboard">
-                  <a
-                    className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${
-                      router.asPath === '/transfer' && 'bg-[#FEF0E6]'
-                    }`}
-                  >
-                    Disputes
-                  </a>
-                </Link>
-                <Link href="/company/wallet">
-                  <a
-                    className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${
-                      router.asPath === '/wallet' && 'bg-[#FEF0E6]'
-                    }`}
-                  >
-                    Wallet
-                  </a>
-                </Link>
-              </div>
+                  <Link href="/company/offers">
+                    <a
+                      className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${
+                        (router.asPath === '/company/offers' ||
+                          router.pathname.startsWith('/company/offers')) &&
+                        'bg-[#FEF0E6]'
+                      }`}
+                    >
+                      Offers
+                    </a>
+                  </Link>
+                  <Link href="/company/dashboard">
+                    <a
+                      className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${
+                        router.asPath === '/transfer' && 'bg-[#FEF0E6]'
+                      }`}
+                    >
+                      Disputes
+                    </a>
+                  </Link>
+                  <Link href="/company/wallet">
+                    <a
+                      className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${
+                        router.asPath === '/wallet' && 'bg-[#FEF0E6]'
+                      }`}
+                    >
+                      Wallet
+                    </a>
+                  </Link>
+                </div>
+              )}
+
+              {!connected && <div className="text-sm lg:flex-grow"></div>}
               <div className="lg:flex lg:items-center lg:w-auto">
                 <div className="flex items-center justify-center relative gap-4 px-4 border-r border-r-border-border_cl">
                   <div className=" relative">
-                    <button
-                      className="flex items-center gap-2 bg-gray-100 py-3 px-5 rounded-full"
-                      onClick={ToggleUserMenu}
-                    >
-                      <div className="flex items-start justify-start flex-col">
-                        <span className="text-xs">0x346932...gq382nk</span>
-                      </div>
-                      <ExpandMoreHorizontal />
-                    </button>
+                    {connected && (
+                      <button
+                        className="flex items-center gap-2 bg-gray-100 py-3 px-5 rounded-full"
+                        onClick={ToggleUserMenu}
+                      >
+                        <div className="flex items-start justify-start flex-col">
+                          <span className="text-xs">
+                            {truncateAddress(address)}
+                          </span>
+                        </div>
+                        <ExpandMoreHorizontal />
+                      </button>
+                    )}
+
+                    {!connected && (
+                      <button className="flex items-center gap-2 bg-gray-100 py-3 px-5 rounded-full">
+                        <div className="flex items-start justify-start flex-col">
+                          <a
+                            href={`${window.location.origin}/connect-wallet/${
+                              window.location.pathname.split('/')[1]
+                            }`}
+                            className="text-xs"
+                          >
+                            Connect Wallet
+                          </a>
+                        </div>
+                      </button>
+                    )}
 
                     <div
                       className={`absolute user-menu ${
@@ -119,7 +162,13 @@ const Header = () => {
                           </a>
                         </Link>
 
-                        <button className="flex items-center py-2 px-4 text-sm justify-start bg-white border-0 w-full hover:bg-gray-100 ">
+                        <button
+                          onClick={() => {
+                            disconnect();
+                            window.location.reload();
+                          }}
+                          className="flex items-center py-2 px-4 text-sm justify-start bg-white border-0 w-full hover:bg-gray-100 "
+                        >
                           <span className="mr-3">
                             <svg
                               width="20"

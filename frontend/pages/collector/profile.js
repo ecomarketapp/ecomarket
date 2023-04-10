@@ -89,7 +89,7 @@ const profile = () => {
         const { name, email, phonenumber, wallet_address } = inputs;
 
         const res = await axios.post(
-          'http://127.0.0.1:8080/api/collectors/auth/register',
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/collectors/auth/register`,
           {
             name,
             email,
