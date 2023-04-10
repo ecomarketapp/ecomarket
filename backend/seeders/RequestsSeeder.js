@@ -1,6 +1,10 @@
 const db = require('../app/models');
 
 const Requests = db.requests;
+const Company = db.companies;
+const Category = db.categories;
+const CollectionCenter = db.collectioncenter;
+
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
@@ -14,17 +18,35 @@ db.mongoose
     process.exit();
   });
 
+// get one particular company
+const company = await Company.findOne({
+  name: 'OladimejiInc'
+}).lean().exec();
+
+// get random collection center, and get its location
+const collection_center = await CollectionCenter.findOne().populate({
+  path: `location`
+}).lean().exec();
+
+// get plastic category, and one of it's subcategories
+const sub_category = await Category.findOne({
+  name: 'PET'
+}).lean().exec();
+const parent_category = category.parent;
+
 const seedRequests = [
   {
-    title: 'Only 120kg of PET Bottles',
-    description: 'description of 120kg of PET Bottles',
-    scrap_category: '6428561159b04335f8d8e71e',
-    scrap_subcategory: '6428561159b04335f8d8e732',
+    title: '200kg of PET Bottles',
+    description: `We'd like 200kg of PET Bottles to be delivered at our delivery center in Nairobi. See request for more details!`,
+    scrap_category: sub_category._id,
+    scrap_subcategory: parent_category._id,
+    unit: 'kg',
     quantity_required: 200,
-    amount_per_unit: 700,
-    collection_center: '642dcfab6ac76c2e7a2633ff',
-    company: '642dcf9cda01b4cdf1749f41',
-    location: '642dcf8d8232f6c535dee4fd',
+    amount_per_unit: 1000,
+    total_amount: 200000,
+    collection_center: collection_center._id,
+    location: collection_center.location._id,
+    company: company._id,
   }
 ];
 

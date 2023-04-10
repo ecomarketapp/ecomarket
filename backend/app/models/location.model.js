@@ -11,7 +11,7 @@ module.exports = (mongoose) => {
       },
       country: {
         type: String,
-        default: 'Nigeria',
+        default: 'Uganda',
       },
     },
     { timestamps: true }

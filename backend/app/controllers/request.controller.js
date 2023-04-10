@@ -16,43 +16,51 @@ module.exports = {
       description,
       category,
       subcategory,
+      expires_at,
+      unit,
       quantity_required,
       amount_per_unit,
-      collection_center,
+      collection_center: c_center_id,
       company: companyId,
-      expires_at,
-      location,
-      escrow_payment,
-      deliveries,
     } = req.body;
     try {
       /**
        * TODO: generate title
-       * todo: get location - from collection center
+       * verify - scrap category and subcategory
        */
-
-      const expiry_date = dayjs(expires_at).add(1, 'd').toJSON();
+      const collection_center = await CollectionCenter.findById(c_center_id).populate({
+        path: `location`
+      }).lean().exec();
+      if (!collection_center || !collection_center.location) {
+        return res.status(404).json({
+          status: false,
+          message: `Collection center / collection center location not found.`,
+        });
+      }
       // verify company
-      let company_find = Company.findById(companyId);
+      let company_find = await Company.findById(companyId);
       if (!company_find) {
         return res.status(404).json({
           status: false,
           message: `Company not found.`,
         });
       }
-      // todo: verify - collection center, scrap category and subcategory
+      const expiry_date = dayjs(expires_at).add(1, 'd').toJSON();
       // Create a request
+      const total_amount = quantity_required * amount_per_unit;
       let request = new Request({
         title,
         description,
         scrap_category: category,
         scrap_subcategory: subcategory,
+        request_expires_at: expiry_date,
+        unit,
         quantity_required,
         amount_per_unit,
-        collection_center,
-        company,
-        request_expires_at: expiry_date,
-        location,
+        total_amount,
+        collection_center: c_center_id,
+        location: collection_center.location._id,
+        companyId,
       });
       // Save request in the database
       request = await request.save().populate({

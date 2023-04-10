@@ -21,19 +21,20 @@ db.mongoose
 
 let seedCollectionCenters = [
   {
-    title: 'Alimosho Lagos Collection Center',
-    address: '24 Alimosho Lagos',
-    phone_number: '09028950691',
+    title: 'Amboseli Collection Center',
+    address: '24 Aloo District, Amboseli, Nairobi City 110291',
   },
   {
-    title: 'Mushin Lagos Collection Center',
-    address: '105 Mushin Lagos',
-    phone_number: '09028950691',
+    title: 'Airport View Collection Center',
+    address: '13 XYZ District, Airport View, Nairobi City 110428',
   },
   {
-    title: 'Ojo Lagos Collection Center',
-    address: '314 Ojo Lagos',
-    phone_number: '09028950691',
+    title: 'Ongata Rongai Collection Center',
+    address: '13 ABC District, Ongata Rongai, Nairobi City 382918',
+  },
+  {
+    title: 'Outer Ring Road Collection Center',
+    address: '13 Kenyatta Way, Outer Ring Road, Nairobi City 261828',
   },
 ];
 
