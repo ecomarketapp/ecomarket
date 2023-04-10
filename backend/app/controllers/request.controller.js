@@ -28,9 +28,9 @@ module.exports = {
        * TODO: generate title
        * verify - scrap category and subcategory
        */
-      const collection_center = await CollectionCenter.findById(c_center_id).populate({
-        path: `location`
-      }).lean().exec();
+      const collection_center = await CollectionCenter.findById(c_center_id)
+      .populate({ path: `location`, model: Location })
+      .lean().exec();
       if (!collection_center || !collection_center.location) {
         return res.status(404).json({
           status: false,
@@ -63,14 +63,10 @@ module.exports = {
         companyId,
       });
       // Save request in the database
-      request = await request.save().populate({
-        path: 'company'
-      }).populate({
-        path: 'category'
-      }).populate({
-        path: 'subcategory'
-      });
-
+      request = await request.save()
+      .populate({ path: 'company', model: Company, })
+      .populate({ path: 'category', model: Category, })
+      .populate({ path: 'subcategory', model: Category, });
       return res.send({ status: true, data: request });
     } catch (error) {
       return res.status(500).send({

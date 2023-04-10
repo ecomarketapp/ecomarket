@@ -29,7 +29,7 @@ const seedCompanies = [
     contact_person: 'ChainBuilder PO',
     contact_email: 'habibidev@proton.me',
     contact_phone: '+23055053879',
-    wallet_address: '1234567890abc',
+    wallet_address: 'abc1234567890abc',
     wallet_provider: `tronlink`,
     verified_at: '2022-10-12',
   },

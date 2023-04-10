@@ -1,6 +1,7 @@
 const dayjs = require('dayjs');
 const db = require('../models');
 
+const Company = db.companies;
 const Request = db.requests;
 const Delivery = db.deliveries;
 const Collector = db.collectors;
@@ -55,16 +56,19 @@ module.exports = {
   // checkCompany - make sure the logged-in user doing company-related actions (e.g. approval) is the company that owns the original request the delivery is for
   checkCompany: async (deliveryId, company_wallet_address) => {
     try {
-      const valid_request = await Request.find().populate({
+      const valid_request = await Request.find()
+      .populate({
         path: 'deliveries',
+        model: Delivery,
         match: { _id: deliveryId },
         select: '_id'
-      }).populate({
+      })
+      .populate({
         path: 'company',
+        model: Company,
         match: { wallet_address: company_wallet_address },
         select: '_id'
       }).exec();
-      console.log(valid_request);
       if ((Array.isArray(valid_request.deliveries) && valid_request.deliveries.length) && valid_request.company) {
         return true;
       } else {
@@ -78,11 +82,13 @@ module.exports = {
   // checkCollector - makes sure the logged-in user performing this collector-related action is the collector that set up the initial delivery
   checkCollector: async (deliveryId, collector_wallet_address) => {
     try {
-      const delivery = await Delivery.find({ _id: deliveryId }).populate({
+      const delivery = await Delivery.find({ _id: deliveryId })
+      .populate({
         path: 'collector',
+        model: Collector,
         match: { wallet_address: collector_wallet_address },
         select: '_id'
-      })
+      });
       if (delivery.collector) {
         return true;
       } else {
@@ -111,9 +117,7 @@ module.exports = {
         collector: collectorId,
         request: requestId
       });
-      delivery = await delivery.save().populate({
-        path: 'collector'
-      });
+      delivery = await delivery.save().populate({ path: 'collector', model: Collector });
       delivery.can_claim = false;
       return res.send({ status: true, data: delivery });
     } catch (error) {
@@ -156,9 +160,9 @@ module.exports = {
         approver_wallet_address
       }, {
         new: true
-      }).populate({
-        path: 'collector'
-      }).exec();
+      })
+      .populate({ path: 'collector', model: Collector })
+      .exec();
       if (!delivery) {
         return res.status(404).json({
           status: false,
@@ -223,9 +227,8 @@ module.exports = {
         delivery.delivery_proof = delivery_proof;
         delivery.delivery_status = 'DELIVERED';
         delivery.delivered_at = new Date();
-        delivery = await delivery.save().populate({
-          path: 'collector'
-        });
+        delivery = await delivery.save()
+        .populate({ path: 'collector', model: Collector });
         delivery.can_claim = false;
         return res.send({ status: true, data: delivery });
       } else {
@@ -295,9 +298,8 @@ module.exports = {
       /* we found delivery, so now, we can do claim */
       delivery.delivery_status = 'REWARD_CLAIMED';
       delivery.claimed_at = new Date();
-      delivery = await delivery.save().populate({
-        path: 'collector'
-      });
+      delivery = await delivery.save()
+      .populate({ path: 'collector', model: Collector });
       return res.send({ status: true, data: delivery });
     } catch (error) {
       return res.status(500).json({
@@ -320,25 +322,20 @@ module.exports = {
       }
       let deliveries = {};
       // all deliveries
-      deliveries.all = await Delivery.find({ request: requestId }).populate({
-        path: 'collector'
-      });
+      deliveries.all = await Delivery.find({ request: requestId })
+      .populate({ path: 'collector', model: Collector });
       // pending approval
-      deliveries.pending_approval = await Delivery.find({ request: requestId, delivery_status: 'AWAITING_APPROVAL' }).populate({
-        path: 'collector'
-      });
+      deliveries.pending_approval = await Delivery.find({ request: requestId, delivery_status: 'AWAITING_APPROVAL' })
+      .populate({ path: 'collector', model: Collector });
       // approved & otherwise
-      deliveries.approved = await Delivery.find({ request: requestId, delivery_status: { $ne: ['AWAITING_APPROVAL'] } }).populate({
-        path: 'collector'
-      });
+      deliveries.approved = await Delivery.find({ request: requestId, delivery_status: { $ne: ['AWAITING_APPROVAL'] } })
+      .populate({ path: 'collector', model: Collector });
       // reward claimed
-      deliveries.claimed = await Delivery.find({ request: requestId, delivery_status: 'REWARD_CLAIMED' }).populate({
-        path: 'collector'
-      });
+      deliveries.claimed = await Delivery.find({ request: requestId, delivery_status: 'REWARD_CLAIMED' })
+      .populate({ path: 'collector', model: Collector });
       // disputed
-      deliveries.disputed = await Delivery.find({ request: requestId, delivery_status: 'DISPUTED' }).populate({
-        path: 'collector'
-      });
+      deliveries.disputed = await Delivery.find({ request: requestId, delivery_status: 'DISPUTED' })
+      .populate({ path: 'collector', model: Collector });
       return res.json({ success: true, data: deliveries });
     } catch (error) {
       return res.status(500).json({
@@ -354,9 +351,9 @@ module.exports = {
     try {
       // first, check expiry, just to be safe
       await this.checkDeliveryExpiry(deliveryId);
-      const delivery = await Delivery.findById(deliveryId).populate({
-        path: 'collector'
-      }).exec();
+      const delivery = await Delivery.findById(deliveryId)
+      .populate({ path: 'collector', model: Collector })
+      .exec();
       if (!delivery) {
         return res.status(404).json({
           status: false,
