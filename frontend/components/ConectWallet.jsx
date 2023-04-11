@@ -11,6 +11,7 @@ import {
   WalletModalProvider,
   WalletSelectButton,
 } from '@tronweb3/tronwallet-adapter-react-ui';
+import backend from './services/backend';
 
 const truncateAddress = (address) => {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -29,8 +30,6 @@ const ConectWallet = ({ page }) => {
   } = useWallet();
   const router = useRouter();
 
-  console.log(address);
-
   const user = localStorage.getItem('user');
   // redirect authenticated user to profile screen
   const [showFormDropdown, setShowFormDropdown] = useState();
@@ -39,10 +38,64 @@ const ConectWallet = ({ page }) => {
     setShowFormDropdown(!showFormDropdown);
   };
 
-  useEffect(() => {
+  const [company, setCompany] = useState(null);
+  const [collector, setCollector] = useState(null);
 
+  useEffect(() => {
+    console.log(address);
+
+    // if(connected && address && (company != null || collector != null)){
+    //   backend.save
+    // }
     // select('TronLink');
+  }, [address]);
+
+  const CreateUser = () => {
+    if (page == 'company') {
+      // let address = 'testaddress'
+      backend
+        .createCompany(address)
+        .then((company) => {
+          if (company.status == true) {
+            setCompany(company.data);
+            setTimeout(function () {
+              router.push(`/${page}/dashboard`);
+            }, 200);
+          } else {
+            setTimeout(function () {
+              router.push(`/${page}/dashboard`);
+            }, 200);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else {
+      // let address = 'Collector12345'
+      backend
+        .createCollector(address)
+        .then((collector) => {
+          if (collector.status == true) {
+            setCollector(collector.data);
+            setTimeout(function () {
+              router.push(`/${page}/dashboard`);
+            });
+          } else {
+            setTimeout(function () {
+              router.push(`/${page}/dashboard`);
+            }, 200);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
+
+  useEffect(() => {
+    router.prefetch(`/${page}/dashboard`);
   }, []);
+
   return (
     <div className="w-full">
       {connected && (
@@ -70,12 +123,12 @@ const ConectWallet = ({ page }) => {
             </div>
           </div>
 
-          <a
-            href={`/${page}/dashboard`}
+          <button
+            onClick={CreateUser}
             className="inline-block px-7 py-3 text-white text-center font-medium text-sm leading-snug uppercase rounded-full shadow-md bg-[#DD7D37] hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out w-full"
           >
-            Dashboard
-          </a>
+            Continue
+          </button>
         </>
       )}
 

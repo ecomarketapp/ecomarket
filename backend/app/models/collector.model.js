@@ -11,7 +11,7 @@ module.exports = (mongoose) => {
         type: String,
         // required: [true, 'Email Address is required for collector.'],
         validate: [isEmail, 'Invalid email'],
-        unique: true,
+        // unique: true,
       },
       phone: String,
       verified_at: Date,

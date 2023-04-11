@@ -19,11 +19,42 @@ export class Backend {
   //   return data.user;
   // }
 
-  // async authUser() {
-  //   const { data } = await this.#http.get("authentication/show");
 
-  //   return data;
-  // }
+
+  async createCompany(wallet) {
+
+    // return console.log(wallet, "company");
+    const { data } = await this.#http.post(
+      process.env.NEXT_PUBLIC_BACKEND_BASE_URL + `/companies`, {wallet}
+    );
+
+    return data;
+  }
+
+  async createCollector(wallet) {
+    // return console.log(wallet, "collector");
+
+    const { data } = await this.#http.post(
+      process.env.NEXT_PUBLIC_BACKEND_BASE_URL + `/collectors`, {wallet}
+    );
+    return data;
+  }
+
+  async authCompany(wallet) {
+    const { data } = await this.#http.get(
+      process.env.NEXT_PUBLIC_BACKEND_BASE_URL + `/companies/${wallet}`
+    );
+
+    return data;
+  }
+
+  async authCollector(wallet) {
+    const { data } = await this.#http.get(
+      process.env.NEXT_PUBLIC_BACKEND_BASE_URL + `/collectors/${wallet}`
+    );
+
+    return data;
+  }
 
   // Save Request
   async saveOffer(form) {

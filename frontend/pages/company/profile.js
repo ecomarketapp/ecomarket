@@ -5,19 +5,50 @@ import toast, { Toaster } from 'react-hot-toast';
 import Loader from '../../components/Icons/Loader';
 import axios from 'axios';
 import CompanyLayout from '../../components/CompanyLayout/Layout';
+import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
+import backend from '../../components/services/backend';
 
 const profile = () => {
+  const {
+    wallet,
+    address,
+    connected,
+    select,
+    connect,
+    disconnect,
+    signMessage,
+    signTransaction,
+  } = useWallet();
   const [loading, setLoading] = useState('');
+  const [company, setCompany] = useState();
+  useEffect(() => {
+    console.log(address);
+    console.log(wallet);
+    // let address = 'testaddress'
+    // console.log(wallet.adapter.name.toLowerCase());
+    backend
+      .authCompany(address)
+      .then((company) => setCompany(company.data))
+      .catch((e) => {
+        console.log(e);
+      });
+    // setInputs((inputs) => ({ ...inputs, company }));
+    console.log(company);
+  }, [address]);
 
   const currentYear = new Date().getFullYear();
 
   const router = useRouter();
+
+  // useEffect(() => {
   const [inputs, setInputs] = useState({
     name: '',
-    email: '',
-    phonenumber: '',
+    contact_person: '',
+    contact_email: '',
+    contact_phone: '',
     wallet_address: '',
   });
+  // }, [address]);
 
   const [error, setError] = useState(null);
   const user = localStorage.getItem('user');
@@ -33,7 +64,6 @@ const profile = () => {
     position: 'bottom-right',
     style: {},
     className: '',
-    // icon: '👏',
     iconTheme: {
       primary: 'red',
       secondary: '#fff',
@@ -51,11 +81,20 @@ const profile = () => {
   };
 
   const handleValidation = () => {
-    const { name, email, phonenumber, wallet_address } = inputs;
+    const {
+      name,
+      contact_person,
+      contact_email,
+      contact_phone,
+      wallet_address,
+    } = inputs;
+
+    console.log(inputs);
     if (
       name === '' &&
-      email === '' &&
-      phonenumber === '' &&
+      contact_person === '' &&
+      contact_email === '' &&
+      contact_phone === '' &&
       wallet_address === ''
     ) {
       toast.error('Fill in all required fields', toastOptions);
@@ -66,14 +105,20 @@ const profile = () => {
     } else if (name.length < 3) {
       toast.error('Name must be more than 3 characters', toastOptions);
       return false;
-    } else if (email === '') {
+    } else if (contact_person === '') {
+      toast.error('Contact Person is required', toastOptions);
+      return false;
+    } else if (contact_person.length < 3) {
+      toast.error(
+        'Contact Person must be more than 3 characters',
+        toastOptions
+      );
+      return false;
+    } else if (contact_email === '') {
       toast.error('Email is required', toastOptions);
       return false;
-    } else if (phonenumber === '') {
+    } else if (contact_phone === '') {
       toast.error('Phone Number is required', toastOptions);
-      return false;
-    } else if (wallet_address === '') {
-      toast.error('Address is required', toastOptions);
       return false;
     }
 
@@ -84,17 +129,29 @@ const profile = () => {
     e.preventDefault();
     setLoading(true);
 
+    setTimeout(function () {
+      setLoading(false);
+    }, 300);
+
     if (handleValidation()) {
       try {
-        const { name, email, phonenumber, wallet_address } = inputs;
+        const {
+          name,
+          contact_person,
+          contact_email,
+          contact_phone,
+          wallet_address,
+        } = inputs;
 
+        // return console.log(inputs);
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/collectors/auth/register`,
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/companies/${address}/save`,
           {
             name,
-            email,
-            phonenumber,
-            wallet_address,
+            contact_person,
+            contact_email,
+            contact_phone,
+            wallet_address: address,
           }
         );
 
@@ -106,7 +163,7 @@ const profile = () => {
         } else {
           setLoading(false);
 
-          router.push('/login');
+          // router.push('/login');
         }
       } catch (err) {
         // toast.error(err, toastOptions);
@@ -114,6 +171,24 @@ const profile = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (company && company.name != undefined) {
+      setInputs((prev) => ({ ...prev, name: company.name }));
+    }
+    if (company && company.contact_person != undefined) {
+      setInputs((prev) => ({
+        ...prev,
+        contact_person: company.contact_person,
+      }));
+    }
+    if (company && company.contact_phone != undefined) {
+      setInputs((prev) => ({ ...prev, contact_phone: company.contact_phone }));
+    }
+    if (company && company.contact_email != undefined) {
+      setInputs((prev) => ({ ...prev, contact_email: company.contact_email }));
+    }
+  }, [company]);
 
   useEffect(() => {
     router.prefetch('/login');
@@ -157,7 +232,28 @@ const profile = () => {
                         placeholder="Enter your name"
                         className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none"
                         name="name"
+                        defaultValue={company?.name ? company?.name : ''}
                         onChange={handleChange}
+                      />
+                    </div>
+                    <div className="mb-6">
+                      <label
+                        className="text-gray-700 font-medium mb-3"
+                        htmlFor="name"
+                      >
+                        Contact Person<span>*</span>
+                      </label>
+                      <input
+                        id="contact_person"
+                        type="text"
+                        placeholder="Enter your contact name"
+                        className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none"
+                        name="contact_person"
+                        onChange={handleChange}
+                        defaultValue={
+                          company?.contact_person ? company?.contact_person : ''
+                        }
+                        required
                       />
                     </div>
 
@@ -169,14 +265,18 @@ const profile = () => {
                         Email<span>*</span>
                       </label>
                       <input
-                        id="email"
+                        id="contact_email"
                         type="email"
                         placeholder="Enter your email"
                         className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none"
-                        name="email"
+                        name="contact_email"
                         min="3"
                         autoComplete="off"
                         onChange={handleChange}
+                        defaultValue={
+                          company?.contact_email ? company?.contact_email : ''
+                        }
+                        required
                       />
                     </div>
 
@@ -185,15 +285,19 @@ const profile = () => {
                         className="text-gray-700 font-medium mb-3"
                         htmlFor="phone_number"
                       >
-                        Phone number<span>*</span>
+                        Contact Phone<span>*</span>
                       </label>
                       <input
-                        id="phone_number"
+                        id="contact_phone"
                         type="text"
                         className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none transition duration-150 ease-in-out"
-                        name="phonenumber"
+                        name="contact_phone"
                         autoComplete="off"
                         onChange={handleChange}
+                        defaultValue={
+                          company?.contact_phone ? company?.contact_phone : ''
+                        }
+                        required
                       />
                     </div>
 
@@ -202,7 +306,7 @@ const profile = () => {
                         className="text-gray-700 font-medium mb-3"
                         htmlFor="wallet_address"
                       >
-                        Address<span>*</span>
+                        Wallet Address<span>*</span>
                       </label>
                       <input
                         id="wallet_address"
@@ -210,7 +314,10 @@ const profile = () => {
                         className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none transition duration-150 ease-in-out"
                         name="wallet_address"
                         autoComplete="off"
-                        onChange={handleChange}
+                        defaultValue={address}
+                        readOnly
+
+                        // onChange={handleChange}
                       />
                     </div>
 

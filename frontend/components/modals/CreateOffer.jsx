@@ -180,6 +180,7 @@ function CreateOfferForm({
     location: null,
     escrow_payment: null,
     deliveries: null,
+    total_amount: 0,
   });
 
   useEffect(() => {

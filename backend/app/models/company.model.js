@@ -8,7 +8,7 @@ module.exports = (mongoose) => {
         // required: [true, 'Company name is required.'],
       },
       contact_person: {
-        tpe: String
+        type: String
       },
       contact_email: {
         type: String,

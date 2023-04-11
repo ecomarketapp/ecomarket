@@ -9,6 +9,7 @@ import axios from 'axios';
 import { CreateOffer } from '../../components/modals/CreateOffer';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import { useRouter } from 'next/router';
+import backend from '../../components/services/backend';
 
 // export const getStaticProps = async () => {
 //     try{

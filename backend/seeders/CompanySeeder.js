@@ -20,7 +20,7 @@ const seedCompanies = [
     contact_person: 'Darabong E.',
     contact_email: 'darabong_e@gmail.com',
     contact_phone: '+23055053879',
-    wallet_address: '1234567890abc',
+    wallet_address: 'TVe6fUWor5CPakQ9vShgF11kVSTEEJZraM',
     wallet_provider: `tronlink`,
     verified_at: '2022-10-12',
   },

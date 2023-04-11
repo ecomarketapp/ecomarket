@@ -5,26 +5,108 @@ import toast, { Toaster } from 'react-hot-toast';
 import Loader from '../../components/Icons/Loader';
 import axios from 'axios';
 import UserLayout from '../../components/UserLayout/Layout';
+import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
+import backend from '../../components/services/backend';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 const profile = () => {
+  const {
+    wallet,
+    address,
+    connected,
+    select,
+    connect,
+    disconnect,
+    signMessage,
+    signTransaction,
+  } = useWallet();
   const [loading, setLoading] = useState('');
+  const [locations, setLocations] = useState('');
+  const [collector, setCollector] = useState();
+  const [selectedLocation, setSelectedLocation] = useState('');
+
+  // const [disabled, setDisabled] = useState(false);
+  useEffect(() => {
+    console.log(address);
+    console.log(wallet);
+    if (address) {
+      // let address = 'abc0987654321';
+      // console.log(wallet.adapter.name.toLowerCase());
+      backend
+        .authCollector(address)
+        .then((collector) => {
+          if (collector.status == true) {
+            console.log(collector, 'collector');
+
+            setCollector(collector.data);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      // setInputs((inputs) => ({ ...inputs, collector }));
+      console.log(collector, 'collector');
+    }
+
+    // checkStatus();
+  }, [address]);
+
+  useEffect(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
+    const getLocations = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/locations`,
+          { cancelToken: source.token }
+        );
+        console.log(res, 'res');
+
+        setLocations(res.data.locations);
+      } catch (err) {
+        if (axios.isCancel(err)) {
+          console.log('cancelled');
+        } else {
+          throw err;
+        }
+      }
+    };
+    getLocations();
+    return () => {
+      source.cancel();
+    };
+  }, []);
+
+  // const checkStatus = () =>{
+  //   if((collector && collector.name == '') || (collector && collector.phone == '') || (collector && collector.email == '')){
+  //     setDisabled(false)
+  //   }
+  // }
 
   const currentYear = new Date().getFullYear();
 
   const router = useRouter();
+
+  // useEffect(() => {
   const [inputs, setInputs] = useState({
     name: '',
     email: '',
-    phonenumber: '',
-    wallet_address: '',
+    phone: '',
+    location: '',
   });
+  // }, [address]);
 
   const [error, setError] = useState(null);
   const user = localStorage.getItem('user');
 
   // useEffect(() => {
   //   if (user) {
-  //     router.push('/collector/dashboard');
+  //     router.push('/individual/dashboard');
   //   }
   // }, []);
 
@@ -33,7 +115,6 @@ const profile = () => {
     position: 'bottom-right',
     style: {},
     className: '',
-    // icon: '👏',
     iconTheme: {
       primary: 'red',
       secondary: '#fff',
@@ -51,29 +132,23 @@ const profile = () => {
   };
 
   const handleValidation = () => {
-    const { name, email, phonenumber, wallet_address } = inputs;
-    if (
-      name === '' &&
-      email === '' &&
-      phonenumber === '' &&
-      wallet_address === ''
-    ) {
+    const { name, email, phone, wallet_address } = inputs;
+
+    console.log(inputs);
+    if (name === '' && email === '' && phone === '' && wallet_address === '') {
       toast.error('Fill in all required fields', toastOptions);
       return false;
     } else if (name === '') {
       toast.error('Name is required', toastOptions);
       return false;
-    } else if (name.length < 3) {
-      toast.error('Name must be more than 3 characters', toastOptions);
-      return false;
     } else if (email === '') {
       toast.error('Email is required', toastOptions);
       return false;
-    } else if (phonenumber === '') {
+    } else if (phone === '') {
       toast.error('Phone Number is required', toastOptions);
       return false;
-    } else if (wallet_address === '') {
-      toast.error('Address is required', toastOptions);
+    } else if (!selectedLocation) {
+      toast.error('Location is required', toastOptions);
       return false;
     }
 
@@ -84,17 +159,23 @@ const profile = () => {
     e.preventDefault();
     setLoading(true);
 
+    setTimeout(function () {
+      setLoading(false);
+    }, 300);
+
     if (handleValidation()) {
       try {
-        const { name, email, phonenumber, wallet_address } = inputs;
+        const { name, email, phone, wallet_address, location } = inputs;
 
+        // return console.log(inputs);
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/collectors/auth/register`,
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/collectors/${address}/save`,
           {
             name,
             email,
-            phonenumber,
-            wallet_address,
+            phone,
+            wallet_address: address,
+            location: selectedLocation,
           }
         );
 
@@ -106,7 +187,7 @@ const profile = () => {
         } else {
           setLoading(false);
 
-          router.push('/login');
+          // router.push('/login');
         }
       } catch (err) {
         // toast.error(err, toastOptions);
@@ -116,8 +197,45 @@ const profile = () => {
   };
 
   useEffect(() => {
-    router.prefetch('/login');
-  }, []);
+    if (location) {
+      // if(locations){
+      // let location_check = locations.find(
+      //   (x) => x.id == collector.location._id
+      // );
+      // setSelectedLocation(location_check._id);
+      // console.log(selectedLocation);
+
+      // }
+
+      setInputs((prev) => ({ ...prev, location: selectedLocation }));
+    }
+  }, [selectedLocation]);
+
+  useEffect(() => {
+    if (collector && collector.name != undefined) {
+      setInputs((prev) => ({ ...prev, name: collector.name }));
+    }
+    if (collector && collector.phone != undefined) {
+      setInputs((prev) => ({ ...prev, phone: collector.phone }));
+    }
+    if (collector && collector.email != undefined) {
+      setInputs((prev) => ({ ...prev, email: collector.email }));
+    }
+  }, [collector]);
+
+  // useEffect(()=>{
+  //   if(company.location){
+  //     locations.find((x)=>)
+  //   }
+  // })
+
+  const handleLocation = (e) => {
+    setSelectedLocation(e.target.value);
+  };
+
+  // useEffect(() => {
+  //   router.prefetch('/login');
+  // }, []);
   return (
     <div>
       <Toaster />
@@ -143,6 +261,7 @@ const profile = () => {
                       Get all of the plastics you need at your disposal
                     </p>
                   </div>
+                  {/* {} */}
                   <form onSubmit={handleSubmit}>
                     <div className="mb-6">
                       <label
@@ -157,6 +276,7 @@ const profile = () => {
                         placeholder="Enter your name"
                         className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none"
                         name="name"
+                        defaultValue={collector?.name ? collector?.name : ''}
                         onChange={handleChange}
                       />
                     </div>
@@ -177,6 +297,8 @@ const profile = () => {
                         min="3"
                         autoComplete="off"
                         onChange={handleChange}
+                        defaultValue={collector?.email ? collector?.email : ''}
+                        required
                       />
                     </div>
 
@@ -185,15 +307,17 @@ const profile = () => {
                         className="text-gray-700 font-medium mb-3"
                         htmlFor="phone_number"
                       >
-                        Phone number<span>*</span>
+                        Contact Phone<span>*</span>
                       </label>
                       <input
-                        id="phone_number"
+                        id="phone"
                         type="text"
                         className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none transition duration-150 ease-in-out"
-                        name="phonenumber"
+                        name="phone"
                         autoComplete="off"
                         onChange={handleChange}
+                        defaultValue={collector?.phone ? collector?.phone : ''}
+                        required
                       />
                     </div>
 
@@ -202,7 +326,7 @@ const profile = () => {
                         className="text-gray-700 font-medium mb-3"
                         htmlFor="wallet_address"
                       >
-                        Address<span>*</span>
+                        Wallet Address<span>*</span>
                       </label>
                       <input
                         id="wallet_address"
@@ -210,15 +334,58 @@ const profile = () => {
                         className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none transition duration-150 ease-in-out"
                         name="wallet_address"
                         autoComplete="off"
-                        onChange={handleChange}
+                        defaultValue={address}
+                        readOnly
+
+                        // onChange={handleChange}
                       />
+                    </div>
+                    <div className="mb-6 w-full">
+                      <label
+                        className="text-gray-700 font-medium mb-3"
+                        htmlFor="wallet_address"
+                      >
+                        Location<span>*</span>
+                      </label>
+                      <div className="mb-4">
+                        <FormControl
+                          fullWidth
+                          className=" bg-white h-10 focus:outline-none active:outline-none  border border-gray-300 focus:border-gray-400 active:border-gray-400 px-4 py-3 mt-2 rounded-lg transition duration-300 ease"
+                        >
+                          <Select
+                            value={selectedLocation}
+                            onChange={handleLocation}
+                            displayEmpty
+                            inputProps={{ 'aria-label': 'Without label' }}
+                            defaultValue={
+                              collector?.location ? collector?.location : ''
+                            }
+                            required
+                            name="center"
+                          >
+                            <MenuItem value="">
+                              <em>None</em>
+                            </MenuItem>
+                            {locations &&
+                              locations.map((item, index) => {
+                                return (
+                                  <MenuItem value={item.id} key={item.id}>
+                                    {item.name} {item.state}, {item.country}
+                                  </MenuItem>
+                                );
+                              })}
+                          </Select>
+                        </FormControl>
+                      </div>
                     </div>
 
                     <button
                       type="submit"
-                      className="inline-block px-7 py-3 text-white font-medium text-sm leading-snug uppercase rounded-full shadow-md bg-[#DD7D37] hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out w-full"
+                      className="inline-block px-7 py-3 text-white font-medium text-sm leading-snug uppercase rounded-full shadow-md bg-[#DD7D37] hover:shadow-lg mt-5 focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out w-full"
                       onClick={handleSubmit}
                     >
+                      {/* disabled={disabled} */}
+
                       {loading === true ? <Loader /> : 'Save Profile'}
                     </button>
 

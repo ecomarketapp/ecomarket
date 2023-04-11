@@ -57,7 +57,7 @@ module.exports = {
         unit,
         quantity_required,
         amount_per_unit,
-        total_amount,
+        total_amount:total_amount,
         collection_center: c_center_id,
         location: collection_center.location._id,
         companyId,
