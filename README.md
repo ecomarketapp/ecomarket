@@ -2,6 +2,8 @@
 
 EcoMarket is an open marketplace that directly connects buyers of used and recycled plastics with individuals and businesses who want to donate or sell them.
 
+For more details on the vision of EcoMarket, and how it works, refer to [its BUIDL page](https://dorahacks.io/buidl/4860) on DoraHacks.
+
 ## Prerequisites
 
 - TRONLink Wallet
