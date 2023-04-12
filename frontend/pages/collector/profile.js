@@ -35,6 +35,8 @@ const profile = () => {
     console.log(wallet);
     if (address) {
       // let address = 'abc0987654321';
+      // let address = '7889800';
+
       // console.log(wallet.adapter.name.toLowerCase());
       backend
         .authCollector(address)

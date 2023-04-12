@@ -15,7 +15,7 @@ import { dateFormat, dateFromNow, dateTimeFormat } from '../../../../utils/date'
 const SingleOffer = ({ id }) => {
   const [createDispute, setCreateDispute] = useState();
   const [requestSuccessModal, setRequestSuccessModal] = useState();
-  const [request, setRequest] = useState({});
+  const [request, setRequest] = useState();
 
   const handleDispute = () => {
     setCreateDispute(!createDispute);
@@ -29,7 +29,7 @@ const SingleOffer = ({ id }) => {
     backend
       .getRequest(id)
       .then((request) => {
-        setRequest(request);
+        setRequest(request.data);
         console.log(request);
       })
       .catch((e) => {
@@ -37,6 +37,8 @@ const SingleOffer = ({ id }) => {
       });
   };
   useEffect(loadSingleRequest, [id]);
+
+  console.log(request)
 
   return (
     <>
@@ -46,11 +48,11 @@ const SingleOffer = ({ id }) => {
             <div className="h-full pb-24 md:px-4 py-12">
               <div className="flex items-center py-6 mb-8 flex-col lg:flex-row border-b border-gray-300">
                 <div className="flex-1 w-full flex-col items-start">
-                  <h3 className="h2">{request.title}</h3>
+                  <h3 className="h2">{request?.title}</h3>
                   <p>
                     {formatLocation(
-                      request.location?.name,
-                      request.location?.state
+                      request?.location?.name,
+                      request?.location?.state
                     )}
                   </p>
                 </div>
@@ -147,8 +149,8 @@ const SingleOffer = ({ id }) => {
                           Amount Paid
                         </span>
                         <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm justify-between">
-                          $7,500
-                          <span className="text-xs">1kg = $50</span>
+                          {request?.total_amount ? request?.total_amount :'0'} TRX
+                          <span className="text-xs">1kg = 50 TRX</span>
                         </div>
                       </div>
                       <div className="flex-1">

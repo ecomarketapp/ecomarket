@@ -120,11 +120,13 @@ const Header = () => {
               {!connected && <div className="text-sm lg:flex-grow"></div>}
               <div className="lg:flex lg:items-center lg:w-auto">
                 <div className="flex items-center justify-center relative gap-4 px-4 border-r border-r-border-border_cl">
-                  <div className=" relative">
+                  <div className=" relative" onMouseLeave={ToggleUserMenu}>
                     {connected && (
                       <button
                         className="flex items-center gap-2 bg-gray-100 py-3 px-5 rounded-full"
                         onClick={ToggleUserMenu}
+                        onMouseEnter={ToggleUserMenu}
+
                       >
                         <div className="flex items-start justify-start flex-col">
                           <span className="text-xs">
@@ -158,6 +160,30 @@ const Header = () => {
                       <div className=" py-2">
                         <Link href="/company/profile">
                           <a className="flex items-center py-2 px-4 text-sm justify-start bg-white border-0 w-full hover:bg-gray-100 ">
+                            <span className="mr-3">
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M12.1586 10.87C12.0586 10.86 11.9386 10.86 11.8286 10.87C9.44859 10.79 7.55859 8.84 7.55859 6.44C7.55859 3.99 9.53859 2 11.9986 2C14.4486 2 16.4386 3.99 16.4386 6.44C16.4286 8.84 14.5386 10.79 12.1586 10.87Z"
+                                  stroke="#6F6E83"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                ></path>
+                                <path
+                                  d="M7.15875 14.56C4.73875 16.18 4.73875 18.82 7.15875 20.43C9.90875 22.27 14.4188 22.27 17.1688 20.43C19.5888 18.81 19.5888 16.17 17.1688 14.56C14.4288 12.73 9.91875 12.73 7.15875 14.56Z"
+                                  stroke="#6F6E83"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                ></path>
+                              </svg>
+                            </span>
                             Profile
                           </a>
                         </Link>

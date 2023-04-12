@@ -156,7 +156,7 @@ const Offers = () => {
                               <>
                                 <div
                                   className="flex items-center py-4 px-4  text-sm w-full border-b  border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out"
-                                  key={index}
+                                  key={request.id}
                                 >
                                   <div className="flex items-start gap-3 w-full">
                                     <div className="w-full">

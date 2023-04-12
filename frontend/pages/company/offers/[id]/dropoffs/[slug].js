@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CompanyLayout from '../../../../../components/CompanyLayout/Layout';
 import DropdownIcon from '../../../../../components/Icons/DropdownIcon';
 
@@ -8,10 +8,15 @@ import Box from '@mui/material/Box';
 import LinearProgress, {
   linearProgressClasses,
 } from '@mui/material/LinearProgress';
+import { useRouter } from 'next/router';
+import backend from '../../../../../components/services/backend';
+import { formatLocation } from '../../../../../utils/other';
 
-const SingleDropoff = () => {
+const SingleDropoff = ({ id }) => {
   const [createDispute, setCreateDispute] = useState();
   const [requestSuccessModal, setRequestSuccessModal] = useState();
+  const [dropoff, setDropoff] = useState();
+  const [request, setRequest] = useState();
 
   const handleDispute = () => {
     setCreateDispute(!createDispute);
@@ -21,6 +26,36 @@ const SingleDropoff = () => {
     setRequestSuccessModal(!requestSuccessModal);
   };
 
+  const router = useRouter();
+  const { slug } = router.query;
+  console.log(slug);
+
+  const loadSingleRequest = () => {
+    backend
+      .getRequest(id)
+      .then((request) => {
+        setRequest(request.data);
+        console.log(request);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  useEffect(loadSingleRequest, [id]);
+
+  // const loadDropoff = () => {
+  //   backend
+  //     .getDropoff(slug)
+  //     .then((dropoff) => {
+  //       setDropoff(dropoff.data);
+  //       console.log(dropoff);
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // };
+  // useEffect(loadDropoff, [slug]);
+
   return (
     <>
       <CompanyLayout>
@@ -29,8 +64,13 @@ const SingleDropoff = () => {
             <div className="h-full pb-24 md:px-4 py-12">
               <div className="flex items-center py-6 mb-8 flex-col lg:flex-row border-b border-gray-300">
                 <div className="flex-1 w-full flex-col items-start">
-                  <h3 className="h2">120kg of PET Bottles</h3>
-                  <p>Ikeja, Lagos</p>
+                  <h3 className="h2">{request?.title}</h3>
+                  <p>
+                    {formatLocation(
+                      request?.location?.name,
+                      request?.location?.state
+                    )}
+                  </p>
                 </div>
 
                 <div className="mt-1 relative rounded-full flex-1  items-center grow flex w-full ">
@@ -60,8 +100,6 @@ const SingleDropoff = () => {
                 {/* <div className="absolute h-full border border-[#E4E7EC] inset-0 z-0 mx-auto w-[0.5px] hidden md:block"></div> */}
 
                 <div className=" grid grid-cols-1 md:grid-cols-2  w-full gap-6 relative">
-                  
-
                   <div className="px-4">
                     <div className="py-6 px-6 sticky top-0 border border-gray-300 rounded-lg">
                       <div className="flex items-start justify-start gap-4 mb-6">
@@ -74,11 +112,14 @@ const SingleDropoff = () => {
                         <div className="flex items-start justify-between">
                           <div>
                             <h2 className="text-xl mb-2">
-                              120kg of PET Bottles
+                              {request?.title}
                             </h2>
 
                             <p className="font-thin text-[#667085] text-sm mb-2">
-                              Ikeja, Lagos
+                              {formatLocation(
+                                request?.location?.name,
+                                request?.location?.state
+                              )}
                             </p>
                             <p className="font-thin text-[#667085] text-sm">
                               Dropoff Time: 10 October 2022. 10:10:22
@@ -102,7 +143,7 @@ const SingleDropoff = () => {
                               Category of Scrap
                             </span>
                             <div className="w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                              Plastics
+                            {request?.scrap_category?.name}
                             </div>
                           </div>
                           <div className="flex-1">
@@ -110,7 +151,8 @@ const SingleDropoff = () => {
                               Type of Scrap
                             </span>
                             <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                              Polyethylene Terephthalate (PET)
+                            {request?.scrap_subcategory?.name}
+
                             </div>
                           </div>
 
@@ -119,7 +161,8 @@ const SingleDropoff = () => {
                               Quantity Provided
                             </span>
                             <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center gap-3 text-sm">
-                              15kg
+                            {request?.quantity_required}
+
                             </div>
                           </div>
                           <div className="flex-1">
@@ -127,7 +170,8 @@ const SingleDropoff = () => {
                               Amount to be disbursed
                             </span>
                             <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                              $250
+                            {request?.total_amount ? request?.total_amount : ''}
+
                             </div>
                           </div>
                           <div className="flex-1 w-full col-span-2">
@@ -384,6 +428,10 @@ const SingleDropoff = () => {
       </CompanyLayout>
     </>
   );
+};
+
+SingleDropoff.getInitialProps = ({ query }) => {
+  return { id: query.id };
 };
 
 export default SingleDropoff;

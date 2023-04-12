@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import DropdownIcon from '../../components/Icons/DropdownIcon';
 import ExpandMoreVertical from '../../components/Icons/ExpandMoreVertical';
 import UpwardIcon from '../../components/Icons/UpwardIcon';
@@ -9,9 +9,15 @@ import LoadingState from '../../components/LoadingState';
 import axios from 'axios';
 import { Toaster } from 'react-hot-toast';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
+import backend from '../../components/services/backend';
+import { useRouter } from 'next/router';
+import ProfileRedirectModal from '../../components/modals/ProfileRedirectModal';
 
 const Dashboard = () => {
   const [location, setLocations] = useState();
+  const [collector, setCollector] = useState();
+  const [empty, setEmpty] = useState(false);
+  const [open, setOpen] = useState(false);
   const [locationName, setLocationName] = useState('all');
   const [searchvalue, setSearchValue] = useState('');
   const fetchRequests = async ({ pageParam = 1 }) => {
@@ -48,6 +54,34 @@ const Dashboard = () => {
     signTransaction,
   } = useWallet();
 
+  const router = useRouter();
+  useEffect(() => {
+    console.log(address);
+    console.log(wallet);
+    if (address) {
+      // let address = '7889800';
+      // console.log(wallet.adapter.name.toLowerCase());
+      backend
+        .authCollector(address)
+        .then((collector) => {
+          if (collector.status == true) {
+            console.log(collector, 'collector');
+
+            setCollector(collector.data);
+          } else {
+            router.push('/connect-wallet/collector');
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      // setInputs((inputs) => ({ ...inputs, collector }));
+      console.log(collector, 'collector');
+    }
+
+    // checkStatus();
+  }, [address]);
+
   useEffect(() => {
     const CancelToken = axios.CancelToken;
     const source = CancelToken.source();
@@ -82,6 +116,26 @@ const Dashboard = () => {
   const onChange = (value) => {
     setLocationName(value);
   };
+
+  const checkStatus = () => {
+    console.log(collector, 'status collector');
+    if (collector) {
+      if (collector?.name || collector?.phone || collector?.email) {
+        console.log('enteredd');
+        setOpen(false);
+        setEmpty(false);
+      } else {
+        setOpen(true);
+        setEmpty(true);
+      }
+    }
+  };
+
+  useEffect(checkStatus, [address, collector]);
+
+  useEffect(() => {
+    router.prefetch('/connect-wallet/collector');
+  }, []);
 
   return (
     <>
@@ -421,6 +475,15 @@ const Dashboard = () => {
               </div>
             </section>
           </UserLayout>
+          {empty ? (
+            <ProfileRedirectModal
+              show={open}
+              setShow={setOpen}
+              page="collector"
+            />
+          ) : (
+            ''
+          )}
         </>
       ) : (
         <UserLayout>

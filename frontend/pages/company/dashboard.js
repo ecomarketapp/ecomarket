@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import CompanyLayout from '../../components/CompanyLayout/Layout';
 import DropdownIcon from '../../components/Icons/DropdownIcon';
 import ExpandMoreVertical from '../../components/Icons/ExpandMoreVertical';
@@ -10,6 +10,7 @@ import { CreateOffer } from '../../components/modals/CreateOffer';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import { useRouter } from 'next/router';
 import backend from '../../components/services/backend';
+import ProfileRedirectModal from '../../components/modals/ProfileRedirectModal';
 
 // export const getStaticProps = async () => {
 //     try{
@@ -32,6 +33,16 @@ import backend from '../../components/services/backend';
 //   }
 
 const Dashboard = () => {
+  const {
+    wallet,
+    address,
+    connected,
+    select,
+    connect,
+    disconnect,
+    signMessage,
+    signTransaction,
+  } = useWallet();
   // console.log(CategoryCall, "category call")
   const [categories, setCategories] = useState();
   const [centers, setCenters] = useState();
@@ -46,24 +57,27 @@ const Dashboard = () => {
   const [subCategory, setSubCategory] = useState();
   const [selectedSubCategory, setSelectedSubCategory] = useState();
   const [selectedCenter, setSelectedCenter] = useState();
+  const [company, setCompany] = useState({});
+  const [empty, setEmpty] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const [offer, setOffer] = useState({
-    title: '',
-    description: '',
-    quantity_required: '',
-    amount_per_unit: '',
-    request_expires_at: '',
-    company: '',
-    location: '',
-    escrow_payment: '',
-    deliveries: '',
-  });
+  // const [offer, setOffer] = useState({
+  //   title: '',
+  //   description: '',
+  //   quantity_required: '',
+  //   amount_per_unit: '',
+  //   request_expires_at: '',
+  //   company: '',
+  //   location: '',
+  //   escrow_payment: '',
+  //   deliveries: '',
+  // });
 
-  const handleChange = (e) => {
-    setInputs((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
-  };
+  // const handleChange = (e) => {
+  //   setInputs((prev) => {
+  //     return { ...prev, [e.target.name]: e.target.value };
+  //   });
+  // };
 
   useEffect(() => {
     const CancelToken = axios.CancelToken;
@@ -121,17 +135,6 @@ const Dashboard = () => {
     };
   }, []);
 
-  const {
-    wallet,
-    address,
-    connected,
-    select,
-    connect,
-    disconnect,
-    signMessage,
-    signTransaction,
-  } = useWallet();
-
   const router = useRouter();
 
   useEffect(() => {
@@ -146,15 +149,6 @@ const Dashboard = () => {
     // }
   }, []);
 
-  const handleCat = () => {
-    setCatDropdown(!catDropdown);
-  };
-  const handleType = () => {
-    setypeDropdown(!typeDropdown);
-  };
-  const handleCollectionCenter = () => {
-    setCenterDropdown(!centerDropdown);
-  };
   const handleCreateOffer = () => {
     setCreateOffer(!createOffer);
   };
@@ -186,16 +180,62 @@ const Dashboard = () => {
     setApproveOfferModal(!approveOfferModal);
   };
 
-  const SelectCategory = (item, index) => {
-    setSelectedCategory(item.item);
-    setSubCategory(item.item.children);
+  // const SelectCategory = (item, index) => {
+  //   setSelectedCategory(item.item);
+  //   setSubCategory(item.item.children);
+  // };
+  // const SelectCenter = (item, index) => {
+  //   setSelectedCenter(item.item);
+  // };
+  // const SelectSubCategory = (item, index) => {
+  //   setSelectedSubCategory(item.item);
+  // };
+
+  useEffect(() => {
+    console.log(address);
+    console.log(wallet);
+    if (address) {
+      // let address = 'testaddress';
+      // console.log(wallet.adapter.name.toLowerCase());
+      backend
+        .authCompany(address)
+        .then((company) => {
+          if (company.status == true) {
+            console.log(company, 'company');
+
+            setCompany(company.data);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      // setInputs((inputs) => ({ ...inputs, collector }));
+      console.log(company, 'company');
+    }
+
+    // checkStatus();
+  }, [address]);
+
+  const checkStatus = () => {
+    if (company) {
+      if (
+        company?.name ||
+        company?.contact_person ||
+        company?.contact_email ||
+        company?.contact_phone
+      ) {
+        console.log('enteredd');
+        setOpen(false);
+        setEmpty(false);
+      } else {
+        setOpen(true);
+        setEmpty(true);
+      }
+    }
   };
-  const SelectCenter = (item, index) => {
-    setSelectedCenter(item.item);
-  };
-  const SelectSubCategory = (item, index) => {
-    setSelectedSubCategory(item.item);
-  };
+
+  useEffect(checkStatus, [address, company]);
+
   return (
     <>
       {connected ? (
@@ -699,6 +739,15 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
+          {empty ? (
+            <ProfileRedirectModal
+              show={open}
+              setShow={setOpen}
+              page="company"
+            />
+          ) : (
+            ''
+          )}
         </CompanyLayout>
       ) : (
         <CompanyLayout>

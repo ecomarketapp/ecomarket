@@ -265,7 +265,7 @@ module.exports = {
         } else {
           request.expired = false;
         }
-      return res.send({ status: true, request });
+      return res.send({ status: true, data: request });
     } catch (error) {
       return res.status(500).send({ message: `Error retrieving request details` });
     }

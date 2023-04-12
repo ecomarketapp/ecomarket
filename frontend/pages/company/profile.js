@@ -191,7 +191,7 @@ const profile = () => {
   }, [company]);
 
   useEffect(() => {
-    router.prefetch('/login');
+    router.prefetch('/company/dashboard');
   }, []);
   return (
     <div>
