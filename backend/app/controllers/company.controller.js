@@ -34,7 +34,8 @@ module.exports = {
         company = await company.save();
         return res.json({ status: true, company });
       } else {
-        return res.json({ status: false, msg: 'Company already exists' });
+        const company = await Company.findOne({ wallet_address: wallet });
+        return res.json({ status: false, data: company, msg: 'Company already exists' });
       }
     } catch (error) {
       return res.status(500).send({

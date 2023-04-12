@@ -24,16 +24,16 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function ModToast({ open, handleClose }) {
+function ModToast({ open, handleClose, msg }) {
   return (
     <Snackbar
       open={open}
-      autoHideDuration={1000}
+      autoHideDuration={2000}
       onClose={handleClose}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
     >
-      <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-        Succesfully created request!
+      <Alert onClose={handleClose} severity={msg.type} sx={{ width: '100%' }}>
+        {msg.msg}
       </Alert>
     </Snackbar>
   );
@@ -45,6 +45,10 @@ export function CreateOffer({ createOffer, setCreateOffer }) {
   const [approveOfferModal, setApproveOfferModal] = useState();
   const [submit, setSubmit] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState({
+    msg: '',
+    type: ''
+  });
 
   const handleClose = (event, reason) => {
     setOpen(false);
@@ -57,6 +61,7 @@ export function CreateOffer({ createOffer, setCreateOffer }) {
     setAlertModal(!alertModal);
   };
 
+  // const message = '';
   const submitOffer = async (confirm) => {
     // e.preventDefault();
 
@@ -68,13 +73,20 @@ export function CreateOffer({ createOffer, setCreateOffer }) {
       const data = await backend.saveOffer(formstate);
       console.log(data);
       if (data.status == true) {
+        setMessage({msg: "Succesfully created request!", type: 'success'});
         setOpen(true);
         setCreateOffer(false);
         setAlertModal(false);
         setApproveOfferModal(!approveOfferModal);
+      } else{
+        setAlertModal(false);
+        setApproveOfferModal(!approveOfferModal);
+        setMessage({msg: "An Error Occurred! Try Again", type: 'error'});
       }
     } catch (e) {
       console.log(e);
+      setMessage({msg: "An Error Occurred!", type: 'error'});
+
     }
     setSubmit(true);
     // return true;
@@ -104,7 +116,7 @@ export function CreateOffer({ createOffer, setCreateOffer }) {
         confirm={submitOffer}
       />
 
-      <ModToast open={open} handleClose={handleClose} />
+      <ModToast open={open} handleClose={handleClose} msg={message}/>
     </>
   );
 }
@@ -116,7 +128,8 @@ function CreateOfferForm({
   submit,
   setFormState,
 }) {
-  const company_id = '642dcf9cda01b4cdf1749f41';
+  const company_id = JSON.parse(localStorage.getItem('company')).id;
+  // const company_id = '642dcf9cda01b4cdf1749f41';
   const today = dayjs().format('YYYY-MM-DD');
 
   const [date, setDate] = useState('');
@@ -180,7 +193,7 @@ function CreateOfferForm({
     location: null,
     escrow_payment: null,
     deliveries: null,
-    total_amount: 0,
+    // total_amount: 0,
   });
 
   useEffect(() => {
@@ -285,8 +298,8 @@ function CreateOfferForm({
     const getCenters = async () => {
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/companies/${company_id}/collectioncenters`,
-          // 'http://127.0.0.1:8080/api/collectioncenters',
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/collectioncenters`,
+          // `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/companies/${company_id}/collectioncenters`,
           { cancelToken: source.token }
         );
         console.log(res, 'res');

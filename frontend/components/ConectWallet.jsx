@@ -52,7 +52,6 @@ const ConectWallet = ({ page }) => {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
 
-
   const user = localStorage.getItem('user');
   // redirect authenticated user to profile screen
   const [showFormDropdown, setShowFormDropdown] = useState();
@@ -84,12 +83,15 @@ const ConectWallet = ({ page }) => {
         .createCompany(address)
         .then((company) => {
           if (company.status == true) {
+            localStorage.setItem('company', JSON.stringify(company.data));
+
             setCompany(company.data);
             setOpen(true);
             setTimeout(function () {
               router.push(`/${page}/dashboard`);
             }, 2000);
           } else {
+            localStorage.setItem('company', JSON.stringify(company.data));
             setTimeout(function () {
               router.push(`/${page}/dashboard`);
             }, 200);
@@ -104,6 +106,7 @@ const ConectWallet = ({ page }) => {
         .createCollector(address)
         .then((collector) => {
           if (collector.status == true) {
+            localStorage.setItem('collector', JSON.stringify(collector.data));
             setCollector(collector.data);
             setOpen(true);
             setTimeout(function () {

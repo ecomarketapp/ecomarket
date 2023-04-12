@@ -9,7 +9,7 @@ import LinearProgress, {
   linearProgressClasses,
 } from '@mui/material/LinearProgress';
 import backend from '../../../../components/services/backend';
-import { formatLocation } from '../../../../utils/other';
+import { currencyFormat, formatLocation } from '../../../../utils/other';
 import { dateFormat, dateFromNow, dateTimeFormat } from '../../../../utils/date';
 
 const SingleOffer = ({ id }) => {
@@ -149,7 +149,7 @@ const SingleOffer = ({ id }) => {
                           Amount Paid
                         </span>
                         <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm justify-between">
-                          {request?.total_amount ? request?.total_amount :'0'} TRX
+                          {currencyFormat(request?.total_amount )}
                           <span className="text-xs">1kg = 50 TRX</span>
                         </div>
                       </div>

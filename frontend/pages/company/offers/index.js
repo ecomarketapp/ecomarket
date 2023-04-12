@@ -8,14 +8,15 @@ import Loading from '../../loading';
 import LoadingState from '../../../components/LoadingState';
 import backend from '../../../components/services/backend';
 import { dateFormat } from '../../../utils/date';
-import { formatLocation } from '../../../utils/other';
+import { currencyFormat, formatLocation } from '../../../utils/other';
 
 const Offers = () => {
   const [requests, setRequests] = useState([]);
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState('');
 
-  const company_id = '642dcf9cda01b4cdf1749f41';
+  const company_id = JSON.parse(localStorage.getItem('company')).id;
+  // const company_id = '642dcf9cda01b4cdf1749f41';
 
   // const fetchRequests = async () => {
   //   try {
@@ -176,7 +177,7 @@ const Offers = () => {
                                       </div>
                                       <div className="flex gap-1 flex-row justify-between items-center w-full">
                                         <p className="text-sm text-[#5B5B5B] font-normal">
-                                          $500
+                                          {currencyFormat(request?.total_amount)}
                                         </p>
                                         <p className="text-sm text-[#12B76A]">
                                           25% Provided

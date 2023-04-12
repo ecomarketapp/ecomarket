@@ -14,18 +14,93 @@ import { useRouter } from 'next/router';
 import ProfileRedirectModal from '../../components/modals/ProfileRedirectModal';
 
 const Dashboard = () => {
+  const {
+    wallet,
+    address,
+    connected,
+    select,
+    connect,
+    disconnect,
+    signMessage,
+    signTransaction,
+  } = useWallet();
+
   const [location, setLocations] = useState();
-  const [collector, setCollector] = useState();
+  const [collector, setCollector] = useState({});
   const [empty, setEmpty] = useState(false);
   const [open, setOpen] = useState(false);
   const [locationName, setLocationName] = useState('all');
   const [searchvalue, setSearchValue] = useState('');
+
+  // const location_id = JSON.parse(localStorage.getItem('collector')).location._id;
+
   const fetchRequests = async ({ pageParam = 1 }) => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests?page=${pageParam}&size=6&filter=location&location=${locationName}`
     );
     return res.json();
   };
+  useEffect(() => {
+    console.log(address);
+    console.log(wallet);
+    if (address) {
+      // let address = '7889800';
+      // console.log(wallet.adapter.name.toLowerCase());
+      backend
+        .authCollector(address)
+        .then((collector) => {
+          if (collector.status == true) {
+            console.log(collector.data);
+            setCollector(collector.data);
+          } else {
+            router.push('/connect-wallet/collector');
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      // setInputs((inputs) => ({ ...inputs, collector }));
+      console.log(collector, 'collector');
+    }
+
+    // checkStatus();
+  }, [address]);
+
+  const checkStatus = () => {
+    console.log(collector, 'status collector');
+// setTimeout(function(){
+    if (collector != undefined ) {
+      if (collector?.name || collector?.phone || collector?.email) {
+        console.log('enteredd');
+        setOpen(false);
+        setEmpty(false);
+      } else {
+        setOpen(true);
+        setEmpty(true);
+      }
+    }
+  // });
+  };
+
+  // return console.log(data.pages);
+
+  useEffect(checkStatus, [address, collector]);
+
+  console.log(address, 'tesrtingggg');
+
+  // const fetchRequests = async ({ pageParam = 1 }) => {
+  //   if (location_id) {
+  //     const res = await fetch(
+  //       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/locations/${collector?.location?._id}/requests`
+  //       // `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests?page=${pageParam}&size=6&filter=location&location=${collector?.location?.id}`
+  //     );
+  //     return res.json();
+  //   } else {
+  //     const res = await fetch(
+  //       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests?page=${pageParam}&size=6&filter=location&location=${locationName}`
+  //     );
+  //   }
+  // };
 
   const {
     isLoading,
@@ -43,44 +118,7 @@ const Dashboard = () => {
     keepPreviousData: true,
   });
 
-  const {
-    wallet,
-    address,
-    connected,
-    select,
-    connect,
-    disconnect,
-    signMessage,
-    signTransaction,
-  } = useWallet();
-
   const router = useRouter();
-  useEffect(() => {
-    console.log(address);
-    console.log(wallet);
-    if (address) {
-      // let address = '7889800';
-      // console.log(wallet.adapter.name.toLowerCase());
-      backend
-        .authCollector(address)
-        .then((collector) => {
-          if (collector.status == true) {
-            console.log(collector, 'collector');
-
-            setCollector(collector.data);
-          } else {
-            router.push('/connect-wallet/collector');
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-      // setInputs((inputs) => ({ ...inputs, collector }));
-      console.log(collector, 'collector');
-    }
-
-    // checkStatus();
-  }, [address]);
 
   useEffect(() => {
     const CancelToken = axios.CancelToken;
@@ -116,22 +154,6 @@ const Dashboard = () => {
   const onChange = (value) => {
     setLocationName(value);
   };
-
-  const checkStatus = () => {
-    console.log(collector, 'status collector');
-    if (collector) {
-      if (collector?.name || collector?.phone || collector?.email) {
-        console.log('enteredd');
-        setOpen(false);
-        setEmpty(false);
-      } else {
-        setOpen(true);
-        setEmpty(true);
-      }
-    }
-  };
-
-  useEffect(checkStatus, [address, collector]);
 
   useEffect(() => {
     router.prefetch('/connect-wallet/collector');
@@ -237,20 +259,9 @@ const Dashboard = () => {
                           <h5 className=" text-2xl text-gray-700">
                             Requests in your location
                           </h5>
-                          <span className="flex items-center text-gray-400 bg-white text-sm border-gray-300 border px-5 rounded-full h-12 gap-5 mt-3 md:mt-0">
+                          {/* <span className="flex items-center text-gray-400 bg-white text-sm border-gray-300 border px-5 rounded-full h-12 gap-5 mt-3 md:mt-0">
                             Filter By:
-                            {/* <button className="flex items-center text-gray-600 ">
-                                                    Ikeja, Lagos
-                                                        <span className='text-sm'>
-                                                        <DropdownIcon className="text-sm  "/>
-                                                        </span>
-                                                    </button> */}
-                            {/* locations */}
-                            {/* <select value={this.state.fruit} onChange={this.handleChange}
-                                                        
-                                                    >
-                                                        
-                                                    </select> */}
+                            
                             <select
                               style={{ background: 'transparent' }}
                               className="focus:outline-none h-full border-none cursor-pointer text-gray-600 w-auto py-2 "
@@ -264,7 +275,7 @@ const Dashboard = () => {
                                   </option>
                                 ))}
                             </select>
-                          </span>
+                          </span> */}
                         </div>
 
                         {isLoading ? (
@@ -275,7 +286,7 @@ const Dashboard = () => {
                           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-9 gap-y-9 mt-7 relative">
                             {data &&
                               data.pages.map((page) =>
-                                page.data.length > 1 ? (
+                                page.data.length > 0 ? (
                                   page.data.map((request, index) => (
                                     <>
                                       <Link

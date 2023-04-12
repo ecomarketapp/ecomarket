@@ -217,25 +217,26 @@ const Dashboard = () => {
   }, [address]);
 
   const checkStatus = () => {
-    if (company) {
-      if (
-        company?.name ||
-        company?.contact_person ||
-        company?.contact_email ||
-        company?.contact_phone
-      ) {
-        console.log('enteredd');
-        setOpen(false);
-        setEmpty(false);
-      } else {
-        setOpen(true);
-        setEmpty(true);
+    setTimeout(function () {
+      if (company) {
+        if (
+          company?.name ||
+          company?.contact_person ||
+          company?.contact_email ||
+          company?.contact_phone
+        ) {
+          console.log('enteredd');
+          setOpen(false);
+          setEmpty(false);
+        } else {
+          setOpen(true);
+          setEmpty(true);
+        }
       }
-    }
+    }, 3000);
   };
 
   useEffect(checkStatus, [address, company]);
-
   return (
     <>
       {connected ? (

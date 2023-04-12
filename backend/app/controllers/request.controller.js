@@ -28,9 +28,12 @@ module.exports = {
        * TODO: generate title
        * verify - scrap category and subcategory
        */
+      // return console.log(req.body);
+
       const collection_center = await CollectionCenter.findById(c_center_id)
       .populate({ path: `location`, model: Location })
       .lean().exec();
+
       if (!collection_center || !collection_center.location) {
         return res.status(404).json({
           status: false,
@@ -45,6 +48,8 @@ module.exports = {
           message: `Company not found.`,
         });
       }
+      // return console.log(company_find);
+
       const expiry_date = dayjs(expires_at).add(1, 'd').toJSON();
       // Create a request
       const total_amount = quantity_required * amount_per_unit;
@@ -60,13 +65,14 @@ module.exports = {
         total_amount:total_amount,
         collection_center: c_center_id,
         location: collection_center.location._id,
-        companyId,
+        company:companyId,
       });
+      // return console.log(request);
       // Save request in the database
       request = await request.save()
-      .populate({ path: 'company', model: Company, })
-      .populate({ path: 'category', model: Category, })
-      .populate({ path: 'subcategory', model: Category, });
+      // .populate({ path: 'company', model: Company, })
+      // .populate({ path: 'category', model: Category, })
+      // .populate({ path: 'subcategory', model: Category, });
       return res.send({ status: true, data: request });
     } catch (error) {
       return res.status(500).send({
