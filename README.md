@@ -14,7 +14,7 @@ For more details on the vision of EcoMarket, and how it works, refer to [its BUI
 
 ### Step 1: Clone this repo
 
-`git clone`
+`git clone https://github.com/ChainBuilderPO/ecomarket.git`
 
 ### Step 2: Run the backend
 
