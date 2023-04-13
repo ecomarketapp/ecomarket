@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import DropdownIcon from '../../components/Icons/DropdownIcon';
 import ExpandMoreVertical from '../../components/Icons/ExpandMoreVertical';
 import UpwardIcon from '../../components/Icons/UpwardIcon';
@@ -31,15 +31,18 @@ const Dashboard = () => {
   const [open, setOpen] = useState(false);
   const [locationName, setLocationName] = useState('all');
   const [searchvalue, setSearchValue] = useState('');
+  const [collectorLocation, setCollectorLocation] = useState();
+  const [requests, setRequests] = useState([]);
 
   // const location_id = JSON.parse(localStorage.getItem('collector')).location._id;
 
-  const fetchRequests = async ({ pageParam = 1 }) => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests?page=${pageParam}&size=6&filter=location&location=${locationName}`
-    );
-    return res.json();
-  };
+  
+  // const fetchRequests = async ({ pageParam = 1 }) => {
+  //   const res = await fetch(
+  //     `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests?page=${pageParam}&size=6&filter=location&location=${locationName}`
+  //   );
+  //   return res.json();
+  // };
   useEffect(() => {
     console.log(address);
     console.log(wallet);
@@ -50,8 +53,10 @@ const Dashboard = () => {
         .authCollector(address)
         .then((collector) => {
           if (collector.status == true) {
-            console.log(collector.data);
+            console.log(collector.data, "ppppp");
             setCollector(collector.data);
+      setCollectorLocation(collector.data.location._id);
+
           } else {
             router.push('/connect-wallet/collector');
           }
@@ -61,6 +66,7 @@ const Dashboard = () => {
         });
       // setInputs((inputs) => ({ ...inputs, collector }));
       console.log(collector, 'collector');
+
     }
 
     // checkStatus();
@@ -87,20 +93,26 @@ const Dashboard = () => {
   useEffect(checkStatus, [address, collector]);
 
   console.log(address, 'tesrtingggg');
+  console.log(collector, 'collectorrrr');
+  console.log(collectorLocation, 'collectorLocation');
 
-  // const fetchRequests = async ({ pageParam = 1 }) => {
-  //   if (location_id) {
-  //     const res = await fetch(
-  //       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/locations/${collector?.location?._id}/requests`
-  //       // `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests?page=${pageParam}&size=6&filter=location&location=${collector?.location?.id}`
-  //     );
-  //     return res.json();
-  //   } else {
-  //     const res = await fetch(
-  //       `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests?page=${pageParam}&size=6&filter=location&location=${locationName}`
-  //     );
-  //   }
-  // };
+  const fetchRequests = async (collectorLocation) => {
+    if (collector) {
+
+      // console.log()
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/locations/${JSON.stringify(collectorLocation)}/requests`
+        // `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests?page=${pageParam}&size=6&filter=location&location=${collector?.location?.id}`
+      );
+      return res.json();
+    } 
+    
+    // else {
+    //   const res = await fetch(
+    //     `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests?page=${pageParam}&size=6&filter=location&location=${locationName}`
+    //   );
+    // }
+  };
 
   const {
     isLoading,
@@ -111,14 +123,45 @@ const Dashboard = () => {
     fetchNextPage,
     isFetching,
     isFetchingNextPage,
-  } = useInfiniteQuery(['requests', locationName], fetchRequests, {
+  } = useInfiniteQuery(['requests', collectorLocation], fetchRequests, {
     getNextPageParam: (lastPage, pages) => {
-      return lastPage.page + 1;
+      return lastPage?.page + 1;
     },
     keepPreviousData: true,
   });
 
   const router = useRouter();
+
+  useCallback(() => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
+    const getRequests = async () => {
+      try {
+        // let collectorLocation= {collector}
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/locations/${JSON.stringify(collectorLocation)}/requests`,
+          {
+            cancelToken: source.token,
+          }
+        );
+        console.log(res.data);
+
+        setRequests(res.data);
+        console.log(requests)
+      } catch (err) {
+        if (axios.isCancel(err)) {
+          console.log('cancelled');
+        } else {
+          throw err;
+        }
+      }
+    };
+    getRequests();
+    return () => {
+      source.cancel();
+    };
+  }, [collectorLocation]);
 
   useEffect(() => {
     const CancelToken = axios.CancelToken;
@@ -285,9 +328,9 @@ const Dashboard = () => {
                         ) : (
                           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-9 gap-y-9 mt-7 relative">
                             {data &&
-                              data.pages.map((page) =>
-                                page.data.length > 0 ? (
-                                  page.data.map((request, index) => (
+                              data?.pages?.map((page) =>
+                                page?.data?.length > 0 ? (
+                                  page?.data?.map((request, index) => (
                                     <>
                                       <Link
                                         href={`/collector/requests/${request.id}`}
