@@ -11,7 +11,7 @@ import { toast } from 'react-hot-toast';
 // import { ApolloProvider } from '@apollo/client';
 // import client from '@/apollo-client';
 import { AppProps } from 'next/app';
-// import { CustomThemeProvider } from '@/contexts/userTheme';
+import { CustomThemeProvider } from '@/contexts/userTheme';
 import { Provider } from 'react-redux';
 // import store from "@/state/index"
 import store from '@/state/store';

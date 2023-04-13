@@ -165,7 +165,7 @@ const Header = () => {
                         <button
                           onClick={() => {
                             disconnect();
-                            window.location.reload();
+                            router.replace('/');
                           }}
                           className="flex items-center py-2 px-4 text-sm justify-start bg-white border-0 w-full hover:bg-gray-100 "
                         >

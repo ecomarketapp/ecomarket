@@ -203,7 +203,7 @@ const Offers = () => {
                           </>
                         )}
 
-                        {/* <div className="flex items-center py-4 px-4 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
+                        <div className="flex items-center py-4 px-4 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
                           <div className="flex items-start gap-3 w-full">
                             <div className="w-full">
                               <div className="flex gap-1 items-center flex-row justify-between w-full">
@@ -280,21 +280,8 @@ const Offers = () => {
                               </div>
                             </div>
                           </div>
-                        </div> */}
+                        </div>
                       </div>
-
-                      {/* <div className="py-4 border-t border-gray-300 flex items-center justify-between">
-                      <div>Showing 1 to 10 of 20 results</div>
-
-                      <div className="flex items-center justify-between gap-2">
-                        <button className="px-4 py-2 border border-gray-300 bg-white text-gray-600 rounded-md">
-                          Previous
-                        </button>
-                        <button className="px-4 py-2 border border-gray-300 bg-white text-gray-600 rounded-md">
-                          Next
-                        </button>
-                      </div>
-                    </div> */}
                     </div>
                   </div>
                 </div>

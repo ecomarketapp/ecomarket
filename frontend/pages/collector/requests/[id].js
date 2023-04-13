@@ -14,50 +14,7 @@ import UserLayout from '../../../components/UserLayout/Layout';
 import { UseContextProvider } from '../../../contexts/NavigationContext';
 import { dateFromNow } from '../../../utils/date';
 
-// export const getStaticPaths = async () => {
-//   const res = await axios.get(`http://127.0.0.1:8080/api/requests`);
-//   if (res) {
-//     const data = await res.data.data;
 
-//     const paths = data.map((request) => {
-//       return {
-//         params: {
-//           id: request.id.toString(),
-//         },
-//       };
-//     });
-
-//     return {
-//       paths,
-//       fallback: false,
-//     };
-//   }
-// };
-
-// export const getStaticProps = async (context) => {
-//   try {
-//     const id = context.params.id;
-//     // const id = (location.pathname.split("/")[3]);
-//     console.log(id);
-//     const res = await axios.get('http://127.0.0.1:8080/api/requests/' + id);
-
-//     if (res) {
-//       console.log(res, 'ress');
-//       const data = await res.data;
-
-//       return {
-//         props: { data },
-//       };
-//     }
-//   } catch (err) {
-//     return {
-//       redirect: {
-//         destination: '/login',
-//         statusCode: 307,
-//       },
-//     };
-//   }
-// };
 
 const RequestDetail = ({ id }) => {
 

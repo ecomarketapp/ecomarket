@@ -7,26 +7,6 @@ import Link from 'next/link';
 // import 'react-tabs/style/react-tabs.css';
 
 const Home = () => {
-  const fetchRequests = async ({ pageParam = 1 }) => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/requests?page=${pageParam}&size=9`
-    );
-    return res.json();
-  };
-
-  const {
-    isLoading,
-    isError,
-    error,
-    data,
-    fetchNextPage,
-    isFetching,
-    isFetchingNextPage,
-  } = useInfiniteQuery(['requests'], fetchRequests, {
-    getNextPageParam: (lastPage, pages) => {
-      return lastPage.page + 1;
-    },
-  });
 
   return (
     <>

@@ -14,29 +14,7 @@ const Dashboard = () => {
   const [location, setLocations] = useState();
   const [locationName, setLocationName] = useState('all');
   const [searchvalue, setSearchValue] = useState('');
-  const fetchRequests = async ({ pageParam = 1 }) => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/requests?page=${pageParam}&size=6&filter=location&location=${locationName}`
-    );
-    return res.json();
-  };
-
-  const {
-    isLoading,
-    isError,
-    error,
-    isSuccess,
-    data,
-    fetchNextPage,
-    isFetching,
-    isFetchingNextPage,
-  } = useInfiniteQuery(['requests', locationName], fetchRequests, {
-    getNextPageParam: (lastPage, pages) => {
-      return lastPage.page + 1;
-    },
-    keepPreviousData: true,
-  });
-
+  
   const {
     wallet,
     address,

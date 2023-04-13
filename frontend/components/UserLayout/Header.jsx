@@ -7,6 +7,7 @@ import SettingsIcon from '../Icons/SettingsIcon';
 import ExpandMoreHorizontal from '../Icons/ExpandMoreHorizontal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
+import { getPage } from '../../utils/utils';
 
 const truncateAddress = (address) => {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -37,25 +38,6 @@ const Header = () => {
     signMessage,
     signTransaction,
   } = useWallet();
-
-  // const handleLogout = (e) =>{
-  //     e.preventDefault();
-  //     localStorage.removeItem('user')
-
-  //     router.push('/login')
-  //     // window.location.reload();
-  // }
-
-  // useEffect(()=>{
-  //     if(!user){
-  //         router.push('/login')
-  //     }
-  // }, [])
-
-  // const { currentUser } = useSelector((state) => state.user)
-  // const dispatch = useDispatch()
-
-  // automatically authenticate user if token is found
 
   return (
     <>
@@ -167,7 +149,7 @@ const Header = () => {
                             className="flex items-center py-2 px-4 text-sm justify-start bg-white border-0 w-full hover:bg-gray-100 "
                             onClick={(e) => {
                               disconnect();
-                              window.location.reload();
+                              router.replace('/');
                             }}
                           >
                             <span className="mr-3">
@@ -277,7 +259,10 @@ const Header = () => {
                           </Link>
 
                           <button
-                            onClick={disconnect}
+                            onClick={(e) => {
+                              disconnect();
+                              router.replace('/');
+                            }}
                             className="flex items-center py-2 px-4 text-sm justify-start bg-white border-0 w-full hover:bg-gray-100 "
                           >
                             <span className="mr-3">

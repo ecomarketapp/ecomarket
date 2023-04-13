@@ -1,14 +1,11 @@
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import CompanyLayout from '../../components/CompanyLayout/Layout';
-// import DropdownIcon from '../../components/Icons/DropdownIcon';
 import ExpandMoreVertical from '../../components/Icons/ExpandMoreVertical';
 import UpwardIcon from '../../components/Icons/UpwardIcon';
-import axios from 'axios';
-// import { CreateOffer } from '../../components/modals/CreateOffer';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import { useRouter } from 'next/router';
-import { findProfile, newProfile } from '../../utils/utils';
+import { findProfile, newProfile, getPage } from '../../utils/utils';
 import Waiting from '../../components/Waiting';
 
 const Dashboard = () => {
@@ -49,13 +46,13 @@ const Dashboard = () => {
     const profile = await findProfile(address);
 
     if (!profile.status) {
-      const nProfile = newProfile(address);
-
-      console.log(nProfile);
+      router.push(`/${getPage()}/profile`);
     } else {
-      console.log('old', profile);
+      if (profile.data.name == undefined) {
+        router.push(`/${getPage()}/profile`);
+      }
+      setUser(profile.data);
     }
-    console.log(profile);
   };
 
   useEffect(() => {
@@ -84,102 +81,7 @@ const Dashboard = () => {
                   </div>
 
                   <div className="w-full mb-6 py-6 h-full">
-                    <div className="grid grids-cols-1 md:grid-cols-3 gap-5">
-                      <div className="shadow w-full bg-white relative  py-6 rounded flex flex-col justify-between">
-                        <div className="flex items-center justify-between flex-row w-full px-6">
-                          <h5 className="text-gray-600 text-lg">Your Offers</h5>
-                          <button className="text-gray-400 text-xs rounded-full hover:bg-gray-200 p-2 transition duration-200 ease">
-                            <ExpandMoreVertical />
-                          </button>
-                        </div>
-                        <div className="py-2 px-6">
-                          <div className="flex items-center py-1 mb-1 text-sm w-full border-gray-200">
-                            <div className="flex items-start gap-3 w-full">
-                              <div className="w-full">
-                                <div className="flex gap-1 items-center flex-row justify-between w-full">
-                                  <p className="text-lg text-[#5B5B5B] font-semibold">
-                                    120kg of PET Bottles
-                                  </p>
-
-                                  <p className="text-xs font-normal">
-                                    Expires: 20/10/22
-                                  </p>
-                                </div>
-                                <div className="flex gap-1 flex-row justify-between items-center w-full">
-                                  <p className="text-sm text-[#5B5B5B] font-normal">
-                                    500 TRX
-                                  </p>
-                                  <p className="text-sm text-[#12B76A]">
-                                    25% Provided
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex items-center py-1 mb-1 text-sm w-full border-gray-200">
-                            <div className="flex items-start gap-3 w-full">
-                              <div className="w-full">
-                                <div className="flex gap-1 items-center flex-row justify-between w-full">
-                                  <p className="text-lg text-[#5B5B5B] font-semibold">
-                                    120kg of PET Bottles
-                                  </p>
-
-                                  <p className="text-xs font-normal">
-                                    Expires: 20/10/22
-                                  </p>
-                                </div>
-                                <div className="flex gap-1 flex-row justify-between items-center w-full">
-                                  <p className="text-sm text-[#5B5B5B] font-normal">
-                                    500 TRX
-                                  </p>
-                                  <p className="text-sm text-[#12B76A]">
-                                    25% Provided
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="pt-4 border-t border-gray-100 flex items-center justify-end w-full">
-                          <Link href="/company/offers">
-                            <a className="text-[#DD7D37] text-base px-6">
-                              view offers
-                            </a>
-                          </Link>
-                        </div>
-                      </div>
-                      <div className="shadow w-full bg-white relative  py-6 rounded flex flex-col justify-between">
-                        <div className="flex items-center justify-between flex-row w-full px-6">
-                          <h5 className="text-gray-600 text-lg">
-                            Today's Deliveries
-                          </h5>
-                          <button className="text-gray-400 text-xs rounded-full hover:bg-gray-200 p-2 transition duration-200 ease">
-                            <ExpandMoreVertical />
-                          </button>
-                        </div>
-                        <div className="py-4 px-6 flex items-center justify-between">
-                          <div>
-                            <h4>14</h4>
-                            <div className="inline-flex items-center gap-1 py-4 ">
-                              <span className="text-[#45CD85] inline-flex items-center gap-1">
-                                <UpwardIcon /> 10%
-                              </span>{' '}
-                              yesterday
-                            </div>
-                          </div>
-
-                          <div>
-                            <img src="/images/_Chart.svg" />
-                          </div>
-                        </div>
-                        <div className="pt-4 border-t border-gray-100 flex items-center justify-end w-full">
-                          <Link href="/company/offers">
-                            <a className="text-[#DD7D37] text-base px-6">
-                              view offers
-                            </a>
-                          </Link>
-                        </div>
-                      </div>
+                    <div className="grid  full-width">
                       <div className="shadow w-full bg-white relative py-6 rounded flex flex-col justify-between">
                         <div className="px-6">
                           <div className="flex items-center justify-between flex-row w-full">
@@ -200,6 +102,75 @@ const Dashboard = () => {
                               view wallet
                             </a>
                           </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-10 w-full bg-white mt-3 md:mt-0  relative overflow-hidden rounded h-full mx-auto  ">
+                    {/* <div className="absolute h-full border border-[#E4E7EC] inset-0 z-0 mx-auto w-[0.5px] hidden md:block"></div> */}
+                    <div className=" grid grid-cols-1 py-6 w-full gap-6 relative">
+                      <div className=" flex flex-col justify-between">
+                        <div className=" flex flex-col  ">
+                          <div className=" w-full bg-white mt-3 md:mt-0  relative overflow-hidden rounded h-full fade-in">
+                            <div className="flex items-center justify-center flex-col gap-4">
+                              <img src="/images/file-not-found.svg" />
+                              <p>No requests avalaible</p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center py-4 px-4 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
+                            <div className="flex items-start gap-3 w-full">
+                              <div className="w-full">
+                                <div className="flex gap-1 items-center flex-row justify-between w-full">
+                                  <p className="text-lg text-[#5B5B5B] font-semibold">
+                                    120kg of PET Bottles
+                                  </p>
+
+                                  <p className="text-xs font-normal">
+                                    Expires: 20/10/22
+                                  </p>
+                                </div>
+                                <div className="flex gap-1 flex-row justify-between items-center w-full">
+                                  <p className="text-sm text-[#5B5B5B] font-normal">
+                                    500 TRX
+                                  </p>
+                                  <p className="text-sm text-[#12B76A]">
+                                    25% Provided
+                                  </p>
+                                </div>
+                                <div className="flex gap-1 flex-row justify-between items-end w-full">
+                                  <p className="text-sm">Ikeja, Lagos</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          {/* Next */}
+                          <div className="flex items-center py-4 px-4 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
+                            <div className="flex items-start gap-3 w-full">
+                              <div className="w-full">
+                                <div className="flex gap-1 items-center flex-row justify-between w-full">
+                                  <p className="text-lg text-[#5B5B5B] font-semibold">
+                                    120kg of PET Bottles
+                                  </p>
+
+                                  <p className="text-xs font-normal">
+                                    Expires: 20/10/22
+                                  </p>
+                                </div>
+                                <div className="flex gap-1 flex-row justify-between items-center w-full">
+                                  <p className="text-sm text-[#5B5B5B] font-normal">
+                                    500 TRX
+                                  </p>
+                                  <p className="text-sm text-[#12B76A]">
+                                    25% Provided
+                                  </p>
+                                </div>
+                                <div className="flex gap-1 flex-row justify-between items-end w-full">
+                                  <p className="text-sm">Ikeja, Lagos</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

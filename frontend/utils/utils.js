@@ -10,11 +10,17 @@ async function findProfile(address) {
 
 async function newProfile(address) {
   console.log(address);
+  const payload = JSON.stringify({ wallet: address });
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/companies`,
     {
       method: 'POST',
-      body: JSON.stringify({ wallet: address }),
+      body: payload,
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     }
   );
 
@@ -23,4 +29,8 @@ async function newProfile(address) {
   return data;
 }
 
-export { findProfile, newProfile };
+function getPage() {
+  return window.location.pathname.split('/')[1];
+}
+
+export { findProfile, newProfile, getPage };

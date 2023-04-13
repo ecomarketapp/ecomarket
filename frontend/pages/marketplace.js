@@ -6,48 +6,9 @@ import DropdownIcon from '../components/Icons/DropdownIcon';
 import { useQuery, useInfiniteQuery } from 'react-query';
 import LoadingState from '../components/LoadingState';
 
-// export const getStaticProps = async () => {
-//     try{
-//       const res = await fetch('http://127.0.0.1:8080/api/requests')
-//       if(res){
-//         console.log(res);
-//         const data = await res.json();
-
-//         return {
-//           props: {requests: data}
-//         }
-//       }
-//     }catch(err){
-
-//     }
-
-//   }
 
 const MarketPlace = () => {
-  const fetchRequests = async ({ pageParam = 1 }) => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/requests?page=${pageParam}&size=9`
-    );
-    return res.json();
-  };
-
-  const {
-    isLoading,
-    isError,
-    error,
-    data,
-    fetchNextPage,
-    isFetching,
-    isFetchingNextPage,
-  } = useInfiniteQuery(['requests'], fetchRequests, {
-    getNextPageParam: (lastPage, pages) => {
-      return lastPage.page + 1;
-    },
-  });
-
-  if (isError) {
-    return <h2>{error.message}</h2>;
-  }
+  
 
   return (
     <>

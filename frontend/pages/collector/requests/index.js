@@ -8,77 +8,11 @@ import { useQuery, useInfiniteQuery } from 'react-query';
 import LoadingState from '../../../components/LoadingState';
 
 const Requests = () => {
-    const location_id = '642dcf8d8232f6c535dee4fc'
-  const fetchRequests = async ({ pageParam = 1 }) => {
-    const res = await fetch(
-      //   `http://127.0.0.1:8080/api/requests?page=${pageParam}&size=9&location=${location_id}`
-      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/requests?location=${location_id}`
-    );
-    return res.json();
-  };
-
-  const {
-    isLoading,
-    isError,
-    error,
-    data,
-    fetchNextPage,
-    isFetching,
-    isFetchingNextPage,
-  } = useInfiniteQuery(['requests'], fetchRequests, {
-    getNextPageParam: (lastPage, pages) => {
-      return lastPage.page + 1;
-    },
-  });
-
-  // const fetchUsers = async ({ pageParam = 1 }) => {
-  //     const res = await fetch(`https://randomuser.me/api/?page=${pageParam}&results=10`);
-  //     console.log(res.pages)
-  //     return res.json();
-  // }
-
-  // const {
-  //     isLoading,
-  //     isError,
-  //     error,
-  //     data,
-  //     fetchNextPage,
-  //     isFetching,
-  //     isFetchingNextPage
-  // } = useInfiniteQuery(['colors'], fetchUsers, {
-  //     getNextPageParam: (lastPage, pages) => {
-  //         return lastPage.info.page + 1
-  //     }
-  // })
-
-  // if (isLoading) {
-  //     return <h2>Loading...</h2>
-  // }
 
   if (isError) {
     return <h2>{error.message}</h2>;
   }
-  // const fetchRequests = async ()=>{
-  //     try{
-  //         const res = await axios.get( `http://127.0.0.1:8080/api/requests` );
-  //         // console.log(res)
-  //         return res.data
-  //         // setRequests(res.data.data)
 
-  //     }catch(err){
-  //        console.log(err)
-  //     }
-  // };
-
-  // const {data, status} = useQuery("requests", fetchRequests)
-
-  // if(status === "loading"){
-  //     return <LoadingState/>
-  // }
-
-  // if(status === "error"){
-  //     return <div>Error</div>
-  // }
 
   return (
     <>
@@ -179,8 +113,7 @@ const Requests = () => {
                                 <div className=" flex items-start justify-between mt-3 px-5 py-4 flex-col w-full gap-2">
                                   <div className="flex items-center justify-between w-full">
                                     <h4 className="font-semibold text-[#3D4044] text-lg">
-                                        {request.title}
-
+                                      {request.title}
                                     </h4>
                                     <p>PET Bottles</p>
                                   </div>
