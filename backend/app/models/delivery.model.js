@@ -5,24 +5,43 @@ module.exports = (mongoose) => {
     {
       delivery_size: {
         type: Number,
-        required: true,
       },
-      delivery_fees: {
+      delivery_amount: {
         type: Number,
         // only collected after delivery status is completed
       },
       delivery_proof: {
         // IPFS URL - uploaded file that indicates
         type: mongoose.Schema.Types.Mixed,
-        required: true,
-      },
-      delivery_time: {
-        type: Date,
-        required: true,
       },
       delivery_status: {
-        // i don't know what to do with this...
-        // should it be an enum?
+        type: String,
+        enum: ['AWAITING_APPROVAL', 'APPROVED', 'EXPIRED', 'DELIVERED', 'DISPUTED', 'REWARD_CLAIMED'],
+        required: [true, 'Delivery status is required']
+      },
+      started_at: {
+        type: Date,
+      },
+      approved_at: {
+        type: Date,
+      },
+      expired_at: {
+        type: Date,
+      },
+      delivered_at: {
+        type: Date,
+      },
+      disputed_at: {
+        type: Date,
+      },
+      claimed_at: {
+        type: Date,
+      },
+      approver_signature: {
+        type: String
+      },
+      approver_wallet_address: {
+        type: String
       },
       collector: {
         type: mongoose.Schema.Types.ObjectId,

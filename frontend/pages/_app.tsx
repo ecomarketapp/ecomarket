@@ -8,10 +8,10 @@ import {
 // @ts-ignore
 import { toast } from 'react-hot-toast';
 // import { SnackbarProvider } from "notistack";
-import { ApolloProvider } from '@apollo/client';
-import client from '@/apollo-client';
+// import { ApolloProvider } from '@apollo/client';
+// import client from '@/apollo-client';
 import { AppProps } from 'next/app';
-import { CustomThemeProvider } from '@/contexts/userTheme';
+// import { CustomThemeProvider } from '@/contexts/userTheme';
 import { Provider } from 'react-redux';
 // import store from "@/state/index"
 import store from '@/state/store';
@@ -26,7 +26,7 @@ import '@tronweb3/tronwallet-adapter-react-ui/style.css';
 import { LedgerAdapter } from '@tronweb3/tronwallet-adapter-ledger';
 
 // import AppUpdater from "@/state/app/updater"
-import { QueryClientProvider, QueryClient } from 'react-query';
+// import { QueryClientProvider, QueryClient } from 'react-query';
 
 // function Updaters() {
 //   return (
@@ -36,7 +36,7 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 //   )
 // }
 
-const queryClient = new QueryClient();
+// const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
   function onError(e: WalletError) {
@@ -70,7 +70,7 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
 
   return (
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
+      {/* <QueryClientProvider client={queryClient}> */}
         {/* <CustomThemeProvider>
         
           <SnackbarProvider
@@ -82,7 +82,7 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
           > */}
 
         {/* <Updaters/> */}
-        <ApolloProvider client={client}>
+        {/* <ApolloProvider client={client}> */}
           <WalletProvider onError={onError} adapters={adapters}>
             <WalletModalProvider>
               <div suppressHydrationWarning>
@@ -92,10 +92,10 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
               </div>{' '}
             </WalletModalProvider>
           </WalletProvider>
-        </ApolloProvider>
+        {/* </ApolloProvider> */}
         {/* </SnackbarProvider>
       </CustomThemeProvider> */}
-      </QueryClientProvider>
+      {/* </QueryClientProvider> */}
     </Provider>
   );
 }

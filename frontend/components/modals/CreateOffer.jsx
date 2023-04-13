@@ -255,9 +255,12 @@ function CreateOfferForm({
 
     const getCategories = async () => {
       try {
-        const res = await axios.get('http://127.0.0.1:8080/api/categories', {
-          cancelToken: source.token,
-        });
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/categories`,
+          {
+            cancelToken: source.token,
+          }
+        );
         setCategories(res.data.data);
         // console.log(res)
       } catch (err) {
@@ -281,7 +284,7 @@ function CreateOfferForm({
     const getCenters = async () => {
       try {
         const res = await axios.get(
-          `http://127.0.0.1:8080/api/companies/${company_id}/collectioncenters`,
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/companies/${company_id}/collectioncenters`,
           // 'http://127.0.0.1:8080/api/collectioncenters',
           { cancelToken: source.token }
         );

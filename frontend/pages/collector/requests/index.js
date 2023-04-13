@@ -11,8 +11,8 @@ const Requests = () => {
     const location_id = '642dcf8d8232f6c535dee4fc'
   const fetchRequests = async ({ pageParam = 1 }) => {
     const res = await fetch(
-    //   `http://127.0.0.1:8080/api/requests?page=${pageParam}&size=9&location=${location_id}`
-      `http://127.0.0.1:8080/api/requests?location=${location_id}`
+      //   `http://127.0.0.1:8080/api/requests?page=${pageParam}&size=9&location=${location_id}`
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/requests?location=${location_id}`
     );
     return res.json();
   };

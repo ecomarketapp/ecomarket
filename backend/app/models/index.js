@@ -16,5 +16,6 @@ db.locations = require('./location.model')(mongoose);
 db.requests = require('./request.model')(mongoose);
 db.categories = require('./category.model')(mongoose);
 db.collectioncenter = require('./collectioncenter.model')(mongoose);
+db.transactions = require('./transaction.model')(mongoose);
 
 module.exports = db;

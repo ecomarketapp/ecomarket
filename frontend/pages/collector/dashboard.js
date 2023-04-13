@@ -16,7 +16,7 @@ const Dashboard = () => {
   const [searchvalue, setSearchValue] = useState('');
   const fetchRequests = async ({ pageParam = 1 }) => {
     const res = await fetch(
-      `http://127.0.0.1:8080/api/requests?page=${pageParam}&size=6&filter=location&location=${locationName}`
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/requests?page=${pageParam}&size=6&filter=location&location=${locationName}`
     );
     return res.json();
   };
@@ -54,9 +54,12 @@ const Dashboard = () => {
 
     const getLocations = async () => {
       try {
-        const res = await axios.get('http://127.0.0.1:8080/api/locations', {
-          cancelToken: source.token,
-        });
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/locations`,
+          {
+            cancelToken: source.token,
+          }
+        );
         console.log(res.data);
 
         setLocations(res.data.locations);

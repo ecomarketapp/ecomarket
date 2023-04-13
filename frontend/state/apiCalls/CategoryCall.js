@@ -10,7 +10,9 @@ const CategoryCall = () => {
         useEffect(() => {
 
             const getCategories = async() =>{
-                const res = await axios.get("http://127.0.0.1:8080/api/categories");
+                const res = await axios.get(
+                  `http://127.0.0.1:808${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/categories`
+                );
                 console.log(res.data)
                 setCategories(res.data)
             }

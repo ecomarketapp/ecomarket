@@ -5,21 +5,25 @@ module.exports = (mongoose) => {
     {
       name: {
         type: String,
-        required: [true, 'Collector name is required.'],
+        // required: [true, 'Collector name is required.'],
       },
       email: {
         type: String,
-        required: [true, 'Email Address is required for collector.'],
+        // required: [true, 'Email Address is required for collector.'],
         validate: [isEmail, 'Invalid email'],
-        unique: true,
+        // unique: true,
       },
       phone: String,
       verified_at: Date,
-      wallet_address: String,
+      wallet_address: {
+        type: String,
+        required: [true, 'Wallet Address is required for collector'],
+        unique: [true, 'Wallet address is unique for each collector']
+      },
       location: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Location',
-        required: true,
+        // required: true,
       },
     },
     { timestamps: true }

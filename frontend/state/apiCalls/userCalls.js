@@ -10,7 +10,10 @@ export const login = async (dispatch, user) => {
 
     dispatch(loginStart());
     try{
-        const res = await axios.post("http://127.0.0.1:8080/api/collectors/auth/login", user)
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/collectors/auth/login`,
+          user
+        );
         dispatch(loginSuccess(res.data));
         // router.path("collector/dashboard");
 
