@@ -92,6 +92,12 @@ const Dashboard = () => {
     }
   }, [user]);
 
+  const dateConv = (date) => {
+    const newDate = new Date(date);
+
+    return `${newDate.getUTCDay()} d : ${newDate.getUTCHours()} h : ${newDate.getUTCMinutes()} m : ${newDate.getUTCSeconds()} s`;
+  };
+
   return (
     <>
       {connected ? (
@@ -172,7 +178,9 @@ const Dashboard = () => {
                                         <h4 className="font-semibold text-[#3D4044] text-lg">
                                           {request.title}
                                         </h4>
-                                        <p>{request?.scrap_subcategory?.name}</p>
+                                        <p>
+                                          {request?.scrap_subcategory?.name}
+                                        </p>
                                       </div>
                                       <div className="flex items-center justify-between w-full">
                                         <div className="flex items-center justify-start gap-2">
@@ -182,21 +190,18 @@ const Dashboard = () => {
                                           />
                                           <div>
                                             <p className="text-base text-[#6D747D]">
-                                              {request.location &&
-                                                request.location.name}{' '}
-                                              {request.location &&
-                                                request.location.state}
+                                              {request.collection_center.title}
                                             </p>
                                           </div>
                                         </div>
-                                        <h4 className="">300kg</h4>
+                                        <h4 className="">
+                                          {request.quantity_required}kg
+                                        </h4>
                                       </div>
                                       <div className="flex items-start justify-between w-full gap-2">
                                         <p className="flex-1 text-xs text-[#878A90]">
-                                          {request.description.substring(
-                                            0,
-                                            100
-                                          )}
+                                          {request.description.substring(0, 100)}
+                                          ....
                                         </p>
                                         <div className="flex items-end justify-start flex-col gap-1 flex-1">
                                           <p className="text-xs">
@@ -204,7 +209,7 @@ const Dashboard = () => {
                                           </p>
                                           <div>
                                             <p className="text-base text-[#3D4044] font-semibold">
-                                              12d : 24h : 34m : 32s
+                                              {dateConv(request.request_expires_at)}
                                             </p>
                                           </div>
                                         </div>
