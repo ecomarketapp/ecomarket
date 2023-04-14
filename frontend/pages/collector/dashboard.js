@@ -44,7 +44,7 @@ const Dashboard = () => {
       setUser(profile.data);
     }
   };
-  const setEscrowContract = async (address) => {
+  const setEscrowContract = async () => {
     const trc20ContractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS; //contract address
 
     try {
@@ -69,7 +69,6 @@ const Dashboard = () => {
       console.log(user.location, 'locate');
       const requests = await getRequestsByLocation(user?.location?._id);
 
-      console.log(requests.data);
       setRequests(requests.data);
     }
   };

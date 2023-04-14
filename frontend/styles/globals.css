@@ -741,17 +741,16 @@ background-color: #45CD85;
     
 
 
-.adapter-react-button:hover{
+/* .adapter-react-button:hover{
   color: #DD7D37;
   background: #fff;
   border-color:#DD7D37;
 }
 .adapter-react-button{
-  display: block;
   border: 1px solid #fff;
   background:#DD7D37 !important ;
   color: #fff !important;
-}
+} */
 
 .adapter-react-button[disabled]{
   opacity: 0.4;
