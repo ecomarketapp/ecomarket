@@ -5,12 +5,17 @@ import ExpandMoreVertical from '../../components/Icons/ExpandMoreVertical';
 import UpwardIcon from '../../components/Icons/UpwardIcon';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import { useRouter } from 'next/router';
-import { findProfile, newProfile, getPage } from '../../utils/utils';
+import {
+  findProfile,
+  newProfile,
+  getPage,
+  getCompanyRequests,
+} from '../../utils/utils';
 import Waiting from '../../components/Waiting';
 
 const Dashboard = () => {
   const [user, setUser] = useState();
-  const [requests, setRequests] = useState([]);
+  const [requests, setRequests] = useState();
 
   const {
     wallet,
@@ -38,11 +43,28 @@ const Dashboard = () => {
     }
   };
 
+  const getRequests = async () => {
+    const requests = await getCompanyRequests(user.id);
+
+    console.log(requests);
+    setRequests(requests.data);
+  };
+
+  const dateConv = (date) => {
+    return new Date(date).toLocaleDateString() + ' ' + new Date(date).toLocaleTimeString()  ;
+  };
+
   useEffect(() => {
     if (address) {
       getUser(address);
     }
   }, [address]);
+
+  useEffect(() => {
+    if (user) {
+      getRequests();
+    }
+  }, [user]);
 
   return (
     <>
@@ -97,38 +119,49 @@ const Dashboard = () => {
                     <div className=" grid grid-cols-1 py-6 w-full gap-6 relative">
                       <div className=" flex flex-col justify-between">
                         <div className=" flex flex-col  ">
-                          {requests.length == 0 ? (
+                          {requests ? (
+                            <>
+                              {requests.map((request, index) => (
+                                <div
+                                  key={index}
+                                  className="flex items-center py-4 px-4 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out"
+                                >
+                                  <div className="flex items-start gap-3 w-full">
+                                    <div className="w-full">
+                                      <div className="flex gap-1 items-center flex-row justify-between w-full">
+                                        <p className="text-lg text-[#5B5B5B] font-semibold">
+                                          {request.title}
+                                        </p>
+
+                                        <p className="text-xs font-normal">
+                                          Expires:{' '}
+                                          {dateConv(request.request_expires_at)}
+                                        </p>
+                                      </div>
+                                      <div className="flex gap-1 flex-row justify-between items-center w-full">
+                                        <p className="text-sm text-[#5B5B5B] font-normal">
+                                          {request.amount_per_unit} TRX / kg of{' '}
+                                          {request.quantity_required}kg needed.
+                                        </p>
+                                        <p className="text-sm text-[#12B76A]">
+                                          0% Provided
+                                        </p>
+                                      </div>
+                                      <div className="flex gap-1 flex-row justify-between items-end w-full">
+                                        <p className="text-sm">
+                                          {request?.location?.name}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </>
+                          ) : (
                             <div className=" w-full bg-white mt-3 md:mt-0  relative overflow-hidden rounded h-full fade-in">
                               <div className="flex items-center justify-center flex-col gap-4">
                                 <img src="/images/file-not-found.svg" />
                                 <p>No requests avalaible</p>
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="flex items-center py-4 px-4 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
-                              <div className="flex items-start gap-3 w-full">
-                                <div className="w-full">
-                                  <div className="flex gap-1 items-center flex-row justify-between w-full">
-                                    <p className="text-lg text-[#5B5B5B] font-semibold">
-                                      120kg of PET Bottles
-                                    </p>
-
-                                    <p className="text-xs font-normal">
-                                      Expires: 20/10/22
-                                    </p>
-                                  </div>
-                                  <div className="flex gap-1 flex-row justify-between items-center w-full">
-                                    <p className="text-sm text-[#5B5B5B] font-normal">
-                                      500 TRX
-                                    </p>
-                                    <p className="text-sm text-[#12B76A]">
-                                      25% Provided
-                                    </p>
-                                  </div>
-                                  <div className="flex gap-1 flex-row justify-between items-end w-full">
-                                    <p className="text-sm">Ikeja, Lagos</p>
-                                  </div>
-                                </div>
                               </div>
                             </div>
                           )}
