@@ -30,9 +30,9 @@ const Home = () => {
                 </div>
 
                 <div>
-                  <Link href="/marketplace">
+                  <Link href="/connect-wallet/collector">
                     <a className="rounded-full px-5 py-4 text-md bg-[#DD7D37] text-white">
-                      Explore the Marketplace
+                      Get Started as a Collector
                     </a>
                   </Link>
                 </div>
@@ -703,7 +703,7 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 py-14 gap-10">
+              {/* <div className="grid grid-cols-1 md:grid-cols-2 py-14 gap-10">
                 <div className="flex items-center justify-start">
                   <div className="features-img"></div>
                 </div>
@@ -749,7 +749,7 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
