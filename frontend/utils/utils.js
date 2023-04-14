@@ -8,6 +8,26 @@ async function findProfile(address) {
   return data;
 }
 
+async function getCategories() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/categories`
+  );
+
+  const data = await res.json();
+
+  return data;
+}
+
+async function getCollectionCenter(company) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/companies/${company}/collectioncenters`
+  );
+
+  const data = await res.json();
+
+  return data;
+}
+
 async function newProfile(address) {
   console.log(address);
   const payload = JSON.stringify({ wallet: address });
@@ -33,4 +53,4 @@ function getPage() {
   return window.location.pathname.split('/')[1];
 }
 
-export { findProfile, newProfile, getPage };
+export { findProfile, newProfile, getPage, getCollectionCenter, getCategories };

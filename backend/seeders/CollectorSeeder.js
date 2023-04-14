@@ -16,20 +16,20 @@ db.mongoose
   });
 
 let seedCollectors = [
-  {
-    name: 'Collector Praise',
-    email: 'praise@collector.com',
-    phone: '09028950691',
-    verified_at: '2022-10-12',
-    wallet_address: '1234567890abc',
-  },
-  {
-    name: 'Collector Paul',
-    email: 'paul@collector.com',
-    phone: '08177002133',
-    verified_at: '2022-10-12',
-    wallet_address: 'abc0987654321',
-  },
+    {
+        name: "Collector Praise",
+        email: "praise@collector.com",
+        phone: "09028950691",
+        verified_at: "2022-10-12",
+        wallet_address: "TTxtzUKwfUQvvcM4cpVR37xwZJmjiUPAkw",
+    },
+    {
+        name: "Collector Paul",
+        email: "paul@collector.com",
+        phone: "08177002133",
+        verified_at: "2022-10-12",
+        wallet_address: "TTxtzUKwfUQvvcM4cpVR37xwZJmjiUPAkw",
+    },
 ];
 
 const seedDB = async () => {

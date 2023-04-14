@@ -74,9 +74,9 @@ const Dashboard = () => {
                       Dashboard
                     </h1>
                     <div>
-                      <button className="px-8 py-3 rounded-full shadow-md bg-[#DD7D37] hover:shadow-lg text-white transition duration-150 ease-in-out border-0">
+                      <a  href="./create-offer" className="px-8 py-3 rounded-full shadow-md bg-[#DD7D37] hover:shadow-lg text-white transition duration-150 ease-in-out border-0">
                         Create Offer
-                      </button>
+                      </a>
                     </div>
                   </div>
 

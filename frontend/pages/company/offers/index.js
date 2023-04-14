@@ -73,28 +73,7 @@ const Offers = () => {
     return <div>Error</div>;
   }
 
-  // useEffect(() => {
-  //     const CancelToken = axios.CancelToken;
-  //     const source = CancelToken.source();
 
-  //     const getCategories = async ()=>{
-  //         try{
-  //             const res = await axios.get( "http://127.0.0.1:8080/api/categories", { cancelToken: source.token } );
-  //             setCategories(res.data.data)
-  //             // console.log(res)
-  //         }catch(err){
-  //             if(axios.isCancel(err)){
-  //                 console.log("cancelled");
-  //             } else{
-  //                 throw err
-  //             }
-  //         }
-  //     };
-  //     getCategories();
-  //     return () => {
-  //         source.cancel();
-  //     }
-  // }, [])
   return (
     <>
       <CompanyLayout>
