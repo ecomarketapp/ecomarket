@@ -53,7 +53,7 @@ module.exports = {
                 });
             }
 
-            const expiry_date = dayjs(expires_at).add(1, "d").toJSON();
+            // const expiry_date = dayjs(expires_at).add(1, "d").toJSON();
             // Create a request
             const total_amount = quantity_required * amount_per_unit;
             let request = new Request({
@@ -290,7 +290,7 @@ module.exports = {
          * ? filter properties from the model file or here
          */
         try {
-            const request = await Request.findById(requestId)
+            let request = await Request.findById(requestId)
                 .populate({ path: "location", model: Location })
                 .populate({ path: "company", model: Company })
                 .populate({ path: "scrap_category", model: Category })
@@ -303,7 +303,8 @@ module.exports = {
                     model: Category,
                     populate: { path: "children", model: Category },
                 });
-            if (request.request_expires_at > new Date()) {
+                request = request.toJSON();
+            if (request.request_expires_at < new Date()) {
                 request.expired = true;
             } else {
                 request.expired = false;
