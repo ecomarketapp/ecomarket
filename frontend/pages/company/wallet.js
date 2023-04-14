@@ -14,6 +14,7 @@ const wallet = () => {
   const [balance, setBalance] = useState(0);
   const [topUpAmount, setTopUpAmount] = useState(0);
   const [showTopUp, setShowTopUp] = useState(false);
+  const [showWithdraw, setShowWithdraw] = useState(false);
   const [waiting, setWaiting] = useState(false);
 
   const {
@@ -67,6 +68,27 @@ const wallet = () => {
       }
     }
   };
+
+    const withdraw = async () => {
+      if (contract) {
+        try {
+          const tx = await contract.removeFromEscrow().send({
+            callValue: parseInt(topUpAmount) * 1e6,
+          });
+
+          setShowTopUp(false);
+
+          setWaiting(true);
+
+          setTimeout(() => {
+            setWaiting(false);
+            window.location.reload();
+          }, 5000);
+        } catch (error) {
+          console.log('Top up error: ', error);
+        }
+      }
+    };
 
   useEffect(() => {
     setEscrowContract();
