@@ -43,7 +43,7 @@ module.exports = {
         throw new Error(`Could not find request of ID ${requestId}`);
       }
       // if we find request, we'll check that its not yet expired
-      if (request.request_expires_at > new Date()) {
+      if (request.request_expires_at < new Date()) {
         return true
       } else {
         return false;

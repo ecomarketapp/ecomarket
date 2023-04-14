@@ -11,7 +11,7 @@ const CategoryCall = () => {
 
             const getCategories = async() =>{
                 const res = await axios.get(
-                  `http://127.0.0.1:808${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/categories`
+                  `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/api/categories`
                 );
                 console.log(res.data)
                 setCategories(res.data)

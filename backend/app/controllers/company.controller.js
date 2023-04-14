@@ -154,7 +154,7 @@ module.exports = {
         try {
             const requests = await Request.find({
                 company: companyId,
-                request_expires_at: { $lt: new Date() }, // not yet expired
+                request_expires_at: { $gt: new Date() }, // not yet expired
             })
                 .lean()
                 .exec();
