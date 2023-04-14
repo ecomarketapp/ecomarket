@@ -1,9 +1,12 @@
-async function findProfile(address) {
+async function findProfile(address, type = 'companies') {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/companies/${address}`
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/${type}/${address}`
   );
 
+
   const data = await res.json();
+
+  console.log(data, type)
 
   return data;
 }
@@ -38,12 +41,11 @@ async function getCompanyRequests(company) {
   return data;
 }
 
-async function newProfile(address) {
-  console.log(address);
+async function newProfile(address, type = 'companies') {
   const payload = JSON.stringify({ wallet: address });
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/companies`,
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/${type}`,
     {
       method: 'POST',
       body: payload,

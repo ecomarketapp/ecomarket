@@ -87,7 +87,7 @@ const Header = () => {
                     </a>
                   </Link>
 
-                  <Link href="/collector/requests">
+                  {/* <Link href="/collector/requests">
                     <a
                       className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${
                         (router.asPath === '/collector/requests' ||
@@ -97,7 +97,7 @@ const Header = () => {
                     >
                       Requests
                     </a>
-                  </Link>
+                  </Link> */}
                   <Link href="/collector/deliveries">
                     <a
                       className={`block mt-4 lg:inline-block lg:mt-0 text-[#5B5B5B]  hover:bg-[#FEF0E6] px-3 py-3 mr-4 rounded-md transition-all duration-200 ease-in-out ${

@@ -240,7 +240,7 @@ const Home = () => {
           </div>
         </section>
 
-        <section className="py-4 bg-white">
+        {/* <section className="py-4 bg-white">
           <div className="container mx-auto px-6">
             <div className="py-14">
               <div className="mb-9">
@@ -573,7 +573,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <section className="bg-[#F8F7F7] py-20 features__section">
           <div className="container mx-auto px-6">

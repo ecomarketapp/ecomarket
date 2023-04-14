@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
 import Loader from '../../components/Icons/Loader';
 import CompanyLayout from '../../components/CompanyLayout/Layout';
-import { findProfile } from '../../utils/utils';
+import { findProfile, newProfile } from '../../utils/utils';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import Waiting from '../../components/Waiting';
 
@@ -22,8 +22,6 @@ const profile = () => {
     contact_email: '',
     wallet_address: '',
   });
-
-  const [error, setError] = useState(null);
 
   const toastOptions = {
     duration: 8000,
@@ -67,8 +65,15 @@ const profile = () => {
   const getUser = async () => {
     const profile = await findProfile(address);
 
-    setUser(profile.data);
-    setInputs({ ...inputs, ...profile.data });
+    if (profile.status) {
+      setUser(profile.data);
+      setInputs({ ...inputs, ...profile.data });
+    } else {
+      const profile = await newProfile(address);
+
+      setUser(profile.data);
+      setInputs({ ...inputs, ...profile.data });
+    }
   };
 
   useEffect(() => {
