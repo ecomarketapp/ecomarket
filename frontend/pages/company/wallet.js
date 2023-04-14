@@ -1,15 +1,81 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tabs } from 'react-tabs';
 import Tab from 'react-tabs/lib/components/Tab';
 import TabList from 'react-tabs/lib/components/TabList';
 import TabPanel from 'react-tabs/lib/components/TabPanel';
 import CompanyLayout from '../../components/CompanyLayout/Layout';
-import DropdownIcon from '../../components/Icons/DropdownIcon';
 import ExpandMoreVertical from '../../components/Icons/ExpandMoreVertical';
-import UpwardIcon from '../../components/Icons/UpwardIcon';
+import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
+import Waiting from '../../components/Waiting';
 
 const wallet = () => {
+  const [contract, setContract] = useState();
+  const [balance, setBalance] = useState(0);
+  const [topUpAmount, setTopUpAmount] = useState(0);
+  const [showTopUp, setShowTopUp] = useState(false);
+  const [waiting, setWaiting] = useState(false);
+
+  const {
+    wallet,
+    address,
+    connected,
+    select,
+    connect,
+    disconnect,
+    signMessage,
+    signTransaction,
+  } = useWallet();
+
+  const setEscrowContract = async (address) => {
+    const trc20ContractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS; //contract address
+
+    try {
+      let contract = await window.tronWeb.contract().at(trc20ContractAddress);
+
+      setContract(contract);
+    } catch (error) {
+      console.error('trigger smart contract error', error);
+    }
+  };
+
+  const getWalletBalance = async () => {
+    if (contract) {
+      const balance = await contract.balances(address).call();
+
+      setBalance(parseInt(balance) / 1e6);
+    }
+  };
+
+  const topUp = async () => {
+    if (contract) {
+      try {
+        const tx = await contract.addToEscrow().send({
+          callValue: parseInt(topUpAmount) * 1e6,
+        });
+
+        setShowTopUp(false);
+
+        setWaiting(true);
+
+        setTimeout(() => {
+          setWaiting(false);
+          window.location.reload();
+        }, 5000);
+      } catch (error) {
+        console.log('Top up error: ', error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    setEscrowContract();
+  }, []);
+
+  useEffect(() => {
+    getWalletBalance();
+  }, [contract]);
+
   return (
     <>
       <CompanyLayout>
@@ -22,33 +88,94 @@ const wallet = () => {
                 </h1>
               </div>
 
-              <div className="mb-12">
-                <div className="grid grids-cols-1  gap-5">
-                  <div className="shadow w-full bg-white relative py-4 rounded border border-[#E4E7EC] flex flex-col justify-between">
-                    <div className="px-6">
-                      <div className="flex items-center justify-between flex-row w-full">
-                        <h5 className="text-gray-600">Wallet Balance</h5>
-                        <button className="text-gray-400 text-xs rounded-full hover:bg-gray-200 p-2 transition duration-200 ease">
-                          <ExpandMoreVertical />
-                        </button>
+              {waiting && <Waiting />}
+              {!waiting && (
+                <div className="mb-12">
+                  <div className="grid grids-cols-1  gap-5">
+                    <div className="shadow w-full bg-white relative py-4 rounded border border-[#E4E7EC] flex flex-col justify-between">
+                      <div className="px-6">
+                        <div className="flex items-center justify-between flex-row w-full">
+                          <h5 className="text-gray-600">Wallet Balance</h5>
+                          <button className="text-gray-400 text-xs rounded-full hover:bg-gray-200 p-2 transition duration-200 ease">
+                            <ExpandMoreVertical />
+                          </button>
+                        </div>
+                        <div className="py-4">
+                          <h3 className="text-neutral800 text-4xl	">
+                            {parseFloat(balance).toFixed(2)} TRX
+                          </h3>
+                        </div>
                       </div>
-                      <div className="py-4">
-                        <h3 className="text-neutral800 text-4xl	">$ 2,000.00</h3>
-                      </div>
-                    </div>
-                    <div className="pt-4 border-t border-gray-100 flex items-center gap-2 justify-end px-6  w-full">
-                        <button className="text-white text-base px-4 py-2 bg-[#DD7D37] rounded-md">
+                      <div className="pt-4 border-t border-gray-100 flex items-center gap-2 justify-end px-6  w-full">
+                        <button
+                          className="text-white text-base px-4 py-2 bg-[#DD7D37] rounded-md"
+                          onClick={() => {
+                            setShowTopUp(true);
+                          }}
+                        >
                           Top Up
                         </button>
                         <button className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md">
                           Withdraw
                         </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
 
-              <Tabs>
+              {showTopUp && (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    topUp();
+                  }}
+                >
+                  <div className="mb-12">
+                    <div className="grid grids-cols-1  gap-5">
+                      <div className="shadow w-full bg-white relative py-4 rounded border border-[#E4E7EC] flex flex-col justify-between">
+                        <div className="px-6">
+                          <div className="flex items-center justify-between flex-row w-full">
+                            <h5 className="text-gray-600">
+                              Lock funds in escrow to fufill collectors delivery
+                            </h5>
+                          </div>
+                          <div className="py-4">
+                            <input
+                              id="amount"
+                              type="number"
+                              placeholder="Enter amount of TRX to lock"
+                              onChange={(e) => {
+                                setTopUpAmount(e.target.value);
+                              }}
+                              className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div className="pt-4 border-t border-gray-100 flex items-center gap-2 justify-end px-6  w-full">
+                          <button
+                            type="submit"
+                            className="text-white text-base px-4 py-2 bg-[#DD7D37] rounded-md"
+                          >
+                            Lock
+                          </button>
+                          <button
+                            onClick={() => {
+                              setShowTopUp(false);
+                            }}
+                            className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              )}
+
+              {/* <Tabs>
                 <div className="flex items-center py-4 mb-3 flex-col lg:flex-row border-b border-gray-200 ">
                   <div className="flex-1 w-full">
                     <h5 className=" text-2xl text-gray-700">Transactions</h5>
@@ -378,15 +505,7 @@ const wallet = () => {
                     </div>
                   </TabPanel>
                 </div>
-              </Tabs>
-
-              {/* <div className="mt-1 relative rounded-full flex-1  items-center grow flex h-12 w-full ">
-                                <div className=" font-normal flex items-center justify-end flex-row gap-3 flex-1">
-                            
-                                    
-                                    
-                                </div>
-                            </div> */}
+              </Tabs> */}
             </div>
           </div>
         </section>

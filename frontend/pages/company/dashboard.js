@@ -2,7 +2,6 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import CompanyLayout from '../../components/CompanyLayout/Layout';
 import ExpandMoreVertical from '../../components/Icons/ExpandMoreVertical';
-import UpwardIcon from '../../components/Icons/UpwardIcon';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import { useRouter } from 'next/router';
 import {
@@ -16,6 +15,8 @@ import Waiting from '../../components/Waiting';
 const Dashboard = () => {
   const [user, setUser] = useState();
   const [requests, setRequests] = useState();
+  const [contract, setContract] = useState();
+  const [balance, setBalance] = useState(0);
 
   const {
     wallet,
@@ -46,18 +47,43 @@ const Dashboard = () => {
   const getRequests = async () => {
     const requests = await getCompanyRequests(user.id);
 
-    console.log(requests);
     setRequests(requests.data);
   };
 
+  const setEscrowContract = async (address) => {
+    const trc20ContractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS; //contract address
+
+    try {
+      let contract = await window.tronWeb.contract().at(trc20ContractAddress);
+
+      setContract(contract);
+    } catch (error) {
+      console.error('trigger smart contract error', error);
+    }
+  };
+
+  const getWalletBalance = async () => {
+    if(contract){
+      const balance = await contract.balances(address).call();
+
+      setBalance(parseInt(balance) / 1e6);
+    }
+  };
+
   const dateConv = (date) => {
-    return new Date(date).toLocaleDateString() + ' ' + new Date(date).toLocaleTimeString()  ;
+    return (
+      new Date(date).toLocaleDateString() +
+      ' ' +
+      new Date(date).toLocaleTimeString()
+    );
   };
 
   useEffect(() => {
     if (address) {
       getUser(address);
     }
+
+    setEscrowContract();
   }, [address]);
 
   useEffect(() => {
@@ -65,6 +91,10 @@ const Dashboard = () => {
       getRequests();
     }
   }, [user]);
+
+  useEffect(() => {
+    getWalletBalance();
+  }, [contract]);
 
   return (
     <>
@@ -100,7 +130,7 @@ const Dashboard = () => {
                           </div>
                           <div className="py-4">
                             <h3 className="text-neutral800 text-4xl	">
-                              2,000.00 TRX
+                              {parseFloat(balance).toFixed(2)} TRX
                             </h3>
                           </div>
                         </div>
@@ -115,7 +145,6 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div className="mt-10 w-full bg-white mt-3 md:mt-0  relative overflow-hidden rounded h-full mx-auto  ">
-                    {/* <div className="absolute h-full border border-[#E4E7EC] inset-0 z-0 mx-auto w-[0.5px] hidden md:block"></div> */}
                     <div className=" grid grid-cols-1 py-6 w-full gap-6 relative">
                       <div className=" flex flex-col justify-between">
                         <div className=" flex flex-col  ">
@@ -124,36 +153,42 @@ const Dashboard = () => {
                               {requests.map((request, index) => (
                                 <div
                                   key={index}
+                                  style={{ cursor: 'pointer' }}
                                   className="flex items-center py-4 px-4 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out"
                                 >
-                                  <div className="flex items-start gap-3 w-full">
-                                    <div className="w-full">
-                                      <div className="flex gap-1 items-center flex-row justify-between w-full">
-                                        <p className="text-lg text-[#5B5B5B] font-semibold">
-                                          {request.title}
-                                        </p>
+                                  <Link href={`./offers/${request.id}/dropoffs`}>
+                                    <div className="flex items-start gap-3 w-full">
+                                      <div className="w-full">
+                                        <div className="flex gap-1 items-center flex-row justify-between w-full">
+                                          <p className="text-lg text-[#5B5B5B] font-semibold">
+                                            {request.title}
+                                          </p>
 
-                                        <p className="text-xs font-normal">
-                                          Expires:{' '}
-                                          {dateConv(request.request_expires_at)}
-                                        </p>
-                                      </div>
-                                      <div className="flex gap-1 flex-row justify-between items-center w-full">
-                                        <p className="text-sm text-[#5B5B5B] font-normal">
-                                          {request.amount_per_unit} TRX / kg of{' '}
-                                          {request.quantity_required}kg needed.
-                                        </p>
-                                        <p className="text-sm text-[#12B76A]">
-                                          0% Provided
-                                        </p>
-                                      </div>
-                                      <div className="flex gap-1 flex-row justify-between items-end w-full">
-                                        <p className="text-sm">
-                                          {request?.location?.name}
-                                        </p>
+                                          <p className="text-xs font-normal">
+                                            Expires:{' '}
+                                            {dateConv(
+                                              request.request_expires_at
+                                            )}
+                                          </p>
+                                        </div>
+                                        <div className="flex gap-1 flex-row justify-between items-center w-full">
+                                          <p className="text-sm text-[#5B5B5B] font-normal">
+                                            {request.amount_per_unit} TRX / kg
+                                            of {request.quantity_required}kg
+                                            needed.
+                                          </p>
+                                          <p className="text-sm text-[#12B76A]">
+                                            0% Provided
+                                          </p>
+                                        </div>
+                                        <div className="flex gap-1 flex-row justify-between items-end w-full">
+                                          <p className="text-sm">
+                                            {request?.location?.name}
+                                          </p>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
+                                  </Link>
                                 </div>
                               ))}
                             </>
@@ -180,7 +215,9 @@ const Dashboard = () => {
         <CompanyLayout>
           <section>
             <div className="container mx-auto px-6">
-              <div className="h-full pb-24 px-4 md:px-12 py-12"></div>
+              <div className="h-full pb-24 px-4 md:px-12 py-12">
+                <Waiting />
+              </div>
             </div>
           </section>
         </CompanyLayout>
