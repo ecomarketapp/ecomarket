@@ -9,25 +9,8 @@ import { findProfile, newProfile, getPage } from '../../utils/utils';
 import Waiting from '../../components/Waiting';
 
 const Dashboard = () => {
-  // const [offer, setOffer] = useState({
-  //   title: '',
-  //   description: '',
-  //   quantity_required: '',
-  //   amount_per_unit: '',
-  //   request_expires_at: '',
-  //   company: '',
-  //   location: '',
-  //   escrow_payment: '',
-  //   deliveries: '',
-  // });
-
-  // const handleChange = (e) => {
-  //   setInputs((prev) => {
-  //     return { ...prev, [e.target.name]: e.target.value };
-  //   });
-  // };
-
   const [user, setUser] = useState();
+  const [requests, setRequests] = useState([]);
 
   const {
     wallet,
@@ -74,7 +57,10 @@ const Dashboard = () => {
                       Dashboard
                     </h1>
                     <div>
-                      <a  href="./create-offer" className="px-8 py-3 rounded-full shadow-md bg-[#DD7D37] hover:shadow-lg text-white transition duration-150 ease-in-out border-0">
+                      <a
+                        href="./create-offer"
+                        className="px-8 py-3 rounded-full shadow-md bg-[#DD7D37] hover:shadow-lg text-white transition duration-150 ease-in-out border-0"
+                      >
                         Create Offer
                       </a>
                     </div>
@@ -111,66 +97,41 @@ const Dashboard = () => {
                     <div className=" grid grid-cols-1 py-6 w-full gap-6 relative">
                       <div className=" flex flex-col justify-between">
                         <div className=" flex flex-col  ">
-                          <div className=" w-full bg-white mt-3 md:mt-0  relative overflow-hidden rounded h-full fade-in">
-                            <div className="flex items-center justify-center flex-col gap-4">
-                              <img src="/images/file-not-found.svg" />
-                              <p>No requests avalaible</p>
+                          {requests.length == 0 ? (
+                            <div className=" w-full bg-white mt-3 md:mt-0  relative overflow-hidden rounded h-full fade-in">
+                              <div className="flex items-center justify-center flex-col gap-4">
+                                <img src="/images/file-not-found.svg" />
+                                <p>No requests avalaible</p>
+                              </div>
                             </div>
-                          </div>
+                          ) : (
+                            <div className="flex items-center py-4 px-4 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
+                              <div className="flex items-start gap-3 w-full">
+                                <div className="w-full">
+                                  <div className="flex gap-1 items-center flex-row justify-between w-full">
+                                    <p className="text-lg text-[#5B5B5B] font-semibold">
+                                      120kg of PET Bottles
+                                    </p>
 
-                          <div className="flex items-center py-4 px-4 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
-                            <div className="flex items-start gap-3 w-full">
-                              <div className="w-full">
-                                <div className="flex gap-1 items-center flex-row justify-between w-full">
-                                  <p className="text-lg text-[#5B5B5B] font-semibold">
-                                    120kg of PET Bottles
-                                  </p>
-
-                                  <p className="text-xs font-normal">
-                                    Expires: 20/10/22
-                                  </p>
-                                </div>
-                                <div className="flex gap-1 flex-row justify-between items-center w-full">
-                                  <p className="text-sm text-[#5B5B5B] font-normal">
-                                    500 TRX
-                                  </p>
-                                  <p className="text-sm text-[#12B76A]">
-                                    25% Provided
-                                  </p>
-                                </div>
-                                <div className="flex gap-1 flex-row justify-between items-end w-full">
-                                  <p className="text-sm">Ikeja, Lagos</p>
+                                    <p className="text-xs font-normal">
+                                      Expires: 20/10/22
+                                    </p>
+                                  </div>
+                                  <div className="flex gap-1 flex-row justify-between items-center w-full">
+                                    <p className="text-sm text-[#5B5B5B] font-normal">
+                                      500 TRX
+                                    </p>
+                                    <p className="text-sm text-[#12B76A]">
+                                      25% Provided
+                                    </p>
+                                  </div>
+                                  <div className="flex gap-1 flex-row justify-between items-end w-full">
+                                    <p className="text-sm">Ikeja, Lagos</p>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          {/* Next */}
-                          <div className="flex items-center py-4 px-4 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
-                            <div className="flex items-start gap-3 w-full">
-                              <div className="w-full">
-                                <div className="flex gap-1 items-center flex-row justify-between w-full">
-                                  <p className="text-lg text-[#5B5B5B] font-semibold">
-                                    120kg of PET Bottles
-                                  </p>
-
-                                  <p className="text-xs font-normal">
-                                    Expires: 20/10/22
-                                  </p>
-                                </div>
-                                <div className="flex gap-1 flex-row justify-between items-center w-full">
-                                  <p className="text-sm text-[#5B5B5B] font-normal">
-                                    500 TRX
-                                  </p>
-                                  <p className="text-sm text-[#12B76A]">
-                                    25% Provided
-                                  </p>
-                                </div>
-                                <div className="flex gap-1 flex-row justify-between items-end w-full">
-                                  <p className="text-sm">Ikeja, Lagos</p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                          )}
                         </div>
                       </div>
                     </div>
