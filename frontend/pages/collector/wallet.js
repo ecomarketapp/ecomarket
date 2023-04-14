@@ -71,23 +71,25 @@ const wallet = () => {
     }
   };
 
-    const withdraw = async () => {
-      if (contract) {
-        try {
-          const tx = await contract.removeFromEscrow(parseInt(withdrawAmount) * 1e6).send();
+  const withdraw = async () => {
+    if (contract) {
+      try {
+        const tx = await contract
+          .removeFromEscrow(parseInt(withdrawAmount) * 1e6)
+          .send();
 
-          setShowWithdraw(false);
-          setWaiting(true);
+        setShowWithdraw(false);
+        setWaiting(true);
 
-          setTimeout(() => {
-            setWaiting(false);
-            window.location.reload();
-          }, 5000);
-        } catch (error) {
-          console.log('Top up error: ', error);
-        }
+        setTimeout(() => {
+          setWaiting(false);
+          window.location.reload();
+        }, 5000);
+      } catch (error) {
+        console.log('Top up error: ', error);
       }
-    };
+    }
+  };
 
   useEffect(() => {
     setEscrowContract();
@@ -96,6 +98,11 @@ const wallet = () => {
   useEffect(() => {
     getWalletBalance();
   }, [contract]);
+
+
+  useEffect(() => {
+    window.tronLink.request({ method: 'tron_requestAccounts' });
+  }, []);
 
   return (
     <>

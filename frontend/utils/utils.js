@@ -51,6 +51,16 @@ async function getCompanyRequests(company) {
   return data;
 }
 
+async function getRequestsByLocation(location) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/locations/${location}/requests`
+  );
+
+  const data = await res.json();
+
+  return data;
+}
+
 async function newProfile(address, type = 'companies') {
   const payload = JSON.stringify({ wallet: address });
 
@@ -83,4 +93,5 @@ export {
   getCategories,
   getCompanyRequests,
   getCollectionLocations,
+  getRequestsByLocation,
 };

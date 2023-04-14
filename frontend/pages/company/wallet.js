@@ -29,7 +29,9 @@ const wallet = () => {
     signTransaction,
   } = useWallet();
 
-  const setEscrowContract = async (address) => {
+  // tronLink.request({ method: 'tron_requestAccounts' });
+
+  const setEscrowContract = async () => {
     const trc20ContractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS; //contract address
 
     try {
@@ -70,23 +72,29 @@ const wallet = () => {
     }
   };
 
-    const withdraw = async () => {
-      if (contract) {
-        try {
-          const tx = await contract.removeFromEscrow(parseInt(withdrawAmount) * 1e6).send();
+  const withdraw = async () => {
+    if (contract) {
+      try {
+        const tx = await contract
+          .removeFromEscrow(parseInt(withdrawAmount) * 1e6)
+          .send();
 
-          setShowWithdraw(false);
-          setWaiting(true);
+        setShowWithdraw(false);
+        setWaiting(true);
 
-          setTimeout(() => {
-            setWaiting(false);
-            window.location.reload();
-          }, 5000);
-        } catch (error) {
-          console.log('Top up error: ', error);
-        }
+        setTimeout(() => {
+          setWaiting(false);
+          window.location.reload();
+        }, 5000);
+      } catch (error) {
+        console.log('Top up error: ', error);
       }
-    };
+    }
+  };
+
+  useEffect(() => {
+    tronLink.tronlinkAdapter.request({ method: 'tron_requestAccounts' });
+  }, []);
 
   useEffect(() => {
     setEscrowContract();
@@ -115,7 +123,9 @@ const wallet = () => {
                     <div className="shadow w-full bg-white relative py-4 rounded border border-[#E4E7EC] flex flex-col justify-between">
                       <div className="px-6">
                         <div className="flex items-center justify-between flex-row w-full">
-                          <h5 className="text-gray-600">Wallet Escrow Balance</h5>
+                          <h5 className="text-gray-600">
+                            Wallet Escrow Balance
+                          </h5>
                           <button className="text-gray-400 text-xs rounded-full hover:bg-gray-200 p-2 transition duration-200 ease">
                             <ExpandMoreVertical />
                           </button>
@@ -135,9 +145,12 @@ const wallet = () => {
                         >
                           Lock
                         </button>
-                        <button onClick={() => {
-                          setShowWithdraw(true);
-                        }} className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md">
+                        <button
+                          onClick={() => {
+                            setShowWithdraw(true);
+                          }}
+                          className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md"
+                        >
                           Unlock
                         </button>
                       </div>
@@ -210,7 +223,8 @@ const wallet = () => {
                         <div className="px-6">
                           <div className="flex items-center justify-between flex-row w-full">
                             <h5 className="text-gray-600">
-                              Unlock funds available in escrow that are not tied to any open delivery
+                              Unlock funds available in escrow that are not tied
+                              to any open delivery
                             </h5>
                           </div>
                           <div className="py-4">

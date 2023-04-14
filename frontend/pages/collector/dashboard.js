@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 
 import {
   findProfile,
-  newProfile,
+  getRequestsByLocation,
   getPage,
   getCompanyRequests,
 } from '../../utils/utils';
@@ -17,6 +17,7 @@ const Dashboard = () => {
   const [user, setUser] = useState();
   const [contract, setContract] = useState();
   const [balance, setBalance] = useState(0);
+  const [requests, setRequests] = useState();
 
   const {
     wallet,
@@ -31,18 +32,18 @@ const Dashboard = () => {
 
   const router = useRouter();
 
-    const getUser = async () => {
-      const profile = await findProfile(address, "collectors");
+  const getUser = async () => {
+    const profile = await findProfile(address, 'collectors');
 
-      if (!profile.status) {
+    if (!profile.status) {
+      router.push(`/${getPage()}/profile`);
+    } else {
+      if (profile.data.name == undefined) {
         router.push(`/${getPage()}/profile`);
-      } else {
-        if (profile.data.name == undefined) {
-          router.push(`/${getPage()}/profile`);
-        }
-        setUser(profile.data);
       }
-    };
+      setUser(profile.data);
+    }
+  };
   const setEscrowContract = async (address) => {
     const trc20ContractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS; //contract address
 
@@ -63,6 +64,16 @@ const Dashboard = () => {
     }
   };
 
+  const getRequests = async () => {
+    if (user.location) {
+      console.log(user.location, 'locate');
+      const requests = await getRequestsByLocation(user?.location?._id);
+
+      console.log(requests.data);
+      setRequests(requests.data);
+    }
+  };
+
   useEffect(() => {
     if (address) {
       getUser(address);
@@ -74,6 +85,12 @@ const Dashboard = () => {
   useEffect(() => {
     getWalletBalance();
   }, [contract]);
+
+  useEffect(() => {
+    if (user) {
+      getRequests();
+    }
+  }, [user]);
 
   return (
     <>
@@ -133,12 +150,80 @@ const Dashboard = () => {
                           </span>
                         </div>
 
-                        <div className=" w-full bg-white mt-3 md:mt-0  relative overflow-hiddens rounded h-full fade-in">
-                          <div className="flex items-center justify-center flex-col gap-4">
-                            <img src="/images/file-not-found.svg" />
-                            <p>No requests avalaible</p>
-                          </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-9 gap-y-9 mt-7 relative">
+                          {requests &&
+                            requests.map((request, index) => (
+                              <Link
+                                key={index}
+                                href={`/collector/requests/${request.id}`}
+                              >
+                                <a key={index}>
+                                  <div className="card shadow-lg py-3 rounded-md">
+                                    <div className="">
+                                      <div className="w-full h-56">
+                                        <img
+                                          src="/images/marketimage.png"
+                                          className="w-full h-full object-cover rounded-md"
+                                        />
+                                      </div>
+                                    </div>
+                                    <div className=" flex items-start justify-between mt-3 px-5 py-4 flex-col w-full gap-2">
+                                      <div className="flex items-center justify-between w-full">
+                                        <h4 className="font-semibold text-[#3D4044] text-lg">
+                                          {request.title}
+                                        </h4>
+                                        <p>{request?.scrap_subcategory?.name}</p>
+                                      </div>
+                                      <div className="flex items-center justify-between w-full">
+                                        <div className="flex items-center justify-start gap-2">
+                                          <img
+                                            src="/images/location.svg"
+                                            className=""
+                                          />
+                                          <div>
+                                            <p className="text-base text-[#6D747D]">
+                                              {request.location &&
+                                                request.location.name}{' '}
+                                              {request.location &&
+                                                request.location.state}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <h4 className="">300kg</h4>
+                                      </div>
+                                      <div className="flex items-start justify-between w-full gap-2">
+                                        <p className="flex-1 text-xs text-[#878A90]">
+                                          {request.description.substring(
+                                            0,
+                                            100
+                                          )}
+                                        </p>
+                                        <div className="flex items-end justify-start flex-col gap-1 flex-1">
+                                          <p className="text-xs">
+                                            Request expires in:
+                                          </p>
+                                          <div>
+                                            <p className="text-base text-[#3D4044] font-semibold">
+                                              12d : 24h : 34m : 32s
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </a>
+                              </Link>
+                            ))}
                         </div>
+
+                        {!requests && (
+                          <div className=" w-full bg-white mt-3 md:mt-0  relative overflow-hiddens rounded h-full fade-in">
+                            <div className="flex items-center justify-center flex-col gap-4">
+                              <img src="/images/file-not-found.svg" />
+                              <p>No requests avalaible</p>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
