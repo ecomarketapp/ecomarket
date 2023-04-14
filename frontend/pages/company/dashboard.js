@@ -63,7 +63,7 @@ const Dashboard = () => {
   };
 
   const getWalletBalance = async () => {
-    if(contract){
+    if(contract && address){
       const balance = await contract.balances(address).call();
 
       setBalance(parseInt(balance) / 1e6);
