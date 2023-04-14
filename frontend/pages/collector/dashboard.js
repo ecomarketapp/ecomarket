@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import ExpandMoreVertical from '../../components/Icons/ExpandMoreVertical';
-import UpwardIcon from '../../components/Icons/UpwardIcon';
 import UserLayout from '../../components/UserLayout/Layout';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import { useRouter } from 'next/router';

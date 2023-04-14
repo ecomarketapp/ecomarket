@@ -21,6 +21,16 @@ async function getCategories() {
   return data;
 }
 
+async function getCollectionLocations() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/locations`
+  );
+
+  const data = await res.json();
+
+  return data;
+}
+
 async function getCollectionCenter(company) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/companies/${company}/collectioncenters`
@@ -72,4 +82,5 @@ export {
   getCollectionCenter,
   getCategories,
   getCompanyRequests,
+  getCollectionLocations,
 };

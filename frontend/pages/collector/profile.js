@@ -3,10 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
 import Loader from '../../components/Icons/Loader';
-import CompanyLayout from '../../components/CompanyLayout/Layout';
-import { findProfile, newProfile } from '../../utils/utils';
+
+import {
+  findProfile,
+  newProfile,
+  getCollectionLocations,
+} from '../../utils/utils';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import Waiting from '../../components/Waiting';
+import UserLayout from '../../components/UserLayout/Layout';
 
 const profile = () => {
   const [loading, setLoading] = useState('');
@@ -16,14 +21,14 @@ const profile = () => {
 
   const router = useRouter();
   const [inputs, setInputs] = useState({
-    contact_phone: '',
+    phone: '',
     name: '',
-    contact_person: '',
-    contact_email: '',
+    email: '',
     wallet_address: '',
+    location: '',
   });
 
-  const [error, setError] = useState(null);
+  const [locations, setLocations] = useState([]);
 
   const toastOptions = {
     duration: 8000,
@@ -64,32 +69,40 @@ const profile = () => {
     signTransaction,
   } = useWallet();
 
-const getUser = async () => {
-  const profile = await findProfile(address, 'collectors');
+  const getUser = async () => {
+    const profile = await findProfile(address, 'collectors');
 
-  if (profile.status) {
-    setUser(profile.data);
-    setInputs({ ...inputs, ...profile.data });
-  } else {
-    const profile = await newProfile(address, 'collectors');
+    if (profile.status) {
+      setUser(profile.data);
+      setInputs({ ...inputs, ...profile.data });
+    } else {
+      const profile = await newProfile(address, 'collectors');
 
-    setUser(profile.data);
-    setInputs({ ...inputs, ...profile.data });
-  }
-};
+      setUser(profile.data);
+      setInputs({ ...inputs, ...profile.data });
+    }
+  };
 
+  const getLocations = async () => {
+    const locations = await getCollectionLocations();
+
+    setLocations(locations.data);
+    // setCenters(centers.collection_centers);
+  };
 
   useEffect(() => {
     if (address) {
       getUser();
     }
+
+    getLocations();
   }, [address]);
 
   return (
     <div>
       <Toaster />
 
-      <CompanyLayout>
+      <UserLayout>
         {user ? (
           <section className="">
             <div className="  h-full">
@@ -101,7 +114,7 @@ const getUser = async () => {
                         Fill your Profile
                       </h3>
                       <p className="mt-3 text-gray-500 ">
-                        Get all of the plastics you need at your disposal
+                        Earn TRX by help cleaning the ecosystem of plastics
                       </p>
                     </div>
                     <form onSubmit={handleSubmit}>
@@ -110,7 +123,7 @@ const getUser = async () => {
                           className="text-gray-700 font-medium mb-3"
                           htmlFor="name"
                         >
-                          Company name<span>*</span>
+                          Name<span>*</span>
                         </label>
                         <input
                           id="name"
@@ -131,29 +144,6 @@ const getUser = async () => {
                       <div className="mb-6">
                         <label
                           className="text-gray-700 font-medium mb-3"
-                          htmlFor="name"
-                        >
-                          Contact person<span>*</span>
-                        </label>
-                        <input
-                          id="name"
-                          type="text"
-                          placeholder="Enter contact person name"
-                          defaultValue={user.contact_person}
-                          onChange={(e) => {
-                            setInputs({
-                              ...inputs,
-                              contact_person: e.target.value,
-                            });
-                          }}
-                          className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none"
-                          required
-                        />
-                      </div>
-
-                      <div className="mb-6">
-                        <label
-                          className="text-gray-700 font-medium mb-3"
                           htmlFor="email"
                         >
                           Email<span>*</span>
@@ -163,11 +153,11 @@ const getUser = async () => {
                           type="email"
                           placeholder="Enter your email"
                           className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none"
-                          defaultValue={user.contact_email}
+                          defaultValue={user.email}
                           onChange={(e) => {
                             setInputs({
                               ...inputs,
-                              contact_email: e.target.value,
+                              email: e.target.value,
                             });
                           }}
                           required
@@ -201,17 +191,28 @@ const getUser = async () => {
                           className="text-gray-700 font-medium mb-3"
                           htmlFor="wallet_address"
                         >
-                          Address<span>*</span>
+                          Location<span>*</span>
                         </label>
-                        <input
-                          id="wallet_address"
-                          type="text"
-                          className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none transition duration-150 ease-in-out"
-                          name="wallet_address"
-                          disabled
-                          readOnly
-                          value={user.wallet_address}
-                        />
+                        <select
+                          id="category"
+                          className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none"
+                          onChange={(e) => {
+                            setInputs({
+                              ...inputs,
+                              location: e.target.value,
+                            });
+                          }}
+                          required
+                        >
+                          <option key={'001'}>
+                            -- Preferred Delivery Location --
+                          </option>
+                          {locations.map((location, index) => (
+                            <option key={index} value={location.id}>
+                              {location.name} : {location.state}
+                            </option>
+                          ))}
+                        </select>
                       </div>
 
                       <button
@@ -231,7 +232,7 @@ const getUser = async () => {
             <Waiting />
           </div>
         )}
-      </CompanyLayout>
+      </UserLayout>
     </div>
   );
 };

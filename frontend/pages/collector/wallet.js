@@ -4,10 +4,11 @@ import { Tabs } from 'react-tabs';
 import Tab from 'react-tabs/lib/components/Tab';
 import TabList from 'react-tabs/lib/components/TabList';
 import TabPanel from 'react-tabs/lib/components/TabPanel';
-import CompanyLayout from '../../components/CompanyLayout/Layout';
 import ExpandMoreVertical from '../../components/Icons/ExpandMoreVertical';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import Waiting from '../../components/Waiting';
+import UserLayout from '../../components/UserLayout/Layout';
+
 
 const wallet = () => {
   const [contract, setContract] = useState();
@@ -98,7 +99,7 @@ const wallet = () => {
 
   return (
     <>
-      <CompanyLayout>
+      <UserLayout>
         <section className="eco__orders">
           <div className="container mx-auto px-6">
             <div className="h-full pb-24 px-4 md:px-12 py-12">
@@ -115,7 +116,9 @@ const wallet = () => {
                     <div className="shadow w-full bg-white relative py-4 rounded border border-[#E4E7EC] flex flex-col justify-between">
                       <div className="px-6">
                         <div className="flex items-center justify-between flex-row w-full">
-                          <h5 className="text-gray-600">Wallet Escrow Balance</h5>
+                          <h5 className="text-gray-600">
+                            Wallet Escrow Balance
+                          </h5>
                           <button className="text-gray-400 text-xs rounded-full hover:bg-gray-200 p-2 transition duration-200 ease">
                             <ExpandMoreVertical />
                           </button>
@@ -135,9 +138,12 @@ const wallet = () => {
                         >
                           Lock
                         </button> */}
-                        <button onClick={() => {
-                          setShowWithdraw(true);
-                        }} className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md">
+                        <button
+                          onClick={() => {
+                            setShowWithdraw(true);
+                          }}
+                          className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md"
+                        >
                           Claim Funds
                         </button>
                       </div>
@@ -247,11 +253,10 @@ const wallet = () => {
                   </div>
                 </form>
               )}
-              
             </div>
           </div>
         </section>
-      </CompanyLayout>
+      </UserLayout>
     </>
   );
 };
