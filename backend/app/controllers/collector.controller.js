@@ -125,7 +125,6 @@ module.exports = {
         return res.json({ status: false, msg: 'Collector does not exist' });
       }
 
-      console.log(collector);
       return res.json({ status: true, data: collector });
     } catch (error) {
       return res.status(500).send({

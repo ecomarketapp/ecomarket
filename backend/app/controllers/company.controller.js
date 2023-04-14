@@ -7,6 +7,8 @@ const CollectionCenter = db.collectioncenter;
 const Location = db.locations;
 const Category = db.categories;
 
+const getRandom = (array) => array[Math.floor(Math.random() * array.length)];
+
 module.exports = {
     getCompanies: async (req, res) => {
         try {
@@ -22,11 +24,7 @@ module.exports = {
     },
     createCompany: async (req, res) => {
         const { wallet } = req.body;
-
-        console.log(req.body, wallet);
-
         try {
-            // return console.log(wallet);
             const company_check = await Company.findOne({
                 wallet_address: wallet,
             });
@@ -34,9 +32,9 @@ module.exports = {
                 let company = new Company({
                     wallet_address: wallet,
                 });
-                // return console.log(company);
 
                 company = await company.save();
+                // todo: change `company` to `data: company`
                 return res.json({ status: true, company });
             } else {
                 return res.json({
@@ -74,12 +72,43 @@ module.exports = {
             if (!company) {
                 return res.status(404).json({
                     status: false,
-                    message: "Company Does not exist",
+                    message: "Company does not exist",
                 });
             }
+            // see if company has any collection centers, if no, create seeded ones
+            // attach company's collection centers, along with random locations (of the locations we have). requirement is that locations have been seeded
+            const collection_center = await CollectionCenter.findOne({
+                company: company.id
+            });
+            if (!collection_center) {
+                let companyCollectionCenters = [
+                    {
+                      title: `${company.name} - Amboseli Collection Center`,
+                      address: '24 Aloo District, Amboseli, Nairobi City 110291',
+                    },
+                    {
+                      title: `${company.name} - Airport View Collection Center`,
+                      address: '13 XYZ District, Airport View, Nairobi City 110428',
+                    },
+                    {
+                      title: `${company.name} - Ongata Rongai Collection Center`,
+                      address: '13 ABC District, Ongata Rongai, Nairobi City 382918',
+                    },
+                    {
+                      title: `${company.name} - Outer Ring Road Collection Center`,
+                      address: '13 Kenyatta Way, Outer Ring Road, Nairobi City 261828',
+                    },
+                ];
+                const three_locations = await Location.aggregate([{ $sample: { size: 3 } }]);
+                companyCollectionCenters = companyCollectionCenters.map((collectioncenter) => {
+                    const modified_collectioncenter = collectioncenter;
+                    modified_collectioncenter.location = getRandom(three_locations)._id;
+                    modified_collectioncenter.company = company._id;
+                    return modified_collectioncenter;
+                });
+                await CollectionCenter.insertMany(companyCollectionCenters);
+            }
             return res.send({ status: true, data: company });
-            // return res.json({ status: true, data: company });
-            // console.log(company);
         } catch (error) {
             return res.status(500).send({
                 message:

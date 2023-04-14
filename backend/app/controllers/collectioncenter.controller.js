@@ -9,9 +9,6 @@ module.exports = {
     const { title, address, phone_number, company, location } = req.body;
 
     try {
-      // console.log(req.body)
-
-      // if(req.body.length > 0){
       let collection_center = new CollectionCenter({
         title,
         address,
@@ -69,6 +66,7 @@ module.exports = {
       })
         .populate({ path: 'location', model: Location })
         .populate({ path: 'company', model: Company });
+      // todo: change from `collection_centers` to `data: collection_centers`
       return res.json({ status: true, collection_centers });
     } catch (error) {
       return res.status(500).send({

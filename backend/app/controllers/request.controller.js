@@ -28,7 +28,6 @@ module.exports = {
              * TODO: generate title
              * verify - scrap category and subcategory
              */
-            // return console.log(req.body);
 
             const collection_center = await CollectionCenter.findById(
                 c_center_id
@@ -36,9 +35,6 @@ module.exports = {
                 .populate({ path: `location`, model: Location })
                 .lean()
                 .exec();
-
-            console.log(collection_center);
-
             if (!collection_center || !collection_center.location) {
                 return res.status(404).json({
                     status: false,
