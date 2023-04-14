@@ -8,6 +8,7 @@ import {
   findProfile,
   getCategories,
   getCollectionCenter,
+  getPage,
 } from '../../utils/utils';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import Waiting from '../../components/Waiting';
@@ -60,6 +61,8 @@ const profile = () => {
       if (res.ok) {
         toast.success('Offer created successfully!', toastOptions);
         setInputs({});
+
+        router.push(`/${getPage()}/dashboard`);
       }
     } catch (error) {
       console.log(error);
@@ -83,7 +86,6 @@ const profile = () => {
     const profile = await findProfile(address);
 
     setUser(profile.data);
-    console.log(profile.data);
 
     setInputs({ ...inputs, company: profile.data.id });
   };

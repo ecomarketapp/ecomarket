@@ -28,6 +28,16 @@ async function getCollectionCenter(company) {
   return data;
 }
 
+async function getCompanyRequests(company) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/companies/${company}/requests`
+  );
+
+  const data = await res.json();
+
+  return data;
+}
+
 async function newProfile(address) {
   console.log(address);
   const payload = JSON.stringify({ wallet: address });
@@ -53,4 +63,11 @@ function getPage() {
   return window.location.pathname.split('/')[1];
 }
 
-export { findProfile, newProfile, getPage, getCollectionCenter, getCategories };
+export {
+  findProfile,
+  newProfile,
+  getPage,
+  getCollectionCenter,
+  getCategories,
+  getCompanyRequests,
+};

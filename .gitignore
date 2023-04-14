@@ -37,3 +37,7 @@ nb-configuration.xml
 *.swp
 
 PROPOSAL.md
+
+
+backend/.env
+frontend/.env
