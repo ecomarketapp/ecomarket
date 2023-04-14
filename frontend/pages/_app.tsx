@@ -38,7 +38,7 @@ import { LedgerAdapter } from '@tronweb3/tronwallet-adapter-ledger';
 
 // const queryClient = new QueryClient();
 
-function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
+function MyApp({ Component, pageProps }: any): React.ReactElement {
   function onError(e: WalletError) {
     if (e instanceof WalletNotFoundError) {
       toast.error(e.message);

@@ -13,6 +13,7 @@ const wallet = () => {
   const [contract, setContract] = useState();
   const [balance, setBalance] = useState(0);
   const [topUpAmount, setTopUpAmount] = useState(0);
+  const [withdrawAmount, setWithdrawAmount] = useState(0);
   const [showTopUp, setShowTopUp] = useState(false);
   const [showWithdraw, setShowWithdraw] = useState(false);
   const [waiting, setWaiting] = useState(false);
@@ -72,12 +73,9 @@ const wallet = () => {
     const withdraw = async () => {
       if (contract) {
         try {
-          const tx = await contract.removeFromEscrow().send({
-            callValue: parseInt(topUpAmount) * 1e6,
-          });
+          const tx = await contract.removeFromEscrow(parseInt(withdrawAmount) * 1e6).send();
 
-          setShowTopUp(false);
-
+          setShowWithdraw(false);
           setWaiting(true);
 
           setTimeout(() => {
@@ -117,7 +115,7 @@ const wallet = () => {
                     <div className="shadow w-full bg-white relative py-4 rounded border border-[#E4E7EC] flex flex-col justify-between">
                       <div className="px-6">
                         <div className="flex items-center justify-between flex-row w-full">
-                          <h5 className="text-gray-600">Wallet Balance</h5>
+                          <h5 className="text-gray-600">Wallet Escrow Balance</h5>
                           <button className="text-gray-400 text-xs rounded-full hover:bg-gray-200 p-2 transition duration-200 ease">
                             <ExpandMoreVertical />
                           </button>
@@ -135,10 +133,12 @@ const wallet = () => {
                             setShowTopUp(true);
                           }}
                         >
-                          Top Up
+                          Lock
                         </button>
-                        <button className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md">
-                          Withdraw
+                        <button onClick={() => {
+                          setShowWithdraw(true);
+                        }} className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md">
+                          Unlock
                         </button>
                       </div>
                     </div>
@@ -185,6 +185,57 @@ const wallet = () => {
                           <button
                             onClick={() => {
                               setShowTopUp(false);
+                            }}
+                            className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              )}
+
+              {showWithdraw && (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    withdraw();
+                  }}
+                >
+                  <div className="mb-12">
+                    <div className="grid grids-cols-1  gap-5">
+                      <div className="shadow w-full bg-white relative py-4 rounded border border-[#E4E7EC] flex flex-col justify-between">
+                        <div className="px-6">
+                          <div className="flex items-center justify-between flex-row w-full">
+                            <h5 className="text-gray-600">
+                              Unlock funds available in escrow that are not tied to any open delivery
+                            </h5>
+                          </div>
+                          <div className="py-4">
+                            <input
+                              id="amount"
+                              type="number"
+                              placeholder="Enter amount of TRX to lock"
+                              onChange={(e) => {
+                                setWithdrawAmount(e.target.value);
+                              }}
+                              className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div className="pt-4 border-t border-gray-100 flex items-center gap-2 justify-end px-6  w-full">
+                          <button
+                            type="submit"
+                            className="text-white text-base px-4 py-2 bg-[#DD7D37] rounded-md"
+                          >
+                            Unlock
+                          </button>
+                          <button
+                            onClick={() => {
+                              setShowWithdraw(false);
                             }}
                             className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md"
                           >
