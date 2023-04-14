@@ -7,6 +7,7 @@ const Location = db.locations;
 const Company = db.companies;
 const Category = db.categories;
 const CollectionCenter = db.collectioncenter;
+const Delivery = db.deliveries;
 
 module.exports = {
     create: async (req, res) => {
@@ -303,17 +304,31 @@ module.exports = {
                     model: Category,
                     populate: { path: "children", model: Category },
                 });
-                request = request.toJSON();
+            request = request.toJSON();
             if (request.request_expires_at < new Date()) {
                 request.expired = true;
             } else {
                 request.expired = false;
             }
+            const deliveries_for_request = await Delivery.find({
+              request: requestId,
+              delivery_status: 'REWARD_CLAIMED'
+            }).exec();
+            if (Array.isArray(deliveries_for_request)) {
+              const delivery_qties = [ ...new Set(deliveries_for_request.map((delivery) => delivery.delivery_size)) ];
+              let total_delivery_qty = 0;
+              if (delivery_qties.length) {
+                total_delivery_qty = delivery_qties.reduce((a, b) => a + b)
+              }
+              request.total_percentage_delivered = (total_delivery_qty / request.quantity_required) * 100;
+            } else {
+              request.total_percentage_delivered = 0;
+            }
             return res.send({ status: true, data: request });
         } catch (error) {
             return res
                 .status(500)
-                .send({ message: `Error retrieving request details` });
+                .send({ message: error.message || `Error retrieving request details` });
         }
     },
     updateRequest: async (req, res) => {},

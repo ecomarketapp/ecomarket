@@ -127,8 +127,10 @@ module.exports = {
                 });
             res.json({ success: true, data: requests });
         } catch (error) {
-            res.status(500).send({
-                message: `Error retrieving company requests`,
+            return res.status(500).send({
+                message:
+                    error.message ||
+                    "Some error occurred while retrieving locations.",
             });
         }
     },
