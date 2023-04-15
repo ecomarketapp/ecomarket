@@ -51,6 +51,16 @@ async function getCompanyRequests(company) {
   return data;
 }
 
+async function getRequestById(request) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests/${request}`
+  );
+
+  const data = await res.json();
+
+  return data;
+}
+
 async function getRequestsByLocation(location) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/locations/${location}/requests`
@@ -94,4 +104,5 @@ export {
   getCompanyRequests,
   getCollectionLocations,
   getRequestsByLocation,
+  getRequestById,
 };
