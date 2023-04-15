@@ -148,6 +148,7 @@ const DropOffs = () => {
 
   useEffect(() => {
     if (offer) {
+      console.log(offer, 'offer');
       getRequests();
     }
   }, [offer]);
@@ -300,9 +301,9 @@ const DropOffs = () => {
                                     <div className="w-full grow">
                                       <div className="flex gap-1 items-center flex-row justify-between w-full">
                                         <p className="text-lg text-[#5B5B5B] font-semibold">
-                                          Demi Wikinson{' '}
+                                          {request.collector.name}{' '}
                                           <span className="font-thin text-graay-400 text-xs">
-                                            2 mins ago
+                                            {dateConv(request.createdAt)}
                                           </span>
                                         </p>
                                       </div>
@@ -320,16 +321,18 @@ const DropOffs = () => {
                                         <div className="flex gap-1 flex-col items-start w-full">
                                           <p className="text-base  text-[#344054] font-normal">
                                             {' '}
-                                            {offer.title}
+                                            {request.delivery_size}kg out of{' '}
+                                            {offer.quantity_remaining}kg
+                                            remaining
                                           </p>
                                           <p className="text-sm  text-[#667085] font-normal">
-                                            --{' '}
+                                            --
                                           </p>
                                         </div>
                                       </div>
                                       <div className="flex items-center justify-end">
                                         <Link
-                                          href={`/company/offers/1/dropoffs/1`}
+                                          href={`/company/offers/${request.collector._id}/dropoffs/${request.id}`}
                                         >
                                           <a className="text-white text-xs px-4 py-2 bg-[#DD7D37] rounded-md ">
                                             view dropoff

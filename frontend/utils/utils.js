@@ -58,6 +58,16 @@ async function getRequestById(request) {
   return data;
 }
 
+async function getDeliveryById(delivery) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/deliveries/${delivery}`
+  );
+
+  const data = await res.json();
+
+  return data;
+}
+
 async function getRequestDelivery(request) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests/${request}/deliveries`
@@ -131,4 +141,5 @@ export {
   dateConv,
   getRequestDelivery,
   getRequestDeliveryForCollector,
+  getDeliveryById,
 };

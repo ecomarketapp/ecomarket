@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import DropdownIcon from '../../Icons/DropdownIcon';
 import LoadingState from '../../LoadingState';
 
-const Final = () => {
+const Final = ({data, quantity, delivery}) => {
   const [collectClaim, setCollectClaim] = useState(false);
   const [confirmTransfer, setConfirmTransfer] = useState();
   const [successTransfer, setSuccessTransfer] = useState();
@@ -42,36 +42,12 @@ const Final = () => {
     return () => clearTimeout(timeout);
   });
 
+  console.log(delivery)
   return (
     <>
       {/* Fourth Step */}
       <div>
-        <div className="flex flex-col gap-3 px-4 py-4">
-          {/* <div className='flex items-center justify-around gap-3 py-3'>
-                    <div className='flex items-center gap-3'>
-                        <span className='p-2 rounded-full bg-[#5B2D0B]  flex items-center justify-center w-8 h-8 text-white'>1</span>
-                        <span className='text-[#5B2D0B]'>
-                            Fulfill request
-                        </span>
-                        
-                    </div>
-                    <div className='flex items-center gap-3'>
-                        <span className='p-2 rounded-full bg-[#5B2D0B]  flex items-center justify-center w-8 h-8 text-white'>2</span>
-                        <span className='text-[#5B2D0B]'>
-                        Gather Plastics
-                        </span>
-                        
-                    </div>
-                    <div className='flex items-center gap-3'>
-                        <span className='p-2 rounded-full bg-[#5B2D0B]  flex items-center justify-center w-8 h-8 text-white'>3</span>
-                        <span className='text-[#5B2D0B]'>
-                        Deliver Plastics
-                        </span>
-                        
-                    </div>
-
-                </div> */}
-        </div>
+        <div className="flex flex-col gap-3 px-4 py-4"></div>
 
         <div className="px-6 py-6  border border-gray-300 rounded-lg">
           <div>
@@ -106,7 +82,7 @@ const Final = () => {
                         Category of Scrap
                       </span>
                       <div className="w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                        Plastics
+                        {data?.scrap_category.name}
                       </div>
                     </div>
                     <div className="flex-1">
@@ -114,24 +90,25 @@ const Final = () => {
                         Type of Scrap
                       </span>
                       <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                        Polyethylene Terephthalate (PET)
+                        {data?.scrap_subcategory?.name}
                       </div>
                     </div>
 
                     <div className="flex-1">
                       <span className="text-gray-700 font-base mb-3">
-                        Quantity Needed
+                        Delivery Size
                       </span>
                       <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center gap-3 text-sm">
-                        15kg
+                        {quantity} kg
                       </div>
+                      <small className="text-xs font-thin"></small>
                     </div>
                     <div className="flex-1">
                       <span className="text-gray-700 font-base mb-3">
-                        Amount expected
+                        Amount to be disbursed
                       </span>
                       <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                        $70
+                        {data.amount_per_unit * quantity} TRX
                       </div>
                     </div>
 
@@ -142,7 +119,7 @@ const Final = () => {
                       <div className="w-full px-4 py-4 mt-2 text-[#6B7280] bg-gray-100  border border-[#D1D5DB] border-dashed focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
                         <div className="flex items-center justify-between w-full">
                           <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                            <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center border-4 border-[#FEF8F3]">
+                            {/* <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center border-4 border-[#FEF8F3]">
                               <img src="/images/Icon.png" alt="" />
                             </div>
                             <div className="flex gap-1 flex-col items-start w-full">
@@ -152,14 +129,15 @@ const Final = () => {
                               <p className="text-sm  text-[#667085] font-normal">
                                 720KB
                               </p>
-                            </div>
+                            </div> */}
+                            <img src={delivery.delivery_proof} />
                           </div>
 
-                          <div>
+                          {/* <div>
                             <button className="text-[#DD7D37] text-base">
-                              view
+                              download
                             </button>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -208,15 +186,14 @@ const Final = () => {
                         className={`px-9 py-3 border border-[#DD7D37] bg-[#DD7D37] text-white rounded-full w-full md:w-1/2 ${
                           collectClaim === false ? 'disabled' : ''
                         }`}
-                        disabled={collectClaim === false ? 'true' : ''}
                         onClick={handleconfirmTransfer}
                       >
-                        Claim $70
+                        Claim {delivery.delivery_amount} TRX
                       </button>
-                      <small className="text-xs font-thin mt-2 text-[#6D747D]">
+                      {/* <small className="text-xs font-thin mt-2 text-[#6D747D]">
                         EcoMarket would collect{' '}
                         <span className="text-gray-700 font-bold">2.5% </span>
-                      </small>
+                      </small> */}
                     </>
                   )}
                 </div>

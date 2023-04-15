@@ -1,13 +1,9 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CompanyLayout from '../../../../../components/CompanyLayout/Layout';
-import DropdownIcon from '../../../../../components/Icons/DropdownIcon';
 
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import LinearProgress, {
-  linearProgressClasses,
-} from '@mui/material/LinearProgress';
+import { useRouter } from 'next/router';
+import { getDeliveryById } from '../../../../../utils/utils';
 
 const SingleDropoff = () => {
   const [createDispute, setCreateDispute] = useState();
@@ -21,6 +17,31 @@ const SingleDropoff = () => {
     setRequestSuccessModal(!requestSuccessModal);
   };
 
+  const router = useRouter();
+  const [deliveryId, setDeliveryId] = useState();
+  const [collectorId, setCollectorId] = useState();
+  const [delivery, setDelivery] = useState();
+
+  const getDelivery = async () => {
+    if (deliveryId) {
+      const res = await getDeliveryById(deliveryId);
+
+      console.log(res, 'Delivery');
+      setDelivery(res.data);
+    }
+  };
+
+  useEffect(() => {
+    setCollectorId(router?.query?.id);
+    setDeliveryId(router?.query?.slug);
+  }, []);
+
+  useEffect(() => {
+    if (deliveryId) {
+      getDelivery();
+    }
+  }, [deliveryId]);
+
   return (
     <>
       <CompanyLayout>
@@ -29,30 +50,24 @@ const SingleDropoff = () => {
             <div className="h-full pb-24 md:px-4 py-12">
               <div className="flex items-center py-6 mb-8 flex-col lg:flex-row border-b border-gray-300">
                 <div className="flex-1 w-full flex-col items-start">
-                  <h3 className="h2">120kg of PET Bottles</h3>
-                  <p>Ikeja, Lagos</p>
+                  <h3 className="h2">{delivery.delivery_size} kg of Plastics</h3>
+                  {/* <p>Ikeja, Lagos</p> */}
                 </div>
 
                 <div className="mt-1 relative rounded-full flex-1  items-center grow flex w-full ">
-                  {/* <div className='h-15 grow'>
-                                    <progress className="progress w-full" value="40" max="100"></progress>
-                                </div> */}
-
-                  <div className="rounded-full w-full bg-gray-200 h-2">
+                  {/* <div className="rounded-full w-full bg-gray-200 h-2">
                     <div
                       className="bg-[#DD7D37] h-2 rounded-full wrapper relative "
                       style={{ width: '55%' }}
-                    >
-                      {/* <span className="tooltipper text-[10px]">Blockchain explorer</span> */}
-                    </div>
-                  </div>
-
+                    ></div>
+                  </div> */}
+{/* 
                   <div className="h-12 w-12">
                     <img
                       src="/images/plastics.svg "
                       className="h-full w-full object-cover"
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -62,10 +77,10 @@ const SingleDropoff = () => {
                 <div className=" grid grid-cols-1 md:grid-cols-2  w-full gap-6 relative">
                   <div className="px-4">
                     <div className="py-6 px-6 sticky top-0 border border-gray-300 rounded-lg">
-                      <div className="flex items-start justify-start gap-4 mb-6">
+                      {/* <div className="flex items-start justify-start gap-4 mb-6">
                         <div className="h-24 w-24">
                           <img
-                            src="/images/Avatar-lg.png"
+                            src="/images/avatar-1.png"
                             className="w-full object-cover rounded-full"
                           />
                         </div>
@@ -92,10 +107,10 @@ const SingleDropoff = () => {
                             </p>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                       <div>
                         <div className="grid grid-cols-2 gap-4 gap-y-9 py-3">
-                          <div className="flex-1">
+                          {/* <div className="flex-1">
                             <span className="text-gray-700 font-base mb-3">
                               Category of Scrap
                             </span>
@@ -110,14 +125,14 @@ const SingleDropoff = () => {
                             <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
                               Polyethylene Terephthalate (PET)
                             </div>
-                          </div>
+                          </div> */}
 
                           <div className="flex-1">
                             <span className="text-gray-700 font-base mb-3">
-                              Quantity Needed
+                              Delivery Size
                             </span>
                             <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center gap-3 text-sm">
-                              15kg
+                              {delivery.delivery_size} kg
                             </div>
                           </div>
                           <div className="flex-1">
@@ -125,7 +140,7 @@ const SingleDropoff = () => {
                               Amount to be disbursed
                             </span>
                             <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                              $250
+                              {delivery.delivery_amount} TRX
                             </div>
                           </div>
                           <div className="flex-1 w-full col-span-2">
@@ -135,25 +150,14 @@ const SingleDropoff = () => {
                             <div className="w-full px-4 py-4 mt-2 text-[#6B7280] bg-gray-100  border border-[#D1D5DB] border-dashed focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
                               <div className="flex items-center justify-between w-full">
                                 <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                                  <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center border-4 border-[#FEF8F3]">
-                                    <img src="/images/Icon.png" alt="" />
-                                  </div>
-                                  <div className="flex gap-1 flex-col items-start w-full">
-                                    <p className="text-base  text-[#344054] font-normal">
-                                      {' '}
-                                      10kg 0f PET Bottles
-                                    </p>
-                                    <p className="text-sm  text-[#667085] font-normal">
-                                      720KB
-                                    </p>
-                                  </div>
+                                  <img src={delivery.delivery_proof} />
                                 </div>
 
-                                <div>
+                                {/* <div>
                                   <button className="text-[#DD7D37] text-base">
                                     Download
                                   </button>
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>

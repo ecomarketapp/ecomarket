@@ -7,9 +7,6 @@ import StepApprove from '../../../components/FormComponents/formsteps/StepApprov
 import StepOne from '../../../components/FormComponents/formsteps/StepOne';
 import StepThree from '../../../components/FormComponents/formsteps/StepThree';
 import StepTwo from '../../../components/FormComponents/formsteps/StepTwo';
-import DropdownIcon from '../../../components/Icons/DropdownIcon';
-import LoadingState from '../../../components/LoadingState';
-import backend from '../../../components/services/backend';
 import UserLayout from '../../../components/UserLayout/Layout';
 import { UseContextProvider } from '../../../contexts/NavigationContext';
 import {
@@ -40,7 +37,6 @@ const RequestDetail = ({ id }) => {
   const getRequest = async () => {
     const request = await getRequestById(id);
 
-    console.log(request.data);
     setRequest(request.data);
   };
 
@@ -104,11 +100,14 @@ const RequestDetail = ({ id }) => {
             steps={steps}
             data={request}
             quantity={deliverySize}
+            delivery={delivery}
           />
         );
 
       case 4:
-        return <Final />;
+        return (
+          <Final data={request} quantity={deliverySize} delivery={delivery} />
+        );
       default:
     }
   };
@@ -189,6 +188,10 @@ const RequestDetail = ({ id }) => {
           break;
         case 'APPROVED':
           setCurrentStep(3);
+          setDeliverySize(delivery.delivery_size);
+          break;
+        case 'DELIVERED':
+          setCurrentStep(4);
           setDeliverySize(delivery.delivery_size);
           break;
       }
