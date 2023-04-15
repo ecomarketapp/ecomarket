@@ -126,7 +126,7 @@ module.exports = {
             if (!company) {
                 return res.status(404).json({
                     status: false,
-                    message: `Could not find company of ID ${company}`,
+                    message: `Could not find company of wallet address ${company}`,
                 });
             }
             return res.json({ status: true, data: company });

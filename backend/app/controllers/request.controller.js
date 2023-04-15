@@ -58,7 +58,7 @@ module.exports = {
                 description,
                 scrap_category: category,
                 scrap_subcategory: subcategory,
-                request_expires_at: expiry_date,
+                request_expires_at: expires_at,
                 unit,
                 quantity_required,
                 amount_per_unit,
@@ -69,7 +69,6 @@ module.exports = {
             });
             // Save request in the database
             request = await request.save();
-            /*  */
             request = await Request.findById(request.id)
                 .populate({ path: "company", model: Company })
                 .populate({ path: "scrap_category", model: Category })
@@ -300,6 +299,11 @@ module.exports = {
                     model: Category,
                     populate: { path: "children", model: Category },
                 });
+            if (!request) {
+                return res.status(404).send({
+                    message: `Request of id ${requestId} not found.`,
+                });
+            }
             request = request.toJSON();
             if (request.request_expires_at < new Date()) {
                 request.expired = true;
@@ -316,8 +320,10 @@ module.exports = {
               if (delivery_qties.length) {
                 total_delivery_qty = delivery_qties.reduce((a, b) => a + b)
               }
+              request.quantity_remaining = request.quantity_required - total_delivery_qty;
               request.total_percentage_delivered = (total_delivery_qty / request.quantity_required) * 100;
             } else {
+              request.quantity_remaining = request.quantity_required
               request.total_percentage_delivered = 0;
             }
             return res.send({ status: true, data: request });
