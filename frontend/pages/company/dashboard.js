@@ -144,6 +144,13 @@ const Dashboard = () => {
                       </div>
                     </div>
                   </div>
+
+                  <div className="flex items-center py-4 mb-3 flex-col lg:flex-row border-b border-gray-200 ">
+                    <div className="flex-1 w-full">
+                      <h5 className=" text-2xl text-gray-700">Your Offers</h5>
+                    </div>
+                  </div>
+
                   <div className="mt-10 w-full bg-white mt-3 md:mt-0  relative overflow-hidden rounded h-full mx-auto  ">
                     <div className=" grid grid-cols-1 py-6 w-full gap-6 relative">
                       <div className=" flex flex-col justify-between">
