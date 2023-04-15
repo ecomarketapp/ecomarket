@@ -423,9 +423,9 @@ module.exports = {
     }
   },
   getCollectorDeliveryForRequest: async (req, res) => {
-    const { id: requestId, collectorId } = req.params;
+    const { requestId, collectorId } = req.params;
     try {
-      const delivery = await Delivery.findOne({
+      let delivery = await Delivery.findOne({
         request: requestId,
         collector: collectorId
       })
@@ -450,7 +450,12 @@ module.exports = {
       }
       return res.send({ status: true, data: delivery });
     } catch (error) {
-        
+      return res.status(500).json({
+        status: false,
+        message:
+          error.message ||
+          `There was an error retrieving this collector's delivery for this request`,
+      });
     }
   }
 };
