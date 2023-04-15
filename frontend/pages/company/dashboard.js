@@ -32,7 +32,7 @@ const Dashboard = () => {
   const router = useRouter();
 
   const getUser = async () => {
-    const profile = await findProfile(address);
+    const profile = await findProfile(address, "companies");
 
     if (!profile.status) {
       router.push(`/${getPage()}/profile`);

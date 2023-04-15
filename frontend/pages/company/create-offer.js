@@ -83,7 +83,7 @@ const profile = () => {
   } = useWallet();
 
   const getUser = async () => {
-    const profile = await findProfile(address);
+    const profile = await findProfile(address, "companies");
 
     setUser(profile.data);
 

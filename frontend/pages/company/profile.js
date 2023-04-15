@@ -63,13 +63,13 @@ const profile = () => {
   } = useWallet();
 
   const getUser = async () => {
-    const profile = await findProfile(address);
+    const profile = await findProfile(address, "companies");
 
     if (profile.status) {
       setUser(profile.data);
       setInputs({ ...inputs, ...profile.data });
     } else {
-      const profile = await newProfile(address);
+      const profile = await newProfile(address, 'companies');
 
       setUser(profile.data);
       setInputs({ ...inputs, ...profile.data });
