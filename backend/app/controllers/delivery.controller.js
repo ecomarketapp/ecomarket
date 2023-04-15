@@ -418,7 +418,7 @@ module.exports = {
     try {
       // first, check expiry, just to be safe
       await checkDeliveryExpiry(deliveryId);
-      const delivery = await Delivery.findById(deliveryId)
+      let delivery = await Delivery.findById(deliveryId)
       .populate({ path: 'collector', model: Collector })
       .exec();
       if (!delivery) {
