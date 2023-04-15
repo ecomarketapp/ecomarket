@@ -29,8 +29,6 @@ const wallet = () => {
     signTransaction,
   } = useWallet();
 
-  // tronLink.request({ method: 'tron_requestAccounts' });
-
   const setEscrowContract = async () => {
     const trc20ContractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS; //contract address
 
@@ -93,8 +91,9 @@ const wallet = () => {
   };
 
   useEffect(() => {
-    tronLink.tronlinkAdapter.request({ method: 'tron_requestAccounts' });
+    window.tronLink.request({ method: 'tron_requestAccounts' });
   }, []);
+
 
   useEffect(() => {
     setEscrowContract();
