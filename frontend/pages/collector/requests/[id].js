@@ -12,34 +12,46 @@ import LoadingState from '../../../components/LoadingState';
 import backend from '../../../components/services/backend';
 import UserLayout from '../../../components/UserLayout/Layout';
 import { UseContextProvider } from '../../../contexts/NavigationContext';
-import { dateFromNow } from '../../../utils/date';
-
-
+import {
+  dateConv,
+  getRequestById,
+  findProfile,
+  getRequestDeliveryForCollector,
+} from '../../../utils/utils';
+import Waiting from '../../../components/Waiting';
+import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 
 const RequestDetail = ({ id }) => {
-
   const [request, setRequest] = useState({});
+  const [user, setUser] = useState();
+  const [delivery, setDelivery] = useState();
 
-  const loadSingleRequest = () => {
-    backend
-      .getRequest(id)
-      .then((request) => {
-        setRequest(request);
-        console.log(request);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+  const {
+    wallet,
+    address,
+    connected,
+    select,
+    connect,
+    disconnect,
+    signMessage,
+    signTransaction,
+  } = useWallet();
+
+  const getRequest = async () => {
+    const request = await getRequestById(id);
+
+    console.log(request.data);
+    setRequest(request.data);
   };
-  useEffect(loadSingleRequest, [id]);
 
+  useEffect(() => {
+    getRequest();
+  }, [id]);
 
-
-
-  console.log(request);
   const [fulfillRequest, setfulfillRequest] = useState();
   const [confirmTransfer, setConfirmTransfer] = useState();
   const [successTransfer, setSuccessTransfer] = useState();
+  const [deliverySize, setDeliverySize] = useState(0);
 
   const handlefulfillRequest = () => {
     setfulfillRequest(!fulfillRequest);
@@ -57,7 +69,6 @@ const RequestDetail = ({ id }) => {
   const steps = [
     'Fulfill request',
     'Waiting for Approval',
-
     'Gather Plastics',
     'Complete',
   ];
@@ -71,6 +82,8 @@ const RequestDetail = ({ id }) => {
             currentStep={currentStep}
             steps={steps}
             data={request}
+            setDeliverySize={setDeliverySize}
+            quantity={request.quantity_required}
           />
         );
       case 2:
@@ -78,8 +91,9 @@ const RequestDetail = ({ id }) => {
           <StepApprove
             handleClick={handleClick}
             currentStep={currentStep}
-            steps={steps} 
+            steps={steps}
             data={request}
+            quantity={deliverySize}
           />
         );
       case 3:
@@ -88,6 +102,8 @@ const RequestDetail = ({ id }) => {
             handleClick={handleClick}
             currentStep={currentStep}
             steps={steps}
+            data={request}
+            quantity={deliverySize}
           />
         );
 
@@ -97,19 +113,93 @@ const RequestDetail = ({ id }) => {
     }
   };
 
+  const createDelivery = async () => {
+    const payload = JSON.stringify({
+      requestId: id,
+      collectorId: user.id,
+      delivery_size: deliverySize,
+    });
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/deliveries`,
+      {
+        method: 'POST',
+        body: payload,
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    const delivery = await res.json();
+
+    setDelivery(delivery.data);
+  };
+
+  const getUser = async () => {
+    const profile = await findProfile(address, 'collectors');
+
+    console.log(profile, 'User');
+    setUser(profile.data);
+  };
+
+  const getDelivery = async () => {
+    if (user.id && request.id) {
+      const res = await getRequestDeliveryForCollector(request.id, user.id);
+
+      console.log(res, 'Delivery');
+      setDelivery(res.data);
+    }
+  };
+
+  useEffect(() => {
+    if (address) {
+      getUser();
+    }
+  }, [connected]);
+
+  useEffect(() => {
+    if (user && request) {
+      getDelivery();
+    }
+  }, [user, request]);
+
   const handleClick = (direction) => {
     let newStep = currentStep;
+
+    switch (newStep) {
+      case 1: //Create Delivery
+        createDelivery();
+        break;
+    }
 
     direction === 'next' ? newStep++ : newStep--;
     // check if steps are within bounds
     newStep > 0 && newStep <= steps.length && setCurrentStep(newStep);
   };
 
+  useEffect(() => {
+
+    if (delivery?.delivery_status) {
+      switch (delivery.delivery_status) {
+        case 'AWAITING_APPROVAL':
+          setCurrentStep(2);
+          setDeliverySize(delivery.delivery_size);
+          break;
+        case 'APPROVED':
+          setCurrentStep(3);
+          setDeliverySize(delivery.delivery_size);
+          break;
+      }
+    }
+  }, [delivery]);
+
   return (
     <>
       <UserLayout>
         <div>
-          <Suspense fallback={<LoadingState />}>
+          {request && (
             <section className="py-12">
               <div className="container mx-auto px-6">
                 <div className="md:px-6 ">
@@ -134,7 +224,13 @@ const RequestDetail = ({ id }) => {
                               <h4 className="font-semibold text-[#3D4044] text-lg">
                                 {request.title}
                               </h4>
-                              <p>PET Bottles</p>
+                            </div>
+
+                            <div className="flex items-center justify-between w-full">
+                              <h4 className="font-semibold text-[#3D4044] text-lg">
+                                {request?.scrap_subcategory?.name}
+                              </h4>
+                              <p>{request.quantity_required}kg</p>
                             </div>
 
                             <div className="flex items-center justify-between w-full">
@@ -142,26 +238,25 @@ const RequestDetail = ({ id }) => {
                                 <img src="/images/location.svg" className="" />
                                 <div>
                                   <p className="text-base text-[#6D747D]">
-                                    {request.location && request.location.name}{' '}
-                                    {request.location && request.location.state}
+                                    {request?.collection_center?.title}
                                   </p>
                                 </div>
                               </div>
-
-                              <h4 className="">300kg</h4>
                             </div>
-                            <div className="flex items-start justify-between w-full gap-2">
-                              <p className="flex-1 text-xs text-[rgb(135,138,144)]">
-                                {request.description?.substring(0, 150)}
-                              </p>
-                              <div className="flex items-end justify-start flex-col gap-1 flex-1">
-                                <p className="text-xs">Request expires in:</p>
-                                <div>
-                                  <p className="text-base text-[#3D4044] font-semibold capitalize">
-                                    {/* 12d : 24h : 34m : 32s */}
-                                    {dateFromNow(request.request_expires_at)}
-                                  </p>
-                                </div>
+                            <div className="flex  w-full flex-row gap-2">
+                              <div className="w-full">
+                                <p className="text-xs text-[rgb(135,138,144)]">
+                                  {request.description?.substring(0, 150)}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="w-full   flex-row ">
+                              <p className="text-xs">Request expires in:</p>
+                              <div>
+                                <p className="text-base text-[#3D4044] font-semibold capitalize">
+                                  {/* 12d : 24h : 34m : 32s */}
+                                  {dateConv(request.request_expires_at)}
+                                </p>
                               </div>
                             </div>
                           </div>
@@ -197,32 +292,26 @@ const RequestDetail = ({ id }) => {
                         <UseContextProvider>
                           {displayStep(currentStep)}
                         </UseContextProvider>
-
-                        {/* First Step */}
-                        {/* <StepOne handlefulfillRequest={handlefulfillRequest}/> */}
-
-                        {/* Second Step */}
-                        {/* <StepTwo/> */}
-
-                        {/* Third Step */}
-                        {/* <StepThree/> */}
-
-                        {/* Fourth Step */}
-
-                        {/* <Final handleconfirmTransfer={handleconfirmTransfer}/> */}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </section>
-          </Suspense>
+          )}
+
+          {!request && (
+            <section className="py-12">
+              <div className="container mx-auto px-6">
+                <Waiting />
+              </div>
+            </section>
+          )}
         </div>
       </UserLayout>
     </>
   );
 };
-
 
 RequestDetail.getInitialProps = ({ query }) => {
   return { id: query.id };

@@ -3,10 +3,7 @@ async function findProfile(address, type = 'companies') {
     `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/${type}/${address}`
   );
 
-
   const data = await res.json();
-
-  console.log(data, type)
 
   return data;
 }
@@ -61,6 +58,26 @@ async function getRequestById(request) {
   return data;
 }
 
+async function getRequestDelivery(request) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests/${request}/deliveries`
+  );
+
+  const data = await res.json();
+
+  return data;
+}
+
+async function getRequestDeliveryForCollector(request, collector) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests/${request}/collectors/${collector}`
+  );
+
+  const data = await res.json();
+
+  return data;
+}
+
 async function getRequestsByLocation(location) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/locations/${location}/requests`
@@ -95,6 +112,12 @@ function getPage() {
   return window.location.pathname.split('/')[1];
 }
 
+const dateConv = (date) => {
+  const newDate = new Date(date);
+
+  return `${newDate.getUTCDay()} d : ${newDate.getUTCHours()} h : ${newDate.getUTCMinutes()} m : ${newDate.getUTCSeconds()} s`;
+};
+
 export {
   findProfile,
   newProfile,
@@ -105,4 +128,7 @@ export {
   getCollectionLocations,
   getRequestsByLocation,
   getRequestById,
+  dateConv,
+  getRequestDelivery,
+  getRequestDeliveryForCollector,
 };

@@ -1,85 +1,32 @@
 import Link from 'next/link';
 import React, { useEffect, useState, Suspense } from 'react';
 import CompanyLayout from '../../../components/CompanyLayout/Layout';
-import DropdownIcon from '../../../components/Icons/DropdownIcon';
-import { useQuery } from 'react-query';
-import axios from 'axios';
-import Loading from '../../loading';
 import LoadingState from '../../../components/LoadingState';
-import backend from '../../../components/services/backend';
 import { dateExpire } from '../../../utils/date';
 import { formatLocation } from '../../../utils/other';
+import { useRouter } from 'next/router';
+import { getRequestById, getRequestDelivery } from '../../../utils/utils';
+import Waiting from '../../../components/Waiting';
 
 const Offers = () => {
+  const [request, setRequest] = useState();
+  const [offer, setOffer] = useState();
   const [requests, setRequests] = useState([]);
-  const [page, setPage] = useState(1);
-  const [status, setStatus] = useState('');
+  const [pending, setPending] = useState([]);
+  const [approved, setsetApproved] = useState([]);
 
-  const company_id = '642dcf9cda01b4cdf1749f41';
+  const router = useRouter();
 
-  // const fetchRequests = async () => {
-  //   try {
-  //     const res = await axios.get(
-  //       `http://127.0.0.1:8080/api/companies/${id}/requests`
-  //     );
-  //     return res.json();
-  //     // setRequests(res.data.data)
-  //     // console.log(res)
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  const resetParams = () => {
-    setStatus('');
-    setPage(1);
-  };
-  const list = () => {
-    const params = {};
-    // if (status) params.status = status;
-    // if (page && page > 1) params.page = page;
-    // if (id) params.id = id;
-
-    // useEffect(() => {
-    backend
-      .listRequestsByCompany(company_id)
-      .then((requests) => setRequests(requests.data))
-      .catch((e) => {
-        console.log(e);
-      });
-
-    console.log(requests);
-    // }, []);
-
-    // backend
-    //   .listInvoices(params)
-    //   .then((invoices) => {
-    //     setInvoices(invoices);
-    //   })
-    //   .catch((e) => {
-    //     console.log(e);
-    //   });
-  };
-
-  useEffect(list, [company_id]);
-
-  // const { data, status } = useQuery('requests', fetchRequests);
-
-  if (status === 'loading') {
-    return <div>loading</div>;
-  }
-
-  if (status === 'error') {
-    return <div>Error</div>;
-  }
-
+  useEffect(() => {
+    setRequest(router.query);
+  });
 
   return (
     <>
       <CompanyLayout>
-        <Suspense fallback={<LoadingState />}>
-          <section>
-            <div className="container mx-auto px-6">
+        <section>
+          <div className="container mx-auto px-6">
+            {offer ? (
               <div className="h-full pb-24 px-4 md:px-12 py-12">
                 <div className="flex items-center py-4 mb-6 flex-col lg:flex-row">
                   <div className="flex-1 w-full">
@@ -145,7 +92,12 @@ const Offers = () => {
                                         </p>
 
                                         <p className="text-xs font-normal">
-                                          Expires: {request.request_expires_at ? dateExpire(request.request_expires_at) : 'Not entered'}
+                                          Expires:{' '}
+                                          {request.request_expires_at
+                                            ? dateExpire(
+                                                request.request_expires_at
+                                              )
+                                            : 'Not entered'}
                                         </p>
                                       </div>
                                       <div className="flex gap-1 flex-row justify-between items-center w-full">
@@ -158,8 +110,16 @@ const Offers = () => {
                                       </div>
                                       <div className="flex gap-1 flex-row justify-between items-start w-full mt-1">
                                         {/* <p className="text-sm"> {request.location?.name} {request.location?.state}</p> */}
-                                        <p className="text-sm"> {formatLocation((request.location?.name), (request.location?.state) )}</p>
-                                        <Link href={`/company/offers/${request.id}`}>
+                                        <p className="text-sm">
+                                          {' '}
+                                          {formatLocation(
+                                            request.location?.name,
+                                            request.location?.state
+                                          )}
+                                        </p>
+                                        <Link
+                                          href={`/company/offers/${request.id}`}
+                                        >
                                           <a className="text-white text-xs px-4 py-2 bg-[#DD7D37] rounded-md hover:bg-[#DD7D37]/90">
                                             view offer
                                           </a>
@@ -182,7 +142,7 @@ const Offers = () => {
                           </>
                         )}
 
-                        <div className="flex items-center py-4 px-4 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
+                        {/* <div className="flex items-center py-4 px-4 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out">
                           <div className="flex items-start gap-3 w-full">
                             <div className="w-full">
                               <div className="flex gap-1 items-center flex-row justify-between w-full">
@@ -259,15 +219,17 @@ const Offers = () => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
-        </Suspense>
+            ) : (
+              <Waiting />
+            )}
+          </div>
+        </section>
       </CompanyLayout>
     </>
   );
