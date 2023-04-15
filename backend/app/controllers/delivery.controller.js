@@ -93,7 +93,7 @@ const checkCollector = async (deliveryId, collector_wallet_address) => {
 
 module.exports = {
   createDelivery: async (req, res) => {
-    const { collectorId, requestId } = req.body;
+    const { collectorId, requestId, delivery_size } = req.body;
     try {
       // verify request expiry
       const request_has_expired = await checkRequestExpiry(requestId);
@@ -113,11 +113,34 @@ module.exports = {
           message: `Delivery cannot be created, as this collector already has a delivery for this request.`,
         });
       }
+      // make sure delivery size is not above remaining request size
+      const request = await Request.findById(requestId);
+      const deliveries_for_request = await Delivery.find({
+        request: requestId,
+        delivery_status: 'REWARD_CLAIMED'
+      }).exec();
+      let total_delivery_qty = 0;
+      if (Array.isArray(deliveries_for_request)) {
+        const completed_delivery_qties = [ ...new Set(deliveries_for_request.map((delivery) => delivery.delivery_size)) ];
+        if (completed_delivery_qties.length) {
+          total_delivery_qty = completed_delivery_qties.reduce((a, b) => a + b)
+        }
+      } else {
+        total_delivery_qty = 0;
+      }
+      const max_qty = request.quantity_required - total_delivery_qty;
+      if (delivery_size > max_qty) {
+        return res.status(403).json({
+          status: false,
+          message: `Sorry, the delivered size is more than the total allowed: ${max_qty}`,
+        });
+      }
       let delivery = new Delivery({
         delivery_status: 'AWAITING_APPROVAL',
         started_at: new Date(),
         collector: collectorId,
-        request: requestId
+        request: requestId,
+        delivery_size
       });
       delivery = await delivery.save();
       delivery = await Delivery.findById(delivery.id)
