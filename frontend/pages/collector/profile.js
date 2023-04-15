@@ -128,7 +128,7 @@ const profile = () => {
                         <input
                           id="name"
                           type="text"
-                          placeholder="Enter your company name"
+                          placeholder="Enter your name"
                           defaultValue={user.name}
                           onChange={(e) => {
                             setInputs({
@@ -174,6 +174,7 @@ const profile = () => {
                         <input
                           id="phone_number"
                           type="text"
+                          placeholder="Enter your phone number"
                           className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none transition duration-150 ease-in-out"
                           required
                           defaultValue={user.contact_phone}
