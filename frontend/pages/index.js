@@ -76,6 +76,7 @@ const Home = () => {
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
+                                <img className='rounded-full' src="/images/how-it-works/register-company.png" />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   1
                                 </span>
@@ -84,7 +85,7 @@ const Home = () => {
                             <div className="text-center">
                               <h4>Create Account</h4>
                               <p className="text-sm">
-                                Create an EcoMarket account with TronLink and
+                                Create an EcoMarket account with your TronLink wallet and
                                 set up your company profile.
                               </p>
                             </div>
@@ -92,6 +93,7 @@ const Home = () => {
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
+                                <img className='rounded-full' src="/images/how-it-works/submit-2.png" />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   2
                                 </span>
@@ -110,6 +112,7 @@ const Home = () => {
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
+                                <img className='rounded-full' src="/images/how-it-works/cryptocurrency-tron.png" />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   3
                                 </span>
@@ -127,6 +130,7 @@ const Home = () => {
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
+                                <img className='rounded-full' src="/images/how-it-works/plastic.png" />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   4
                                 </span>
@@ -135,9 +139,7 @@ const Home = () => {
                             <div className="text-center">
                               <h4>Collect scrap & earn EcoCredits</h4>
                               <p className="text-sm">
-                                Earn the EcoCredit NFT, which proves the amount
-                                of plastic waste recovered by your company, thus
-                                verifying your commitment to sustainability.
+                                Earn the EcoCredit NFT, which verifies your company's commitment to sustainability.
                               </p>
                             </div>
                           </div>
@@ -157,6 +159,7 @@ const Home = () => {
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
+                                <img className='rounded-full' src="/images/how-it-works/register-collector.png" />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   1
                                 </span>
@@ -165,15 +168,15 @@ const Home = () => {
                             <div className="text-center">
                               <h4>Join EcoMarket</h4>
                               <p className="text-sm">
-                                Sign up on EcoMarket using your email address,
-                                and get assigned a non-custodial wallet address
-                                automatically.
+                                Sign up on EcoMarket using your TronLink wallet,
+                                and set up your profile, including your locality.
                               </p>
                             </div>
                           </div>
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
+                                <img className='rounded-full' src="/images/how-it-works/plastic.png" />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   2
                                 </span>
@@ -184,14 +187,14 @@ const Home = () => {
                               <h4>Fulfill Requests</h4>
                               <p className="text-sm">
                                 Get notified whenever new requests for plastic
-                                waste are made in your locality, and gather
-                                plastics to fulfill the requests.
+                                waste are made in your locality, and indicate interest in fulfilling the requests.
                               </p>
                             </div>
                           </div>
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
+                                <img className='rounded-full' src="/images/how-it-works/delivery-man.png" />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   3
                                 </span>
@@ -200,8 +203,7 @@ const Home = () => {
                             <div className="text-center">
                               <h4>Dropoff Plastics</h4>
                               <p className="text-sm">
-                                Dropoff the plastics at the collection center,
-                                and upload proof of weight and dropoff to
+                                Once approved, gather the plastics, and then drop them off at the collection center. Upload proof of dropoff to
                                 EcoMarket.
                               </p>
                             </div>
@@ -209,6 +211,7 @@ const Home = () => {
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
+                                <img className='rounded-full' src="/images/how-it-works/coin.png" />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   4
                                 </span>
