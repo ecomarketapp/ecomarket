@@ -144,45 +144,6 @@ const StepTwo = ({ handleClick, currentStep, steps, data, quantity }) => {
 
           {/* <div className="px-6 py-6  border border-gray-300 rounded-lg"> */}
           <div>
-            {/* <div className="dropdown relative grow mb-4 w-full border-b pb-8 border-gray-300">
-              <button
-                className="w-full bg-gray-100 h-12 focus:outline-none active:outline-none  flex items-center justify-between border-0 border-gray-300 focus:border-gray-400 active:border-gray-400 px-4 py-3 mt-2 rounded-lg transition duration-300 ease"
-                type="button"
-                onClick={handleShowRequest}
-              >
-                <span className="pointer-events-none flex items-center gap-2 text-[#6B7280]">
-                  Show Request Details
-                </span>
-                <span
-                  className={`pointer-events-none transition duration-200  ease-linear `}
-                >
-                  <DropdownIcon showDetails={showDetails} />
-                </span>
-              </button>
-
-              <div
-                className={`absolute border bg-white cat-menu large-dropdown px-3 shadow-md rounded-md w-full h-40 max-w-full overflow-y-auto scrollbar-change fade-in z-10 ${
-                  showDetails ? 'show' : ''
-                }`}
-              >
-                <div className=" py-4 divide-y">
-                  <button
-                      className="flex items-center py-3 px-2 hover:bg-gray-100 text-sm justify-between bg-white border-0 rounded-lg w-full "
-                      type="button"
-                    >
-                      <div className="flex items-center justify-center gap-2 pr-2">
-                        <img src="/images/plastics.svg" className="h-8 w-8" />
-                      </div>
-                      <div className="flex grow flex-col justify-center items-start text-left">
-                        <p className="text-gray-700 font-normal text-base">
-                          Plastics
-                        </p>
-                      </div>
-                    </button>
-                </div>
-              </div>
-            </div> */}
-
             <div className="py-4">
               <div className="mb-4 pb-3">
                 <h3 className="text-2xl">Delivery Details</h3>
@@ -197,19 +158,21 @@ const StepTwo = ({ handleClick, currentStep, steps, data, quantity }) => {
                 <div className=" relative grow mb-4 w-full">
                   <input
                     className="w-full bg-white h-12 focus:outline-none active:outline-none text-sm  flex items-center justify-between border border-gray-300 focus:border-gray-400 active:border-gray-400 px-4 py-3 mt-2 rounded-lg transition duration-300 ease"
-                    defaultValue="5kg"
+                    defaultValue={`${quantity}`}
+                    kg
+                    readOnly
                   />
                   <div className="flex items-center justify-start mt-1 text-sm text-[#878A90] gap-1">
                     <small className="text-sm">
                       You would receive{' '}
                       <span className="font-bold text-gray-700 text-base">
-                        $70{' '}
+                        {data.amount_per_unit * quantity} TRX{' '}
                       </span>
                     </small>
-                    <small className="text-xs">
+                    / EcoMarket would collect{' '}
+                    <small className="font-bold text-gray-700  text-base">
                       {' '}
-                      ---- EcoMarket would collect{' '}
-                      <span className="font-bold text-gray-700">2%</span>
+                      {data.amount_per_unit * quantity * 0.02} TRX
                     </small>
                   </div>
                 </div>
@@ -224,7 +187,10 @@ const StepTwo = ({ handleClick, currentStep, steps, data, quantity }) => {
                   </label>
                   <p className="text-sm text-[#878A90]">
                     Upload proof of delivery less than 3mb (see{' '}
-                    <a className="underline">instructions</a>)
+                    <a href="#" className="underline">
+                      instructions
+                    </a>
+                    )
                   </p>
                 </div>
                 <div className="relative grow w-full">
@@ -256,6 +222,7 @@ const StepTwo = ({ handleClick, currentStep, steps, data, quantity }) => {
                       </svg>
                     </span>
                   </button>
+                  <input type="file" className="hidden" required />
                 </div>
               </div>
               <div className="mb-6">
@@ -268,21 +235,22 @@ const StepTwo = ({ handleClick, currentStep, steps, data, quantity }) => {
                   <textarea
                     className="w-full bg-white focus:outline-none active:outline-none  flex items-center justify-between border border-gray-300 focus:border-gray-400 active:border-gray-400 px-4 py-3 mt-2 rounded-lg transition duration-300 ease"
                     rows="4"
+                    required
                   ></textarea>
                 </div>
               </div>
             </div>
 
             <div className="flex items-center justify-center flex-col  gap-4 mt-5 mx-auto w-full">
-              <button
+              {/* <button
                 className="px-9 py-3  border border-gray-300 bg-white text-gray-700  rounded-full w-full"
                 onClick={() => handleUploadProofBtn()}
               >
                 Cancel Request
-              </button>
+              </button> */}
               <button
                 className="px-9 py-3 border border-[#DD7D37] bg-[#DD7D37] text-white rounded-full  w-full "
-                onClick={() => handleClick('next')}
+                type="submit"
               >
                 Upload Proof of Delivery
               </button>
