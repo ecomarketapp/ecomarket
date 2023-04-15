@@ -7,5 +7,6 @@ router.post('/', requests.create);
 router.get('/', requests.getRequests);
 router.get('/:id', requests.getOneRequest);
 router.get('/:id/deliveries', deliveries.getRequestDeliveries);
+router.get('/:id/collectors/:collectorId', deliveries.getCollectorDeliveryForRequest);
 
 module.exports = router;

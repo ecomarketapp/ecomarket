@@ -19,7 +19,7 @@ const checkDeliveryExpiry = async (deliveryId) => {
     if (delivery.delivery_status === 'APPROVED' && delivery.approved_at) {
       const time_has_elapsed = dayjs().isAfter(dayjs(delivery.approved_at).add(process.env.DELIVERY_EXPIRY_DEFAULT, 'hour'));
       if (time_has_elapsed) {
-        delivery.status = 'EXPIRED';
+        delivery.delivery_status = 'EXPIRED';
         delivery.expired_at = dayjs(delivery.approved_at).add(process.env.DELIVERY_EXPIRY_DEFAULT, 'hour');
         delivery = await delivery.save();
       }
@@ -180,6 +180,7 @@ module.exports = {
       delivery = await Delivery.findById(delivery.id)
       .populate({ path: 'collector', model: Collector })
       .exec();
+      delivery = delivery.toJSON();
       
       delivery.can_claim = false;
       return res.send({ status: true, data: delivery });
@@ -265,6 +266,8 @@ module.exports = {
 
         delivery = await Delivery.findById(delivery.id)
         .populate({ path: 'collector', model: Collector });
+        delivery = delivery.toJSON();
+
         delivery.can_claim = false;
         return res.send({ status: true, data: delivery });
       } else {
@@ -299,7 +302,7 @@ module.exports = {
       if (expired) {
         return res.status(403).json({
           status: false,
-          message: `Reward cannot be claimed, as it has expired.`,
+          message: `Reward cannot be claimed, as the delivery has expired.`,
         });
       }
       // make sure the logged-in user claiming this reward is the collector that set up the initial delivery
@@ -334,8 +337,10 @@ module.exports = {
       /* we found delivery, so now, we can do claim */
       delivery.delivery_status = 'REWARD_CLAIMED';
       delivery.claimed_at = new Date();
-      delivery = await delivery.save()
-      .populate({ path: 'collector', model: Collector });
+      delivery = await delivery.save();
+
+      delivery = await Delivery.findById(delivery.id)
+        .populate({ path: 'collector', model: Collector });
       return res.send({ status: true, data: delivery });
     } catch (error) {
       return res.status(500).json({
@@ -399,6 +404,7 @@ module.exports = {
           message: `Could not find delivery of ID ${deliveryId}`,
         });
       }
+      delivery = delivery.toJSON();
       // check if delivery can be claimed
       if (delivery.delivery_status === 'DELIVERED' && delivery.delivered_at) {
         const cooloff_period_elapsed = dayjs().isAfter(dayjs(delivery.delivered_at).add(process.env.COOL_OFF_PERIOD, 'hour'));
@@ -414,6 +420,37 @@ module.exports = {
           error.message ||
           `There was an error retrieving this delivery's details`,
       });
+    }
+  },
+  getCollectorDeliveryForRequest: async (req, res) => {
+    const { id: requestId, collectorId } = req.params;
+    try {
+      const delivery = await Delivery.findOne({
+        request: requestId,
+        collector: collectorId
+      })
+      .populate({ path: 'collector', model: Collector })
+      .exec();
+      if (!delivery) {
+        return res.status(404).json({
+          status: false,
+          message: `Could not find delivery with request ID of ${requestId} and collector ID of ${collectorId}`,
+        });
+      }
+      const deliveryId = delivery.id;
+      // first, check expiry, just to be safe
+      await checkDeliveryExpiry(deliveryId);
+      delivery = delivery.toJSON();
+      // check if delivery can be claimed
+      if (delivery.delivery_status === 'DELIVERED' && delivery.delivered_at) {
+        const cooloff_period_elapsed = dayjs().isAfter(dayjs(delivery.delivered_at).add(process.env.COOL_OFF_PERIOD, 'hour'));
+        if (cooloff_period_elapsed) {
+          delivery.can_claim = true
+        }
+      }
+      return res.send({ status: true, data: delivery });
+    } catch (error) {
+        
     }
   }
 };
