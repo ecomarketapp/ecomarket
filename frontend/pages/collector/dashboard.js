@@ -10,6 +10,7 @@ import {
   getRequestsByLocation,
   getPage,
   getCompanyRequests,
+  dateConv
 } from '../../utils/utils';
 import Waiting from '../../components/Waiting';
 
@@ -44,6 +45,7 @@ const Dashboard = () => {
       setUser(profile.data);
     }
   };
+  
   const setEscrowContract = async () => {
     const trc20ContractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS; //contract address
 
@@ -90,12 +92,6 @@ const Dashboard = () => {
       getRequests();
     }
   }, [user]);
-
-  const dateConv = (date) => {
-    const newDate = new Date(date);
-
-    return `${newDate.getUTCDay()} d : ${newDate.getUTCHours()} h : ${newDate.getUTCMinutes()} m : ${newDate.getUTCSeconds()} s`;
-  };
 
   return (
     <>

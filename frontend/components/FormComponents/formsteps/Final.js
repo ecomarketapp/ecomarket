@@ -120,7 +120,7 @@ const Final = () => {
 
                     <div className="flex-1">
                       <span className="text-gray-700 font-base mb-3">
-                        Quantity Provided
+                        Quantity Needed
                       </span>
                       <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center gap-3 text-sm">
                         15kg

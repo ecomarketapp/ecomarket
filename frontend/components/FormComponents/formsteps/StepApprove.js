@@ -3,7 +3,8 @@ import { useState } from 'react';
 import DropdownIcon from '../../Icons/DropdownIcon';
 import FormTimer from '../FormTimer';
 
-const StepApprove = ({ handleClick, currentStep, steps, data }) => {
+const StepApprove = ({ handleClick, currentStep, steps, data, quantity }) => {
+  console.log(data, 'A')
   return (
     <div>
       <div className="fade-in">
@@ -72,10 +73,10 @@ const StepApprove = ({ handleClick, currentStep, steps, data }) => {
 
               <div className="flex-1">
                 <span className="text-gray-700 font-base mb-3">
-                  Quantity Provided
+                  Delivery Size
                 </span>
                 <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center gap-3 text-sm">
-                  {data && data.quantity_required}
+                  {quantity}
                 </div>
                 <small className="text-xs font-thin">
                   This quantity updates as collectors deliver{' '}
@@ -86,7 +87,7 @@ const StepApprove = ({ handleClick, currentStep, steps, data }) => {
                   Amount to be disbursed
                 </span>
                 <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                  $250
+                  {data.amount_per_unit * quantity} TRX
                 </div>
               </div>
               <div className="flex-1 w-full col-span-2">

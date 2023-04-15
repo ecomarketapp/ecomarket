@@ -12,30 +12,7 @@ const StepThree = ({ handleClick, currentStep, steps }) => {
     <>
       <div className="fade-in">
         <div className="flex flex-col gap-3 px-4 py-4">
-          {/* <div className='flex items-center justify-around gap-3 py-3'>
-                    <div className='flex items-center gap-3'>
-                        <span className='p-2 rounded-full bg-[#5B2D0B]  flex items-center justify-center w-8 h-8 text-white'>1</span>
-                        <span className='text-[#5B2D0B]'>
-                            Fulfill request
-                        </span>
-                        
-                    </div>
-                    <div className='flex items-center gap-3'>
-                        <span className='p-2 rounded-full bg-[#5B2D0B]  flex items-center justify-center w-8 h-8 text-white'>2</span>
-                        <span className='text-[#5B2D0B]'>
-                        Gather Plastics
-                        </span>
-                        
-                    </div>
-                    <div className='flex items-center gap-3'>
-                        <span className='p-2 rounded-full  flex items-center justify-center w-8 h-8 bg-[#DD7D37] border border-[#DD7D37] text-white'>3</span>
-                        <span className='text-[#DD7D37] '>
-                            Deliver Plastics
-                        </span>
-                        
-                    </div>
-
-                </div> */}
+         
         </div>
 
         <div className="px-6 py-6  border border-gray-300 rounded-lg">

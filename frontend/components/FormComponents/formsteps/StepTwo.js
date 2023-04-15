@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DropdownIcon from '../../Icons/DropdownIcon';
 import FormTimer from '../FormTimer';
 
-const StepTwo = ({ handleClick, currentStep, steps }) => {
+const StepTwo = ({ handleClick, currentStep, steps, data, quantity }) => {
   const [uploadProofBtn, setUploadProofBtn] = useState();
   const [showDetails, setShowDetails] = useState();
 
@@ -16,32 +16,6 @@ const StepTwo = ({ handleClick, currentStep, steps }) => {
   return (
     <>
       <div className="fade-in">
-        {/* <div className='flex flex-col gap-3 px-4 pb-4'> */}
-        {/* <div className='flex items-center justify-around gap-3 py-3'>
-                    <div className='flex items-center gap-3'>
-                        <span className='p-2 rounded-full bg-[#5B2D0B]  flex items-center justify-center w-8 h-8 text-white'>1</span>
-                        <span className='text-[#5B2D0B]'>
-                            Fulfill request
-                        </span>
-                        
-                    </div>
-                    <div className='flex items-center gap-3'>
-                        <span className='p-2 rounded-full  flex items-center justify-center w-8 h-8 bg-[#DD7D37] border border-[#DD7D37] text-white'>2</span>
-                        <span className='text-[#DD7D37] '>
-                        Gather Plastics
-                        </span>
-                        
-                    </div>
-                    <div className='flex items-center gap-3'>
-                        <span className='p-2 rounded-full bg-white  flex items-center justify-center w-8 h-8 text-gray-500 border border-gray-500'>3</span>
-                        <span className='text-gray-500 '>
-import DropdownIcon from '../../Icons/DropdownIcon';
-                            Deliver Plastics
-                        </span>
-                        
-                    </div>
-
-                </div> */}
         <div className="py-4 px-3">
           <p className="text-sm text-[#DD7D37] font-semibold text-left">
             Once you've gathered enough plastics, click on “Complete Request” to
@@ -82,10 +56,10 @@ import DropdownIcon from '../../Icons/DropdownIcon';
 
               <div className="flex-1">
                 <span className="text-gray-700 font-base mb-3">
-                  Quantity Provided
+                  Delivery Size
                 </span>
                 <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center gap-3 text-sm">
-                  15kg
+                  {quantity}kg
                 </div>
                 <small className="text-xs font-thin">
                   This quantity updates as collectors deliver{' '}
@@ -96,14 +70,16 @@ import DropdownIcon from '../../Icons/DropdownIcon';
                   Amount to be disbursed
                 </span>
                 <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm">
-                  $250
+                  {data.amount_per_unit * quantity} TRX
                 </div>
               </div>
               <div className="flex-1 w-full col-span-2">
                 <span className="text-gray-700 font-base mb-3">
                   Description
                 </span>
-                <div className="w-full px-4 py-4 mt-2 text-[#6B7280] bg-gray-100   focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm h-24"></div>
+                <div className="w-full px-4 py-4 mt-2 text-[#6B7280] bg-gray-100   focus:border-gray-300 rounded-md focus:outline-none flex items-center text-sm h-24">
+                  {data && data.description}
+                </div>
               </div>
 
               <div className="flex-1 w-full col-span-2">

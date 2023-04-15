@@ -60,8 +60,6 @@ const SingleDropoff = () => {
                 {/* <div className="absolute h-full border border-[#E4E7EC] inset-0 z-0 mx-auto w-[0.5px] hidden md:block"></div> */}
 
                 <div className=" grid grid-cols-1 md:grid-cols-2  w-full gap-6 relative">
-                  
-
                   <div className="px-4">
                     <div className="py-6 px-6 sticky top-0 border border-gray-300 rounded-lg">
                       <div className="flex items-start justify-start gap-4 mb-6">
@@ -116,7 +114,7 @@ const SingleDropoff = () => {
 
                           <div className="flex-1">
                             <span className="text-gray-700 font-base mb-3">
-                              Quantity Provided
+                              Quantity Needed
                             </span>
                             <div className="w-full h-12 px-4 py-2 mt-2 text-[#6B7280] bg-gray-100  border-0 border-gray-200 focus:border-gray-300 rounded-md focus:outline-none flex items-center gap-3 text-sm">
                               15kg
