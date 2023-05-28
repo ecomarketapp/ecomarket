@@ -20,7 +20,7 @@ const GetStartedModal = ({ show, setShow }) => {
               <img src="/images/ecomarket-logo.svg" />
             </div>
 
-            <p className="mb-3">Kindly Select your role</p>
+            <p className="mb-3">Select your role</p>
           </div>
 
           <button

@@ -201,7 +201,7 @@ const SignUp = () => {
                       className="text-gray-700 font-medium mb-3"
                       htmlFor="wallet_address"
                     >
-                      Address<span>*</span>
+                      Wallet Address<span>*</span>
                     </label>
                     <input
                       id="wallet_address"
