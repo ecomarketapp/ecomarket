@@ -12,6 +12,7 @@ import {
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import Waiting from '../../components/Waiting';
 import UserLayout from '../../components/UserLayout/Layout';
+import Head from 'next/head';
 
 const profile = () => {
   const [loading, setLoading] = useState('');
@@ -100,6 +101,12 @@ const profile = () => {
 
   return (
     <div>
+      <Head>
+        <title>Ecomarket | Collector Profile</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Ecomarket Collector Profile" />
+      </Head>
+
       <Toaster />
 
       <UserLayout>

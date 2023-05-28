@@ -10,6 +10,7 @@ import LinearProgress, {
 } from '@mui/material/LinearProgress';
 import backend from '../../../../components/services/backend';
 import { formatLocation } from '../../../../utils/other';
+import Head from 'next/head';
 
 const SingleOffer = ({ id }) => {
   const [createDispute, setCreateDispute] = useState();
@@ -39,6 +40,11 @@ const SingleOffer = ({ id }) => {
 
   return (
     <>
+      <Head>
+        <title>Ecomarket | Offer - {request.title}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content={`Ecomarket Company Offer ${request.title}`} />
+      </Head>
       <CompanyLayout>
         <section>
           <div className="container mx-auto px-6">
@@ -46,7 +52,12 @@ const SingleOffer = ({ id }) => {
               <div className="flex items-center py-6 mb-8 flex-col lg:flex-row border-b border-gray-300">
                 <div className="flex-1 w-full flex-col items-start">
                   <h3 className="h2">{request.title}</h3>
-                  <p>{formatLocation((request.location?.name), (request.location?.state) )}</p>
+                  <p>
+                    {formatLocation(
+                      request.location?.name,
+                      request.location?.state
+                    )}
+                  </p>
                 </div>
 
                 <div className="mt-1 relative rounded-full flex-1  items-center grow flex w-full ">

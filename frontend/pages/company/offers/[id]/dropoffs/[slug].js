@@ -4,6 +4,7 @@ import CompanyLayout from '../../../../../components/CompanyLayout/Layout';
 
 import { useRouter } from 'next/router';
 import { getDeliveryById } from '../../../../../utils/utils';
+import Head from 'next/head';
 
 const SingleDropoff = () => {
   const [createDispute, setCreateDispute] = useState();
@@ -44,13 +45,23 @@ const SingleDropoff = () => {
 
   return (
     <>
+      <Head>
+        <title>Ecomarket | Company Offer - Dropoffs</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content={`Ecomarket Company Offer- Dropoffs`}
+        />
+      </Head>
       <CompanyLayout>
         <section>
           <div className="container mx-auto px-6">
             <div className="h-full pb-24 md:px-4 py-12">
               <div className="flex items-center py-6 mb-8 flex-col lg:flex-row border-b border-gray-300">
                 <div className="flex-1 w-full flex-col items-start">
-                  <h3 className="h2">{delivery.delivery_size} kg of Plastics</h3>
+                  <h3 className="h2">
+                    {delivery.delivery_size} kg of Plastics
+                  </h3>
                   {/* <p>Ikeja, Lagos</p> */}
                 </div>
 
@@ -61,7 +72,7 @@ const SingleDropoff = () => {
                       style={{ width: '55%' }}
                     ></div>
                   </div> */}
-{/* 
+                  {/* 
                   <div className="h-12 w-12">
                     <img
                       src="/images/plastics.svg "

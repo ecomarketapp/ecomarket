@@ -17,6 +17,7 @@ import {
 } from '../../../utils/utils';
 import Waiting from '../../../components/Waiting';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
+import Head from 'next/head';
 
 const RequestDetail = ({ id }) => {
   const [request, setRequest] = useState({});
@@ -179,7 +180,6 @@ const RequestDetail = ({ id }) => {
   };
 
   useEffect(() => {
-
     if (delivery?.delivery_status) {
       switch (delivery.delivery_status) {
         case 'AWAITING_APPROVAL':
@@ -200,6 +200,14 @@ const RequestDetail = ({ id }) => {
 
   return (
     <>
+      <Head>
+        <title>Ecomarket | Requests - {request.title}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content={`Ecomarket Collector Request - ${request.title}`}
+        />
+      </Head>
       <UserLayout>
         <div>
           {request && (

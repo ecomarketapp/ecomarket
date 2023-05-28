@@ -92,7 +92,7 @@ const ConectWallet = ({ page }) => {
           <div className="flex items-left justify-left mt-5">
             <span className="">Don't have TronLink wallet?</span>
             <Link href="https://www.tronlink.org/">
-              <a className=" text-[#DD7D37] ml-2 underline">Find out how</a>
+              <a className=" text-[#DD7D37] ml-2 underline">Get a wallet now</a>
             </Link>
           </div>
         </>
