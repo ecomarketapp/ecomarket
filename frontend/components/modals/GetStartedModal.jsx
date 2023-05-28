@@ -17,7 +17,7 @@ const GetStartedModal = ({ show, setShow }) => {
         <div className=" mb-6">
           <div className="flex items-center justify-center flex-col gap-3 grow">
             <div>
-              <img src="/images/ecomarket-logo.svg" />
+              <img src="/images/ecomarket-logo.png" width={250} className="object-contain" />
             </div>
 
             <p className="mb-3">Select your role</p>

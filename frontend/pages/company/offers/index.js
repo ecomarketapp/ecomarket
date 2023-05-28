@@ -7,6 +7,7 @@ import { formatLocation } from '../../../utils/other';
 import { useRouter } from 'next/router';
 import { getRequestById, getRequestDelivery } from '../../../utils/utils';
 import Waiting from '../../../components/Waiting';
+import Head from 'next/head';
 
 const Offers = () => {
   const [request, setRequest] = useState();
@@ -23,6 +24,11 @@ const Offers = () => {
 
   return (
     <>
+      <Head>
+        <title>Ecomarket | Company Offers</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Ecomarket Company Offers" />
+      </Head>
       <CompanyLayout>
         <section>
           <div className="container mx-auto px-6">

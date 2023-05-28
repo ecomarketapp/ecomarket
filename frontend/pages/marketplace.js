@@ -1,18 +1,24 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';
-import React from 'react';
+import React, { useRef } from 'react';
 import Layout from '../components/layout/Layout';
 import DropdownIcon from '../components/Icons/DropdownIcon';
 import { useQuery, useInfiniteQuery } from 'react-query';
 import LoadingState from '../components/LoadingState';
-
+import Head from "next/head";
 
 const MarketPlace = () => {
-  
+  const isLoading = true;
+  const resultRef = useRef(null);
 
   return (
     <>
-      <Layout>
+      <Head>
+        <title>Ecomarket | Marketplace</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Ecomarket Marketplace" />
+      </Head>
+      <Layout resultRef={resultRef}>
         <section
           className="bg-white py-24"
           style={{
@@ -111,7 +117,65 @@ const MarketPlace = () => {
                 </div>
               </div>
 
-              {isLoading ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-9 gap-y-9 ">
+                <Link href={`/collector/requests/1`}>
+                  <a>
+                    <div className="card shadow-lg py-3 rounded-md">
+                      <div className="">
+                        <div className="w-full h-56">
+                          <img
+                            src="/images/marketimage.png"
+                            className="w-full h-full object-cover rounded-md"
+                          />
+                        </div>
+                      </div>
+                      <div className=" flex items-start justify-between mt-3 px-5 py-4 flex-col w-full gap-2">
+                        <div className="flex items-center justify-between w-full">
+                          <h4 className="font-semibold text-[#3D4044] text-lg">
+                            PET Bottles
+                          </h4>
+                          <p>PET</p>
+                        </div>
+
+                        <div className="flex items-center justify-between w-full">
+                          <div className="flex items-center justify-start gap-2">
+                            <img src="/images/location.svg" className="" />
+                            <div>
+                              <p className="text-base text-[#6D747D]">
+                                Ikeja, Lagos
+                              </p>
+                            </div>
+                          </div>
+
+                          <h4 className="">300kg</h4>
+                        </div>
+                        <div className="flex items-start justify-between w-full gap-2">
+                          <p className="flex-1 text-xs text-[#878A90]">
+                            By working in partnership with local collectors and
+                            recycling...
+                          </p>
+                          <div className="flex items-end justify-start flex-col gap-1 flex-1">
+                            <p className="text-xs">Request expires in:</p>
+                            <div>
+                              <p className="text-base text-[#3D4044] font-semibold">
+                                12d : 24h : 34m : 32s
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </Link>
+              </div>
+
+              <div className="flex items-center justify-center mt-8">
+                <button className="text-[#DD7D37] px-12 py-2 text-sm border border-[#DD7D37] rounded-full">
+                  Load More
+                </button>
+              </div>
+
+              {/* {isLoading ? (
                 <div className="flex items-center justify-center">
                   <LoadingState />
                 </div>
@@ -185,9 +249,9 @@ const MarketPlace = () => {
                     ))
                   )}
                 </div>
-              )}
+              )} */}
 
-              <div className="flex items-center justify-center mt-8">
+              {/* <div className="flex items-center justify-center mt-8">
                 <button
                   className="text-[#DD7D37] px-12 py-2 text-sm border border-[#DD7D37] rounded-full"
                   onClick={fetchNextPage}
@@ -200,7 +264,7 @@ const MarketPlace = () => {
                     ></div>
                   ) : null}
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>

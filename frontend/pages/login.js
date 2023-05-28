@@ -6,6 +6,7 @@ import { login } from '../state/apiCalls/userCalls';
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import Head from 'next/head';
 
 const Login = () => {
   const currentYear = new Date().getFullYear();
@@ -91,6 +92,11 @@ const Login = () => {
 
   return (
     <>
+      <Head>
+        <title>Ecomarket | Login</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Ecomarket Login" />
+      </Head>
       <Toaster />
 
       <section className="h-screen">
@@ -100,7 +106,7 @@ const Login = () => {
               <div className="container mx-auto fixed top-0 right-0 left-0 w-full px-6 py-3 bg-white">
                 <Link href="/">
                   <a>
-                    <img src="/images/ecomarket-logo.svg" />
+                    <img src="/images/ecomarket-logo.png" width={150} className="object-contain"/>
                   </a>
                 </Link>
               </div>

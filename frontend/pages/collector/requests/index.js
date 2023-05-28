@@ -6,16 +6,23 @@ import UserLayout from '../../../components/UserLayout/Layout';
 
 import { useQuery, useInfiniteQuery } from 'react-query';
 import LoadingState from '../../../components/LoadingState';
+import Head from 'next/head';
 
 const Requests = () => {
-
   if (isError) {
     return <h2>{error.message}</h2>;
   }
 
-
   return (
     <>
+      <Head>
+        <title>Ecomarket | Collector Requests</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content={`Ecomarket Collector Requests`}
+        />
+      </Head>
       <UserLayout>
         <div>
           <section className="py-12">

@@ -10,9 +10,10 @@ import {
   getRequestsByLocation,
   getPage,
   getCompanyRequests,
-  dateConv
+  dateConv,
 } from '../../utils/utils';
 import Waiting from '../../components/Waiting';
+import Head from 'next/head';
 
 const Dashboard = () => {
   const [user, setUser] = useState();
@@ -45,7 +46,7 @@ const Dashboard = () => {
       setUser(profile.data);
     }
   };
-  
+
   const setEscrowContract = async () => {
     const trc20ContractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS; //contract address
 
@@ -95,6 +96,11 @@ const Dashboard = () => {
 
   return (
     <>
+      <Head>
+        <title>Ecomarket | Collector Dashboard</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Ecomarket Collector Dashboard" />
+      </Head>
       {connected ? (
         <>
           <UserLayout>
@@ -195,7 +201,10 @@ const Dashboard = () => {
                                       </div>
                                       <div className="flex items-start justify-between w-full gap-2">
                                         <p className="flex-1 text-xs text-[#878A90]">
-                                          {request.description.substring(0, 100)}
+                                          {request.description.substring(
+                                            0,
+                                            100
+                                          )}
                                           ....
                                         </p>
                                         <div className="flex items-end justify-start flex-col gap-1 flex-1">
@@ -204,7 +213,9 @@ const Dashboard = () => {
                                           </p>
                                           <div>
                                             <p className="text-base text-[#3D4044] font-semibold">
-                                              {dateConv(request.request_expires_at)}
+                                              {dateConv(
+                                                request.request_expires_at
+                                              )}
                                             </p>
                                           </div>
                                         </div>

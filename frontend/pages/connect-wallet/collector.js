@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
 import ConectWallet from '../../components/ConectWallet';
@@ -6,6 +7,11 @@ const CollectorAuth = () => {
 
   return (
     <>
+      <Head>
+        <title>Ecomarket | Connect-Wallet - Collector</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Ecomarket Connect Wallet Collector" />
+      </Head>
       <section className="h-screen">
         <div className="  h-full">
           <div className="flex justify-between items-center h-full g-6 text-gray-800">
@@ -13,7 +19,7 @@ const CollectorAuth = () => {
               <div className="container mx-auto fixed top-0 right-0 left-0 w-full px-6 py-3 bg-white">
                 <Link href="/">
                   <a>
-                    <img src="/images/ecomarket-logo.svg" />
+                    <img src="/images/ecomarket-logo.png" width={150} className="object-contain"/>
                   </a>
                 </Link>
               </div>

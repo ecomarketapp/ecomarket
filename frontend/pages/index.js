@@ -1,16 +1,28 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Layout from '../components/layout/Layout';
 import { useQuery, useInfiniteQuery } from 'react-query';
 import LoadingState from '../components/LoadingState';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Link from 'next/link';
+import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import { InstagramEmbed } from 'react-social-media-embed';
+// import InstagramEmbed from 'react-instagram-embed';
 // import 'react-tabs/style/react-tabs.css';
+import Head from 'next/head';
 
 const Home = () => {
-
+  const resultRef = useRef(null);
   return (
     <>
-      <Layout>
+      <Head>
+        <title>Ecomarket</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Ecomarket" />
+      </Head>
+      <Layout resultRef={resultRef}>
         <section className="bg-white py-14">
           <div className="container mx-auto px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 items-center ">
@@ -46,7 +58,7 @@ const Home = () => {
           </div>
         </section>
 
-        <section className="py-4 bg-[#FFF4EE] how__it__works">
+        <section className="py-4 bg-[#FFF4EE] how__it__works" ref={resultRef}>
           <div className="container mx-auto px-6">
             <div className="py-14">
               <div className="mb-9">
@@ -76,7 +88,10 @@ const Home = () => {
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
-                                <img className='rounded-full' src="/images/how-it-works/register-company.png" />
+                                <img
+                                  className="rounded-full"
+                                  src="/images/how-it-works/register-company.png"
+                                />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   1
                                 </span>
@@ -85,15 +100,18 @@ const Home = () => {
                             <div className="text-center">
                               <h4>Create Account</h4>
                               <p className="text-sm">
-                                Create an EcoMarket account with your TronLink wallet and
-                                set up your company profile.
+                                Create an EcoMarket account with your TronLink
+                                wallet and set up your company profile.
                               </p>
                             </div>
                           </div>
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
-                                <img className='rounded-full' src="/images/how-it-works/submit-2.png" />
+                                <img
+                                  className="rounded-full"
+                                  src="/images/how-it-works/submit-2.png"
+                                />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   2
                                 </span>
@@ -112,7 +130,10 @@ const Home = () => {
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
-                                <img className='rounded-full' src="/images/how-it-works/cryptocurrency-tron.png" />
+                                <img
+                                  className="rounded-full"
+                                  src="/images/how-it-works/cryptocurrency-tron.png"
+                                />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   3
                                 </span>
@@ -130,7 +151,10 @@ const Home = () => {
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
-                                <img className='rounded-full' src="/images/how-it-works/plastic.png" />
+                                <img
+                                  className="rounded-full"
+                                  src="/images/how-it-works/plastic.png"
+                                />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   4
                                 </span>
@@ -139,7 +163,8 @@ const Home = () => {
                             <div className="text-center">
                               <h4>Collect scrap & earn EcoCredits</h4>
                               <p className="text-sm">
-                                Earn the EcoCredit NFT, which verifies your company's commitment to sustainability.
+                                Earn the EcoCredit NFT, which verifies your
+                                company's commitment to sustainability.
                               </p>
                             </div>
                           </div>
@@ -159,7 +184,10 @@ const Home = () => {
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
-                                <img className='rounded-full' src="/images/how-it-works/register-collector.png" />
+                                <img
+                                  className="rounded-full"
+                                  src="/images/how-it-works/register-collector.png"
+                                />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   1
                                 </span>
@@ -169,14 +197,18 @@ const Home = () => {
                               <h4>Join EcoMarket</h4>
                               <p className="text-sm">
                                 Sign up on EcoMarket using your TronLink wallet,
-                                and set up your profile, including your locality.
+                                and set up your profile, including your
+                                locality.
                               </p>
                             </div>
                           </div>
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
-                                <img className='rounded-full' src="/images/how-it-works/plastic.png" />
+                                <img
+                                  className="rounded-full"
+                                  src="/images/how-it-works/plastic.png"
+                                />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   2
                                 </span>
@@ -187,14 +219,18 @@ const Home = () => {
                               <h4>Fulfill Requests</h4>
                               <p className="text-sm">
                                 Get notified whenever new requests for plastic
-                                waste are made in your locality, and indicate interest in fulfilling the requests.
+                                waste are made in your locality, and indicate
+                                interest in fulfilling the requests.
                               </p>
                             </div>
                           </div>
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
-                                <img className='rounded-full' src="/images/how-it-works/delivery-man.png" />
+                                <img
+                                  className="rounded-full"
+                                  src="/images/how-it-works/delivery-man.png"
+                                />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   3
                                 </span>
@@ -203,15 +239,19 @@ const Home = () => {
                             <div className="text-center">
                               <h4>Dropoff Plastics</h4>
                               <p className="text-sm">
-                                Once approved, gather the plastics, and then drop them off at the collection center. Upload proof of dropoff to
-                                EcoMarket.
+                                Once approved, gather the plastics, and then
+                                drop them off at the collection center. Upload
+                                proof of dropoff to EcoMarket.
                               </p>
                             </div>
                           </div>
                           <div className="px-5">
                             <div className="flex items-center justify-center mb-5">
                               <div className="circle border-4 border-[#E2DFDD] w-24 h-24 rounded-full relative ">
-                                <img className='rounded-full' src="/images/how-it-works/coin.png" />
+                                <img
+                                  className="rounded-full"
+                                  src="/images/how-it-works/coin.png"
+                                />
                                 <span className="absolute top-0 left-0 text-white rounded-full bg-[#DD7D37] p-3 w-3 h-3 z-10 flex items-center justify-center text-sm">
                                   4
                                 </span>
@@ -655,14 +695,22 @@ const Home = () => {
                       world.
                     </p>
                     <div className="mt-5">
-                      <Link href="#/">
+                      {/* <Link href="#/">
                         <a
                           className="text-[#DD7D37] px-12 py-2 text-sm border border-[#DD7D37] rounded-full "
                           aria-disabled
                         >
                           Get Started
                         </a>
-                      </Link>
+                      </Link> */}
+                      {/* <Link href="#/"> */}
+                      <button
+                        className="text-[#DD7D37] px-12 py-2 text-sm border border-[#DD7D37] rounded-full opacity-60 "
+                        aria-disabled
+                      >
+                        Coming Soon..
+                      </button>
+                      {/* </Link> */}
                     </div>
                   </div>
                 </div>
@@ -688,14 +736,12 @@ const Home = () => {
                       recycled plastics they receive.
                     </p>
                     <div className="mt-5">
-                      <Link href="#/">
-                        <a
-                          className="text-[#DD7D37] px-12 py-2 text-sm border border-[#DD7D37] rounded-full "
-                          aria-disabled
-                        >
-                          Coming Soon..
-                        </a>
-                      </Link>
+                      <button
+                        className="text-[#DD7D37] px-12 py-2 text-sm border border-[#DD7D37] rounded-full opacity-60 "
+                        aria-disabled
+                      >
+                        Coming Soon..
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -756,6 +802,37 @@ const Home = () => {
             </div>
           </div>
         </section>
+
+        <div>
+          <div className="flex items-center justify-between w-full py-6 px-6 max-w-7xl mx-auto container flex-wrap social_cta gap-x-2 gap-y-5">
+            <div className="">
+              <h1 className="text-3xl">Check out our Socials</h1>
+              <p>EcoMarket is there for you!</p>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <Link href={'https://twitter.com/ecomarketxyz'}>
+                <a className="cursor-pointer w-14 h-14" target="_blank">
+                  <TwitterIcon className="social_icons" />
+                </a>
+              </Link>
+              <Link
+                href={
+                  'https://www.youtube.com/channel/UCMiKRNnZt_vIaiT7cGjBeJw'
+                }
+              >
+                <a className="cursor-pointer w-14 h-14" target="_blank">
+                  <YouTubeIcon className="social_icons" />
+                </a>
+              </Link>
+              <Link href={'https://www.instagram.com/ecomarketapp/'}>
+                <a className="cursor-pointer w-14 h-14" target="_blank">
+                  <InstagramIcon className="social_icons" />
+                </a>
+              </Link>
+            </div>
+          </div>
+        </div>
 
         <section className="antialised bg-[#FFFBF9] py-14">
           <div className="container mx-auto px-6">
@@ -916,54 +993,107 @@ const Home = () => {
           </div>
         </section>
 
-        {/* <section className='py-4 meet__team'>
-                <div className='container mx-auto px-6'>
-                    <div className='py-14'>
-                        <div className='mb-9'>
-                            <h2 className='h2 text-center text-xl'>Meet the team</h2>
-                        </div>
+        <section className="py-4 meet__team">
+          <div className="container mx-auto px-6">
+            <div className="py-14">
+              <div className="mb-9">
+                <h2 className="h2 text-center text-xl">Our Instagram feed</h2>
+              </div>
 
-                        <div>
-                            <div className='grid grid-cols-1 md:grid-cols-3 gap-7'>
-                                <div className=''>
-                                    <div className='mb-4 flex items-center justify-center'>
-                                        <div className='square'></div>
-                                    </div>
-                                    <div className='text-center'>
-                                        <h5>Paul Oladimeji</h5>
-                                        <p>Product Manager</p>
-                                    </div>
-                                </div>
-                                <div className=''>
-                                    <div className='mb-4 flex items-center justify-center'>
-                                        <div className='square'></div>
-                                    </div>
-                                    <div className='text-center'>
-                                        <h5>Bose May</h5>
-                                        <p>Product Designer</p>
-                                    </div>
-
-                                </div>
-                                <div className=''>
-                                    <div className='mb-4 flex items-center justify-center'>
-                                        <div className='square'></div>
-                                    </div>
-                                    <div className='text-center'>
-                                        <h5>PraiseGod Udeh</h5>
-                                        <p>Frontend Developer</p>
-                                    </div>
-                                    
-
-                                </div>
-                                
-                                
-
-                            </div>
-                        </div>
-                    </div>
-
+              <div className="w-full">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-7">
+                  {/* <div style={{ display: 'flex', justifyContent: 'center' }}> */}
+                  <div className="w-full h-full overflow-x-hidden">
+                    <InstagramEmbed
+                      url="https://www.instagram.com/p/CUbHfhpswxt/"
+                      width="100%"
+                      // height={550}
+                    />
+                  </div>
+                  <div className="w-full h-full overflow-x-hidden">
+                    <InstagramEmbed
+                      url="https://www.instagram.com/p/CUbHfhpswxt/"
+                      width="100%"
+                      // height="100%"
+                    />
+                  </div>
+                  <div className="w-full h-full overflow-x-hidden">
+                    <InstagramEmbed
+                      url="https://www.instagram.com/p/CUbHfhpswxt/"
+                      width="100%"
+                      // height={450}
+                    />
+                  </div>
+                  {/*  <div className='w-44'>
+                    <InstagramEmbed
+                      url="https://www.instagram.com/p/CUbHfhpswxt/"
+                      width="100%" 
+                      height={50}
+                    />
+                  </div>
+                  <div className='w-44'>
+                    <InstagramEmbed
+                      url="https://www.instagram.com/p/CUbHfhpswxt/"
+                      width="100%" 
+                      height={50}
+                    />
+                  </div> */}
                 </div>
-            </section> */}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-4 meet__team">
+          <div className="container mx-auto px-6">
+            <div className="py-14">
+              <div className="mb-9">
+                <h2 className="h2 text-center text-xl">Meet the team</h2>
+              </div>
+
+              <div>
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-7">
+                  <div className="">
+                    <div className="mb-4 flex items-center justify-center">
+                      <div className="square"></div>
+                    </div>
+                    <div className="text-center">
+                      <h5>Paul Oladimeji</h5>
+                      <p>Product Manager</p>
+                    </div>
+                  </div>
+                  <div className="">
+                    <div className="mb-4 flex items-center justify-center">
+                      <div className="square"></div>
+                    </div>
+                    <div className="text-center">
+                      <h5>Femi ..</h5>
+                      <p>Product Designer</p>
+                    </div>
+                  </div>
+                  <div className="">
+                    <div className="mb-4 flex items-center justify-center">
+                      <div className="square"></div>
+                    </div>
+                    <div className="text-center">
+                      <h5>Dara ...</h5>
+                      <p>Frontend Developer</p>
+                    </div>
+                  </div>
+                  <div className="">
+                    <div className="mb-4 flex items-center justify-center">
+                      <div className="square"></div>
+                    </div>
+                    <div className="text-center">
+                      <h5>Wale ..</h5>
+                      <p>Frontend Developer</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </Layout>
     </>
   );

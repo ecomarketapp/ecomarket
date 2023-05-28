@@ -8,7 +8,7 @@ import ExpandMoreVertical from '../../components/Icons/ExpandMoreVertical';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import Waiting from '../../components/Waiting';
 import UserLayout from '../../components/UserLayout/Layout';
-
+import Head from 'next/head';
 
 const wallet = () => {
   const [contract, setContract] = useState();
@@ -99,13 +99,17 @@ const wallet = () => {
     getWalletBalance();
   }, [contract]);
 
-
   useEffect(() => {
     window.tronLink.request({ method: 'tron_requestAccounts' });
   }, []);
 
   return (
     <>
+      <Head>
+        <title>Ecomarket | Collector Wallet</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Ecomarket Collector Wallet" />
+      </Head>
       <UserLayout>
         <section className="eco__orders">
           <div className="container mx-auto px-6">
