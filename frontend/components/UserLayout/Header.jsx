@@ -8,6 +8,7 @@ import ExpandMoreHorizontal from '../Icons/ExpandMoreHorizontal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import { getPage } from '../../utils/utils';
+import Sidebar from './Sidebar';
 
 const truncateAddress = (address) => {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -16,6 +17,8 @@ const truncateAddress = (address) => {
 const Header = () => {
   const [showMobile, setShowMobile] = useState();
   const [showUserMenu, setShowUserMenu] = useState();
+  const [mobMenu, setMobMenu] = useState(false);
+
   const router = useRouter();
 
   const ToggleMobileMenu = () => {
@@ -39,40 +42,34 @@ const Header = () => {
     signTransaction,
   } = useWallet();
 
+  const handleMobileMenu = () => {
+    setMobMenu((prev) => !prev);
+  };
+
   return (
     <>
       <header className="bg-white shadow-header sticky top-0 z-10">
         <div className="container mx-auto">
-          <nav className="flex items-center justify-between flex-wrap  px-6 py-4 ">
+          <nav className="flex items-center justify-between flex-wrap  md:px-6 py-4 ">
             <div className="flex items-center flex-shrink-0 text-white mr-6">
               <Link href="/">
                 <a className="text-xl text-gray-800 font-semibold font-heading">
-                  <img src="/images/ecomarket-logo.png" width={150} className="object-contain"/>
+                  <img
+                    src="/images/ecomarket-logo.png"
+                    width={150}
+                    className="object-contain"
+                  />
                 </a>
               </Link>
             </div>
-            <div className="block lg:hidden">
+            {/* <div className="block lg:hidden">
               <div className="flex gap-5">
                 <span className=" px-3 py-2 text-[#DF9E05] bg-[#FEF9ED] transition duration-150 ease-in-out flex items-center justify-center h-9 w-9  rounded-full focus:outline-none focus:ring-0 relative ">
                   RW
                   <span className="absolute h-2 w-2 bg-[#45CD85] right-0 bottom-0 rounded-full"></span>
                 </span>
-
-                <button
-                  className="flex items-center  px-3 py-2 border rounded text-[#45CD85] border-[#45CD85] "
-                  onClick={ToggleMobileMenu}
-                >
-                  <svg
-                    className="fill-current h-3 w-3"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <title>Menu</title>
-                    <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-                  </svg>
-                </button>
               </div>
-            </div>
+            </div> */}
             {connected && (
               <div className="w-full hidden  flex-grow lg:flex lg:items-center lg:w-auto">
                 <div className="text-sm lg:flex-grow">
@@ -207,6 +204,22 @@ const Header = () => {
                       className="w-full h-full object-cover rounded-full"
                     />
                   </span>
+
+                  <div className="block lg:hidden">
+                    <button
+                      className="flex items-center  px-3 py-2 border rounded text-[#45CD85] border-[#45CD85] "
+                      onClick={ToggleMobileMenu}
+                    >
+                      <svg
+                        className="fill-current h-3 w-3"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <title>Menu</title>
+                        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
@@ -317,11 +330,33 @@ const Header = () => {
                     className="w-full h-full object-cover rounded-full"
                   />
                 </span>
+                <div className="block lg:hidden">
+                  <button
+                    className="flex items-center  px-3 py-2 border rounded text-[#45CD85] border-[#45CD85] "
+                    onClick={handleMobileMenu}
+                  >
+                    <svg
+                      className="fill-current h-3 w-3"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <title>Menu</title>
+                      <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+                    </svg>
+                  </button>
+                </div>
               </>
             )}
           </nav>
         </div>
       </header>
+
+      <div className="block lg:hidden">
+        <Sidebar
+          show={mobMenu}
+          dismiss={handleMobileMenu}
+        />
+      </div>
     </>
   );
 };
