@@ -9,17 +9,21 @@ import {
   getCategories,
   getCollectionCenter,
   getPage,
+  getTrxPrice,
 } from '../../utils/utils';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import Waiting from '../../components/Waiting';
 import Head from 'next/head';
 
 const profile = () => {
+  const [contract, setContract] = useState();
+  const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState('');
   const [user, setUser] = useState();
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [centers, setCenters] = useState([]);
+  const [trxPrice, setTrxPrice] = useState(0);
 
   const router = useRouter();
   const [inputs, setInputs] = useState({
@@ -99,6 +103,26 @@ const profile = () => {
     }
   };
 
+  const setEscrowContract = async () => {
+    const trc20ContractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS; //contract address
+
+    try {
+      let contract = await window.tronWeb.contract().at(trc20ContractAddress);
+
+      setContract(contract);
+    } catch (error) {
+      console.error('trigger smart contract error', error);
+    }
+  };
+
+  const getWalletBalance = async () => {
+    if (contract) {
+      const balance = await contract.balances(address).call();
+
+      setBalance(parseInt(balance) / 1e6);
+    }
+  };
+
   const getCategory = async () => {
     const categories = await getCategories();
 
@@ -115,7 +139,20 @@ const profile = () => {
   useEffect(() => {
     getCenters(address);
     getCategory();
+    getTrxPrice().then((price) => {
+      setTrxPrice(price);
+    });
   }, [user]);
+
+  useEffect(() => {
+    setEscrowContract();
+  }, []);
+
+  useEffect(() => {
+    getWalletBalance();
+  }, [contract]);
+
+  const minDate = new Date().toISOString().slice(0, 16);
 
   return (
     <div>
@@ -259,6 +296,7 @@ const profile = () => {
                           type="datetime-local"
                           className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none transition duration-150 ease-in-out"
                           required
+                          min={minDate}
                           onChange={(e) => {
                             setInputs({
                               ...inputs,
@@ -266,6 +304,43 @@ const profile = () => {
                             });
                           }}
                         />
+                      </div>
+
+                      <div className="flex justify-between">
+                        <div className="mb-6 w-50">
+                          <label
+                            className="text-gray-700 font-medium mb-3"
+                            htmlFor="amount_per_unit"
+                          >
+                            Your Wallet Balance{' '}
+                            <span className="text-xs">(TRX)</span>
+                          </label>
+                          <input
+                            id="amount_per_unit"
+                            type="text"
+                            className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none transition duration-150 ease-in-out"
+                            name="amount_per_unit"
+                            value={balance}
+                            readOnly
+                          />
+                        </div>
+                        <div className="mb-6 w-50">
+                          <label
+                            className="text-gray-700 font-medium mb-3"
+                            htmlFor="amount_per_unit"
+                          >
+                            Your Wallet Balance
+                            <span className="text-xs">(~$)</span>
+                          </label>
+                          <input
+                            id="amount_per_unit"
+                            type="text"
+                            className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none transition duration-150 ease-in-out"
+                            name="amount_per_unit"
+                            value={Number(trxPrice * balance).toFixed(2)}
+                            readOnly
+                          />
+                        </div>
                       </div>
 
                       <div className="flex justify-between">
@@ -289,6 +364,7 @@ const profile = () => {
                             }}
                           />
                         </div>
+
                         <div className="mb-6 w-50">
                           <label
                             className="text-gray-700 font-medium mb-3"

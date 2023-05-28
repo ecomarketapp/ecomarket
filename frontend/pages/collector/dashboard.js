@@ -37,13 +37,13 @@ const Dashboard = () => {
   const getUser = async () => {
     const profile = await findProfile(address, 'collectors');
 
-    if (!profile.status) {
+    if (!profile?.status) {
       router.push(`/${getPage()}/profile`);
     } else {
-      if (profile.data.name == undefined) {
+      if (!profile?.data?.name) {
         router.push(`/${getPage()}/profile`);
       }
-      setUser(profile.data);
+      setUser(profile?.data);
     }
   };
 

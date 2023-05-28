@@ -35,13 +35,15 @@ const Dashboard = () => {
   const getUser = async () => {
     const profile = await findProfile(address, 'companies');
 
-    if (!profile.status) {
+    console.log('Company found:', profile);
+
+    if (!profile?.status) {
       router.push(`/${getPage()}/profile`);
     } else {
-      if (profile.data.name == undefined) {
+      if (!profile?.data?.name) {
         router.push(`/${getPage()}/profile`);
       }
-      setUser(profile.data);
+      setUser(profile?.data);
     }
   };
 

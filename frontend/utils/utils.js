@@ -1,11 +1,20 @@
 async function findProfile(address, type = 'companies') {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/${type}/${address}`
-  );
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/${type}/${address}`
+    );
+    const data = res.json();
 
-  const data = await res.json();
+    if (res.ok) {
+      return data;
+    } else {
+      return { status: false, data: { name: undefined } };
+    }
+  } catch (error) {
+    console.log(error);
 
-  return data;
+    return { status: false, data: { name: '' } };
+  }
 }
 
 async function getCategories() {
@@ -128,6 +137,23 @@ const dateConv = (date) => {
   return `${newDate.getUTCDay()} d : ${newDate.getUTCHours()} h : ${newDate.getUTCMinutes()} m : ${newDate.getUTCSeconds()} s`;
 };
 
+const getTrxPrice = async () => {
+  const res2 = await fetch(
+    'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=TRX&tsyms=USD'
+  );
+
+  const data = await res2.json();
+
+  if (res2.ok) {
+    const price = data.RAW.TRX.USD.PRICE;
+
+    console.log('TRX price:', price);
+    return price;
+  } else {
+    return 0;
+  }
+};
+
 export {
   findProfile,
   newProfile,
@@ -142,4 +168,5 @@ export {
   getRequestDelivery,
   getRequestDeliveryForCollector,
   getDeliveryById,
+  getTrxPrice,
 };

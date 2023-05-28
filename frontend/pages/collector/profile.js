@@ -73,14 +73,14 @@ const profile = () => {
   const getUser = async () => {
     const profile = await findProfile(address, 'collectors');
 
-    if (profile.status) {
-      setUser(profile.data);
-      setInputs({ ...inputs, ...profile.data });
+    if (profile?.status) {
+      setUser(profile?.data);
+      setInputs({ ...inputs, ...profile?.data });
     } else {
       const profile = await newProfile(address, 'collectors');
 
-      setUser(profile.data);
-      setInputs({ ...inputs, ...profile.data });
+      setUser(profile?.data);
+      setInputs({ ...inputs, ...profile?.data });
     }
   };
 
