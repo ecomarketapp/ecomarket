@@ -32,9 +32,9 @@ export const CustomThemeProvider = (props: PropsWithChildren<{}>) => {
       }),
     [theme]
   );
-  useEffect(() => {
-    theme ? document.body.classList.add("tw-dark") : document.body.classList.remove("tw-dark");
-  }, [theme])
+  // useEffect(() => {
+  //   theme ? document.body.classList.add("tw-dark") : document.body.classList.remove("tw-dark");
+  // }, [theme])
   return (
     <CustomThemeContext.Provider
       value={{

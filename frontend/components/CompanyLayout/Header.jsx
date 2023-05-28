@@ -10,14 +10,17 @@ import {
   WalletModalProvider,
   WalletSelectButton,
 } from '@tronweb3/tronwallet-adapter-react-ui';
+import Sidebar from './Sidebar';
 
 const truncateAddress = (address) => {
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+  if (address) return `${address.slice(0, 6)}...${address.slice(-4)}`;
 };
 
 const Header = () => {
   const [showMobile, setShowMobile] = useState();
   const [showUserMenu, setShowUserMenu] = useState();
+  const [mobMenu, setMobMenu] = useState(false);
+
   const router = useRouter();
   const {
     wallet,
@@ -30,12 +33,11 @@ const Header = () => {
     signTransaction,
   } = useWallet();
 
-  const ToggleMobileMenu = () => {
-    setShowMobile(!showMobile);
-  };
-
   const ToggleUserMenu = () => {
     setShowUserMenu(!showUserMenu);
+  };
+  const handleMobileMenu = () => {
+    setMobMenu((prev) => !prev);
   };
 
   return (
@@ -52,14 +54,14 @@ const Header = () => {
             </div>
             <div className="block lg:hidden">
               <div className="flex gap-5">
-                <span className=" px-3 py-2 text-[#DF9E05] bg-[#FEF9ED] transition duration-150 ease-in-out flex items-center justify-center h-9 w-9  rounded-full focus:outline-none focus:ring-0 relative ">
+                {/* <span className=" px-3 py-2 text-[#DF9E05] bg-[#FEF9ED] transition duration-150 ease-in-out flex items-center justify-center h-9 w-9  rounded-full focus:outline-none focus:ring-0 relative ">
                   RW
                   <span className="absolute h-2 w-2 bg-[#45CD85] right-0 bottom-0 rounded-full"></span>
-                </span>
+                </span> */}
 
                 <button
                   className="flex items-center  px-3 py-2 border rounded text-[#45CD85] border-[#45CD85] "
-                  onClick={ToggleMobileMenu}
+                  onClick={handleMobileMenu}
                 >
                   <svg
                     className="fill-current h-3 w-3"
@@ -219,6 +221,10 @@ const Header = () => {
           </nav>
         </div>
       </header>
+
+      <div className="block lg:hidden">
+        <Sidebar show={mobMenu} dismiss={handleMobileMenu} />
+      </div>
     </>
   );
 };

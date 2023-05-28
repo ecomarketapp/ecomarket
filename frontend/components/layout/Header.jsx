@@ -64,7 +64,7 @@ const Header = ({ resultRef }) => {
 
   const handleMobileMenu = () => {
     setMobMenu((prev) => !prev);
-    console.log(mobMenu, 'mobmenu');
+    // console.log(mobMenu, 'mobmenu');
   };
 
   const onHowItWorks = () => {

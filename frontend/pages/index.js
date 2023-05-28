@@ -26,14 +26,14 @@ const Home = () => {
         <section className="bg-white py-14">
           <div className="container mx-auto px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 items-center ">
-              <div className="w-5/6">
+              <div className="w-full md:w-5/6">
                 <div>
-                  <h1 className="text-4xl font-extrabold ">
+                  <h1 className="text-5xl font-extrabold text-[#351F0F]">
                     Open Marketplace for Recycled Plastics
                   </h1>
                 </div>
                 <div className="mb-10 mt-5">
-                  <p className="text-md">
+                  <p className="text-base text-[#3F3F3F]">
                     In order to fight plastic pollution, EcoMarket is an open
                     marketplace that connects buyers of used and recycled
                     plastics with individuals and businesses who want to donate
@@ -66,10 +66,6 @@ const Home = () => {
               </div>
 
               <div>
-                {/* <div className='flex items-center justify-center gap-10 mb-9'>
-                                <button className="">Company</button>
-                                <button className="p-6"></button>
-                            </div> */}
 
                 <Tabs>
                   <TabList className="flex flex-row items-center justify-center w-full tabs-header rounded-md gap-16 mb-6">
@@ -803,36 +799,6 @@ const Home = () => {
           </div>
         </section>
 
-        <div>
-          <div className="flex items-center justify-between w-full py-6 px-6 max-w-7xl mx-auto container flex-wrap social_cta gap-x-2 gap-y-5">
-            <div className="">
-              <h1 className="text-3xl">Check out our Socials</h1>
-              <p>EcoMarket is there for you!</p>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <Link href={'https://twitter.com/ecomarketxyz'}>
-                <a className="cursor-pointer w-14 h-14" target="_blank">
-                  <TwitterIcon className="social_icons" />
-                </a>
-              </Link>
-              <Link
-                href={
-                  'https://www.youtube.com/channel/UCMiKRNnZt_vIaiT7cGjBeJw'
-                }
-              >
-                <a className="cursor-pointer w-14 h-14" target="_blank">
-                  <YouTubeIcon className="social_icons" />
-                </a>
-              </Link>
-              <Link href={'https://www.instagram.com/ecomarketapp/'}>
-                <a className="cursor-pointer w-14 h-14" target="_blank">
-                  <InstagramIcon className="social_icons" />
-                </a>
-              </Link>
-            </div>
-          </div>
-        </div>
 
         <section className="antialised bg-[#FFFBF9] py-14">
           <div className="container mx-auto px-6">
@@ -1043,6 +1009,37 @@ const Home = () => {
             </div>
           </div>
         </section>
+
+        <div>
+          <div className="flex items-center justify-between w-full py-6 px-6 max-w-7xl mx-auto container flex-wrap social_cta gap-x-2 gap-y-5">
+            <div className="">
+              <h1 className="text-3xl text-[#351F0F]">Check out our Socials</h1>
+              <p>EcoMarket is there for you!</p>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <Link href={'https://twitter.com/ecomarketxyz'}>
+                <a className="cursor-pointer w-14 h-14" target="_blank">
+                  <TwitterIcon className="social_icons" />
+                </a>
+              </Link>
+              <Link
+                href={
+                  'https://www.youtube.com/channel/UCMiKRNnZt_vIaiT7cGjBeJw'
+                }
+              >
+                <a className="cursor-pointer w-14 h-14" target="_blank">
+                  <YouTubeIcon className="social_icons" />
+                </a>
+              </Link>
+              <Link href={'https://www.instagram.com/ecomarketapp/'}>
+                <a className="cursor-pointer w-14 h-14" target="_blank">
+                  <InstagramIcon className="social_icons" />
+                </a>
+              </Link>
+            </div>
+          </div>
+        </div>
 
         <section className="py-4 meet__team">
           <div className="container mx-auto px-6">

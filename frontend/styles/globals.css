@@ -118,6 +118,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'K2D', Helvetica Neue, sans-serif !important;
+  background-color: #FFFFFF;
 }
 
 a {
@@ -144,6 +145,11 @@ a {
     font-weight: 800;
     font-size: 34px;
     line-height: 44px;
+
+    color: #351F0F;
+}
+.features__section p{
+    font-weight: 400;
 
     color: #351F0F;
 }
@@ -793,5 +799,21 @@ button[disabled]{
   -webkit-transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
   transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
   right: 100%;
+  /* box-shadow: -3px 0px 4px -1px rgba(0, 0, 0, 0.1), -3px 0px 5px rgba(0, 0, 0, 0.06), -3px 0px 10px rgba(0, 0, 0, 0.04); */
+}
+
+
+.sidemenu.dashboard.show {
+  /* -webkit-transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms; */
+  /* transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms; */
+  transition: all 200ms ease !important;
+  /* right: 0; */
+  left: 0;
+}
+
+.sidemenu.dashboard {
+  width: 60% !important;
+  left: -100%;
+
   /* box-shadow: -3px 0px 4px -1px rgba(0, 0, 0, 0.1), -3px 0px 5px rgba(0, 0, 0, 0.06), -3px 0px 10px rgba(0, 0, 0, 0.04); */
 }
