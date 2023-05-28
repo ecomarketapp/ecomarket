@@ -47,7 +47,7 @@ const Header = () => {
             <div className="flex items-center flex-shrink-0 text-white mr-6">
               <Link href="/">
                 <a className="text-xl text-gray-800 font-semibold font-heading">
-                  <img src="/images/ecomarket-logo.svg" />
+                  <img src="/images/ecomarket-logo.png" width={150} className="object-contain"/>
                 </a>
               </Link>
             </div>

@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
 import Loader from '../components/Icons/Loader';
 import axios from 'axios';
+import Head from 'next/head';
 
 const SignUp = () => {
   const [loading, setLoading] = useState('');
@@ -120,6 +121,11 @@ const SignUp = () => {
 
   return (
     <>
+      <Head>
+        <title>Ecomarket | Signup</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Ecomarket Signup" />
+      </Head>
       <Toaster />
 
       <section className="h-screen">
@@ -129,7 +135,7 @@ const SignUp = () => {
               <div className="container mx-auto fixed top-0 right-0 left-0 w-full px-6 py-3 bg-white">
                 <Link href="/">
                   <a>
-                    <img src="/images/ecomarket-logo.svg" />
+                    <img src="/images/ecomarket-logo.png" width={150} className="object-contain"/>
                   </a>
                 </Link>
               </div>

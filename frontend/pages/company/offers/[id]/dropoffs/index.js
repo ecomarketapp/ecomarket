@@ -17,6 +17,7 @@ import {
 } from '../../../../../utils/utils';
 import Web3 from 'web3';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
+import Head from 'next/head';
 
 const DropOffs = () => {
   const [createDispute, setCreateDispute] = useState();
@@ -155,6 +156,14 @@ const DropOffs = () => {
 
   return (
     <>
+      <Head>
+        <title>Ecomarket | {offer.title} - Dropoffs</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content={`Ecomarket Company Offer ${offer.title} - Dropoffs`}
+        />
+      </Head>
       <CompanyLayout>
         <section>
           <div className="container eco__orders mx-auto px-6">

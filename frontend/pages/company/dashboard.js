@@ -11,6 +11,7 @@ import {
   getCompanyRequests,
 } from '../../utils/utils';
 import Waiting from '../../components/Waiting';
+import Head from 'next/head';
 
 const Dashboard = () => {
   const [user, setUser] = useState();
@@ -32,7 +33,7 @@ const Dashboard = () => {
   const router = useRouter();
 
   const getUser = async () => {
-    const profile = await findProfile(address, "companies");
+    const profile = await findProfile(address, 'companies');
 
     if (!profile.status) {
       router.push(`/${getPage()}/profile`);
@@ -63,7 +64,7 @@ const Dashboard = () => {
   };
 
   const getWalletBalance = async () => {
-    if(contract && address){
+    if (contract && address) {
       const balance = await contract.balances(address).call();
 
       setBalance(parseInt(balance) / 1e6);
@@ -98,6 +99,11 @@ const Dashboard = () => {
 
   return (
     <>
+      <Head>
+        <title>Ecomarket | Company Dashboard</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Ecomarket Company Dashboard" />
+      </Head>
       {connected ? (
         <CompanyLayout>
           <section>
@@ -163,7 +169,9 @@ const Dashboard = () => {
                                   style={{ cursor: 'pointer' }}
                                   className="flex items-center py-4 px-4 text-sm w-full border-b border-gray-200 hover:bg-gray-100 transition duration-200 ease-in-out"
                                 >
-                                  <Link href={`./offers/${request.id}/dropoffs`}>
+                                  <Link
+                                    href={`./offers/${request.id}/dropoffs`}
+                                  >
                                     <div className="flex items-start gap-3 w-full">
                                       <div className="w-full">
                                         <div className="flex gap-1 items-center flex-row justify-between w-full">

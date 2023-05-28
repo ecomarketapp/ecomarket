@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import React from 'react';
 import { Tabs } from 'react-tabs';
 import Tab from 'react-tabs/lib/components/Tab';
@@ -8,6 +9,12 @@ import UserLayout from '../../components/UserLayout/Layout';
 const Deliveries = () => {
   return (
     <>
+      <Head>
+        <title>Ecomarket | Collector Deliveries</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Ecomarket Collector Deliveries" />
+      </Head>
+
       <UserLayout>
         <section className="eco__orders">
           <div className="container mx-auto px-6">

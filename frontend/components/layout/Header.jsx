@@ -4,6 +4,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Dropdown from '../Dropdown';
 import GetStartedModal from '../../components/modals/GetStartedModal';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
+import MobileMenu from './MobileMenu';
+import MenuIcon from '@mui/icons-material/Menu';
 import {
   WalletActionButton,
   WalletConnectButton,
@@ -11,10 +13,14 @@ import {
   WalletModalProvider,
   WalletSelectButton,
 } from '@tronweb3/tronwallet-adapter-react-ui';
+import { useRouter } from 'next/router';
 
-const Header = () => {
+const Header = ({ resultRef }) => {
   const [dropdown, setDropdown] = useState(false);
   const [getstarted, setGetStarted] = useState(0);
+  const [mobMenu, setMobMenu] = useState(false);
+
+  const router = useRouter();
   const ref = useRef();
   const testref = useRef();
 
@@ -56,6 +62,22 @@ const Header = () => {
     window.innerWidth > 960 && setDropdown(false);
   };
 
+  const handleMobileMenu = () => {
+    setMobMenu((prev) => !prev);
+    console.log(mobMenu, 'mobmenu');
+  };
+
+  const onHowItWorks = () => {
+    resultRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  function redirectHowItWorks(){
+    router.push('/');
+    // setTimeout(function(){
+    // onHowItWorks()
+
+    // })
+  } 
 
   return (
     <>
@@ -65,20 +87,24 @@ const Header = () => {
             <div className="lg:order-1 w-auto lg:w-1/4 lg:text-center">
               <Link href="/">
                 <a className="text-xl text-gray-800 font-semibold font-heading">
-                  <img src="/images/ecomarket-logo.svg" />
+                  <img src="/images/ecomarket-logo.png" width={150} />
                 </a>
               </Link>
             </div>
             <div className="block lg:hidden">
-              <button className="navbar-burger flex items-center py-2 px-3 text-indigo-500 rounded border border-indigo-500">
+              <button
+                className="navbar-burger flex items-center py-2 px-3 text-indigo-500 rounded "
+                onClick={handleMobileMenu}
+              >
                 <svg
-                  className="fill-current h-3 w-3"
+                  className="fill-current h-5 w-6"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <title>Menu</title>
                   <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
                 </svg>
+                {/* <MenuIcon/> */}
               </button>
             </div>
             <div className="hidden lg:order-2 lg:block w-full lg:w-auto lg:text-center">
@@ -89,12 +115,22 @@ const Header = () => {
                   </a>
                 </Link>
 
-                <a
-                  className="block lg:inline-block mt-4 lg:mt-0 text-blue-900 hover:text-indigo-600 px-5 "
-                  href="#"
-                >
-                  How it works
-                </a>
+                {/* { */}
+                  <button
+                    className="block lg:inline-block mt-4 lg:mt-0 text-blue-900 hover:text-indigo-600 px-5 " 
+
+
+                    onClick={router.asPath === '/' ? ( onHowItWorks) : redirectHowItWorks}
+                  >
+                    How it works
+                  </button>
+                {/* ) : (
+                  <Link href="/">
+                    <a className="block lg:inline-block mt-4 lg:mt-0 text-blue-900 hover:text-indigo-600 px-5">
+                      How it works
+                    </a>
+                  </Link>
+                )} */}
 
                 <div
                   className="block lg:inline-block relative cursor-pointer"
@@ -145,7 +181,7 @@ const Header = () => {
                 {user ? (
                   <Link href="collector/dashboard">
                     <a className="block lg:inline-block mt-4 lg:mt-0 hover:text-white hover:bg-[#DD7D37] text-[#DD7D37] bg-white hover:border-[#DD7D37] border border-[#DD7D37] rounded-full px-7 py-2 transition duration-300 ease">
-                    0x346932...gq382nk
+                      0x346932...gq382nk
                     </a>
                   </Link>
                 ) : (
@@ -164,8 +200,16 @@ const Header = () => {
         </div>
       </header>
 
-      <GetStartedModal show={getstarted} setShow={setGetStarted}/>
-      
+      <GetStartedModal show={getstarted} setShow={setGetStarted} />
+
+      <div className="block lg:hidden">
+        <MobileMenu
+          show={mobMenu}
+          dismiss={handleMobileMenu}
+          onClickGetStarted={onClickGetStarted}
+          onHowItWorks={onHowItWorks}
+        />
+      </div>
 
       {/* <div className={`modal__box ${getstarted ? 'show' : ''}`}>
         <div className="modal__box-wrapper get__started__modal shadow-lg rounded-2xl">

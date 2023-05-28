@@ -12,6 +12,7 @@ import {
 } from '../../utils/utils';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import Waiting from '../../components/Waiting';
+import Head from 'next/head';
 
 const profile = () => {
   const [loading, setLoading] = useState('');
@@ -83,7 +84,7 @@ const profile = () => {
   } = useWallet();
 
   const getUser = async () => {
-    const profile = await findProfile(address, "companies");
+    const profile = await findProfile(address, 'companies');
 
     setUser(profile.data);
 
@@ -118,6 +119,11 @@ const profile = () => {
 
   return (
     <div>
+      <Head>
+        <title>Ecomarket | Company Create Offer</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Ecomarket Company Create Offer" />
+      </Head>
       <Toaster />
 
       <CompanyLayout>
