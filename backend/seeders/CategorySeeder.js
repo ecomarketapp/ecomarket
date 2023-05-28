@@ -20,14 +20,14 @@ const seedCategories = [
     name: 'Plastics',
     icon: '/images/plastics.svg',
   },
-  {
+  /* {
     name: 'Metal',
     icon: '/images/steel-square.svg',
   },
   {
     name: 'Rubber',
     icon: '/images/tyre.svg',
-  },
+  }, */
 ];
 
 let seedSubCategories = [
@@ -47,22 +47,22 @@ let seedSubCategories = [
     name: 'LDPE',
     icon: 'loremipsum',
   },
-  {
+  /* {
     name: 'PP',
     icon: 'loremipsum',
   },
   {
     name: 'PS',
     icon: 'loremipsum',
-  },
+  }, */
   {
     name: 'ABS',
     icon: 'loremipsum',
   },
-  {
+  /* {
     name: 'NYLON',
     icon: 'loremipsum',
-  },
+  }, */
 ];
 
 const seedDB = async () => {
