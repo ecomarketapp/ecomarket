@@ -39,16 +39,16 @@ export default function Notification() {
           <div>
             <ul className="list-disc	space-y-3">
               <li>
-                <Typography>Lorem ipsum dolor sit amet.</Typography>
+                <Typography>Before creating an offer, first thing you do is fund your wallet with TRX. Click on View Wallet to fund your wallet.</Typography>
               </li>
               <li>
-                <Typography>Lorem ipsum dolor sit amet.</Typography>
+                <Typography>Once your Wallet has been funded, click on Create Offer to create your offer.</Typography>
               </li>
               <li>
-                <Typography>Lorem ipsum dolor sit amet.</Typography>
+                <Typography>Make sure your wallet is funded with enough TRX to cover your offer amount.</Typography>
               </li>
               <li>
-                <Typography>Lorem ipsum dolor sit amet.</Typography>
+                <Typography>Your offers will be listed below. Click on each one to view its details.</Typography>
               </li>
             </ul>
           </div>

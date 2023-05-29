@@ -18,9 +18,9 @@ const Home = () => {
   return (
     <>
       <Head>
-        <title>Ecomarket</title>
+        <title>EcoMarket - Open Marketplace for Recycled Materials</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content="Ecomarket" />
+        <meta name="description" content="EcoMarket" />
       </Head>
       <Layout resultRef={resultRef}>
         <section className="bg-white py-14">

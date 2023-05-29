@@ -132,7 +132,7 @@ const Dashboard = () => {
 
                   <div className="w-full mb-6 py-6 h-full">
                     <div className="grid  full-width">
-                      <div className="shadow w-full bg-white relative py-6 rounded flex flex-col justify-between">
+                      <div className="shadow w-full bg-white relative py-6 rounded flex flex-col justify-between border">
                         <div className="px-6">
                           <div className="flex items-center justify-between flex-row w-full">
                             <h5 className="text-gray-600">Wallet Balance</h5>

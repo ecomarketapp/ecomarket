@@ -122,9 +122,9 @@ const SignUp = () => {
   return (
     <>
       <Head>
-        <title>Ecomarket | Signup</title>
+        <title>EcoMarket | Signup</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content="Ecomarket Signup" />
+        <meta name="description" content="EcoMarket Signup" />
       </Head>
       <Toaster />
 
