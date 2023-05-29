@@ -83,26 +83,23 @@ module.exports = {
             if (!collection_center) {
                 let companyCollectionCenters = [
                     {
-                      title: `${company.name} - Amboseli Collection Center`,
-                      address: '24 Aloo District, Amboseli, Nairobi City 110291',
+                        title: `${company.name} - Akingbile Collection Center`,
+                        address: 'Akingbile, Ibadan, Oya State, Nigeria',
                     },
                     {
-                      title: `${company.name} - Airport View Collection Center`,
-                      address: '13 XYZ District, Airport View, Nairobi City 110428',
-                    },
-                    {
-                      title: `${company.name} - Ongata Rongai Collection Center`,
-                      address: '13 ABC District, Ongata Rongai, Nairobi City 382918',
-                    },
-                    {
-                      title: `${company.name} - Outer Ring Road Collection Center`,
-                      address: '13 Kenyatta Way, Outer Ring Road, Nairobi City 261828',
+                        title: `${company.name} - Sodnac MUR Collection Center`,
+                        address: 'Avenue des Eperviers, Sodnac, Mauritius',
                     },
                 ];
-                const three_locations = await Location.aggregate([{ $sample: { size: 3 } }]);
+                const akingbile = await Location.findOne({ name: 'Akingbile, Ibadan' });
+                const sodnac = await Location.findOne({ name: 'Sodnac' });
                 companyCollectionCenters = companyCollectionCenters.map((collectioncenter) => {
                     const modified_collectioncenter = collectioncenter;
-                    modified_collectioncenter.location = getRandom(three_locations)._id;
+                    if (modified_collectioncenter.title === `${company.name} - Akingbile Collection Center`) {
+                        modified_collectioncenter.location = akingbile._id;
+                    } else if (modified_collectioncenter.title === `${company.name} - Sodnac MUR Collection Center`) {
+                        modified_collectioncenter.location = sodnac._id;
+                    }
                     modified_collectioncenter.company = company._id;
                     return modified_collectioncenter;
                 });
@@ -142,6 +139,7 @@ module.exports = {
         const { id: companyId } = req.params;
         try {
             const requests = await Requests.find({ company: companyId })
+                .sort({ createdAt: -1 })
                 .populate({ path: "location", model: Location })
                 .populate({ path: "company", model: Company })
                 .populate({ path: "scrap_category", model: Category })

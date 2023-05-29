@@ -50,6 +50,16 @@ const seedLocations = [
     state: 'Nairobi City',
     country: `Kenya`
   },
+  {
+    name: 'Akingbile, Ibadan',
+    state: 'Oyo',
+    country: `Nigeria`
+  },
+  {
+    name: 'Sodnac',
+    state: 'Quatre-Bornes',
+    country: `Mauritius`
+  },
 ];
 
 const seedDB = async () => {
