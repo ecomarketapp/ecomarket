@@ -32,14 +32,14 @@ export default function Notification() {
                 />
               </svg>
             </span>{' '}
-            New User? Learn how Ecomarket works
+            New User? Learn how EcoMarket works
           </span>
         </AccordionSummary>
         <AccordionDetails>
           <div className='px-3'>
             <ul className="list-disc	space-y-3">
               <li>
-                <Typography>Before creating an offer, first thing you do is fund your wallet with TRX. Click on View Wallet to fund your wallet.</Typography>
+                <Typography>Before creating an offer, the first thing you should do is fund your wallet with TRX. Click on View Wallet to fund your wallet.</Typography>
               </li>
               <li>
                 <Typography>Once your Wallet has been funded, click on Create Offer to create your offer.</Typography>

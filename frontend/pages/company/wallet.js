@@ -106,7 +106,7 @@ const wallet = () => {
   return (
     <>
       <Head>
-        <title>Company | wallet</title>
+        <title>Company | Wallet</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="description" content="Company Wallet" />
       </Head>
@@ -147,7 +147,7 @@ const wallet = () => {
                             setShowTopUp(true);
                           }}
                         >
-                          Lock
+                          Fund
                         </button>
                         <button
                           onClick={() => {
@@ -155,7 +155,7 @@ const wallet = () => {
                           }}
                           className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md"
                         >
-                          Unlock
+                          Withdraw
                         </button>
                       </div>
                     </div>
