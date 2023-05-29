@@ -243,7 +243,7 @@ const SignUp = () => {
                   </div>
 
                   <div>
-                    <a href="mailto://help@EcoMarket.com">help@EcoMarket.com</a>
+                    <a href="mailto://help@EcoMarket.com">help@ecomarket.com</a>
                   </div>
                 </div>
               </div>

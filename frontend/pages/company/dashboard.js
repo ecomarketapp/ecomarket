@@ -12,6 +12,7 @@ import {
 } from '../../utils/utils';
 import Waiting from '../../components/Waiting';
 import Head from 'next/head';
+import Notification from '../../components/Notification';
 
 const Dashboard = () => {
   const [user, setUser] = useState();
@@ -122,6 +123,11 @@ const Dashboard = () => {
                         Create Offer
                       </a>
                     </div>
+                  </div>
+
+
+                  <div>
+                    <Notification/>
                   </div>
 
                   <div className="w-full mb-6 py-6 h-full">
