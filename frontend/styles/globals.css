@@ -836,6 +836,7 @@ button[disabled]{
 .MuiPaper-root.MuiAccordion-root {
   margin: 16px 0;
   font-family: "K2D" !important;
+  white-space: nowrap;
 }
 
 .MuiPaper-root.MuiAccordion-root:before {

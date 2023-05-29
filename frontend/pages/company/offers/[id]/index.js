@@ -41,10 +41,11 @@ const SingleOffer = ({ id }) => {
   return (
     <>
       <Head>
-        <title>Ecomarket | Offer - {request.title}</title>
+        <title>Ecomarket | Offer - {request?.title}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content={`Ecomarket Company Offer ${request.title}`} />
+        <meta name="description" content={`Ecomarket Company Offer ${request?.title}`} />
       </Head>
+      
       <CompanyLayout>
         <section>
           <div className="container mx-auto px-6">

@@ -157,11 +157,11 @@ const DropOffs = () => {
   return (
     <>
       <Head>
-        <title>Ecomarket | {offer.title} - Dropoffs</title>
+        <title>Ecomarket | {offer?.title} - Dropoffs</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta
           name="description"
-          content={`Ecomarket Company Offer ${offer.title} - Dropoffs`}
+          content={`Ecomarket Company Offer ${offer?.title} - Dropoffs`}
         />
       </Head>
       <CompanyLayout>
