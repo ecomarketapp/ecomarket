@@ -88,11 +88,11 @@ const MobileMenu = ({ show, dismiss, onClickGetStarted, onHowItWorks }) => {
           </div>
           <div className="w-full h-full">
             <div className="navbar-menu flex items-center justify-center flex-col gap-6 h-full ">
-              <Link href="/marketplace">
+              {/* <Link href="/marketplace">
                 <a className="block lg:inline-block lg:mt-0 text-blue-900 hover:text-indigo-600 px-5 text-2xl">
                   MarketPlace
                 </a>
-              </Link>
+              </Link> */}
               <button
                 onClick={
                   router.asPath === '/' ? handleHowItWorks : redirectHowItWorks

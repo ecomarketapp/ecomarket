@@ -109,11 +109,11 @@ const Header = ({ resultRef }) => {
             </div>
             <div className="hidden lg:order-2 lg:block w-full lg:w-auto lg:text-center">
               <div className="navbar-menu flex items-center justify-end gap-6  ">
-                <Link href="/marketplace">
+                {/* <Link href="/marketplace">
                   <a className="block lg:inline-block mt-4 lg:mt-0 text-blue-900 hover:text-indigo-600 px-5">
                     MarketPlace
                   </a>
-                </Link>
+                </Link> */}
 
                 {/* { */}
                   <button
