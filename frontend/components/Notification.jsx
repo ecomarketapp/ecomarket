@@ -36,7 +36,7 @@ export default function Notification() {
           </span>
         </AccordionSummary>
         <AccordionDetails>
-          <div>
+          <div className='px-3'>
             <ul className="list-disc	space-y-3">
               <li>
                 <Typography>Before creating an offer, first thing you do is fund your wallet with TRX. Click on View Wallet to fund your wallet.</Typography>

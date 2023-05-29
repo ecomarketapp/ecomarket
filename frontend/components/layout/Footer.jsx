@@ -11,7 +11,7 @@ const Footer = () => {
             <div>
               <Link href={'/'}>
                 <a>
-                  <img src="/images/ecomarket-logo.png" width={150} />
+                  <img src="/images/ecomarket-logo-white2.png" width={150} />
                 </a>
               </Link>
             </div>
