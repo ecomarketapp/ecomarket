@@ -201,11 +201,11 @@ const RequestDetail = ({ id }) => {
   return (
     <>
       <Head>
-        <title>Ecomarket | Requests - {request.title}</title>
+        <title>Ecomarket | Requests - {request?.title}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta
           name="description"
-          content={`Ecomarket Collector Request - ${request.title}`}
+          content={`Ecomarket Collector Request - ${request?.title}`}
         />
       </Head>
       <UserLayout>

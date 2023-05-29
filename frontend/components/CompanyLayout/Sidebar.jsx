@@ -113,7 +113,7 @@ const Sidebar = ({ show, dismiss }) => {
                         <div className="flex items-start justify-start flex-col">
                           {/* <span className="text-sm">{currentUser && currentUser.user.name}</span> */}
                           <span className="text-xs">
-                            {/* {truncateAddress(address)} */}
+                            {truncateAddress(address)}
                           </span>
                         </div>
                         <ExpandMoreHorizontal />

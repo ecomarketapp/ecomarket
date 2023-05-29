@@ -36,7 +36,7 @@ export default function Notification() {
           </span>
         </AccordionSummary>
         <AccordionDetails>
-          <div>
+          <div className='px-3'>
             <ul className="list-disc	space-y-3">
               <li>
                 <Typography>Lorem ipsum dolor sit amet.</Typography>
