@@ -57,6 +57,16 @@ async function getCompanyRequests(company) {
   return data;
 }
 
+async function getCollectorDeliveries(collector) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/deliveries/${collector}/collector`
+  );
+
+  const data = await res.json();
+
+  return data;
+}
+
 async function getRequestById(request) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/requests/${request}`
@@ -169,4 +179,5 @@ export {
   getRequestDeliveryForCollector,
   getDeliveryById,
   getTrxPrice,
+  getCollectorDeliveries,
 };

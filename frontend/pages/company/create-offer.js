@@ -99,6 +99,8 @@ const profile = () => {
     if (user?.id) {
       const centers = await getCollectionCenter(user.id);
 
+      console.log(centers);
+
       setCenters(centers.collection_centers);
     }
   };
@@ -184,7 +186,7 @@ const profile = () => {
                           className="text-gray-700 font-medium mb-3"
                           htmlFor="title"
                         >
-                          Title<span>*</span>
+                          Title<span className="text-error">*</span>
                         </label>
                         <input
                           id="name"
@@ -206,7 +208,7 @@ const profile = () => {
                           className="text-gray-700 font-medium mb-3"
                           htmlFor="description"
                         >
-                          Description<span>*</span>
+                          Description<span className="text-error">*</span>
                         </label>
                         <textarea
                           id="description"
@@ -228,7 +230,7 @@ const profile = () => {
                           className="text-gray-700 font-medium mb-3"
                           htmlFor="category"
                         >
-                          Category<span>*</span>
+                          Category<span className="text-error">*</span>
                         </label>
                         <select
                           id="category"
@@ -262,7 +264,7 @@ const profile = () => {
                           className="text-gray-700 font-medium mb-3"
                           htmlFor="subcategory"
                         >
-                          Subcategory<span>*</span>
+                          Subcategory<span className="text-error">*</span>
                         </label>
                         <select
                           id="subcategory"
@@ -289,7 +291,7 @@ const profile = () => {
                           className="text-gray-700 font-medium mb-3"
                           htmlFor="expires_at"
                         >
-                          Offer Expiry<span>*</span>
+                          Offer Expiry<span className="text-error">*</span>
                         </label>
                         <input
                           id="expires_at"
@@ -313,7 +315,7 @@ const profile = () => {
                             htmlFor="amount_per_unit"
                           >
                             Your Wallet Balance{' '}
-                            <span className="text-xs">(TRX)</span>
+                            <span className="text-xs"> (TRX)</span>
                           </label>
                           <input
                             id="amount_per_unit"
@@ -330,7 +332,7 @@ const profile = () => {
                             htmlFor="amount_per_unit"
                           >
                             Your Wallet Balance
-                            <span className="text-xs">(~$)</span>
+                            <span className="text-xs"> (~$)</span>
                           </label>
                           <input
                             id="amount_per_unit"
@@ -349,7 +351,8 @@ const profile = () => {
                             className="text-gray-700 font-medium mb-3"
                             htmlFor="quantity_required"
                           >
-                            Quantity Required(kg)<span>*</span>
+                            Quantity Required(kg)
+                            <span className="text-error">*</span>
                           </label>
                           <input
                             id="quantity_required"
@@ -370,7 +373,7 @@ const profile = () => {
                             className="text-gray-700 font-medium mb-3"
                             htmlFor="amount_per_unit"
                           >
-                            Amount/Unit (TRX)<span>*</span>
+                            Amount/Kg (TRX)<span className="text-error">*</span>
                           </label>
                           <input
                             id="amount_per_unit"
@@ -387,12 +390,32 @@ const profile = () => {
                         </div>
                       </div>
 
+                      <div className="">
+                        <ul className="list-disc text-error">
+                          Notice:
+                          <li className="text-sm mb-3  text-error mx-3 my-2">
+                            You are willing to pay {inputs.amount_per_unit} TRX
+                            per Kg
+                          </li>
+                          <li className="text-sm mb-3  text-error mx-3 my-2">
+                            You have ${Number(trxPrice * balance).toFixed(2)} in
+                            your wallet and need $
+                            {Number(
+                              (inputs.quantity_required /
+                                inputs.amount_per_unit) *
+                                trxPrice
+                            ).toFixed(3)}{' '}
+                            to create this offer.
+                          </li>
+                        </ul>
+                      </div>
+
                       <div className="mb-6">
                         <label
                           className="text-gray-700 font-medium mb-3"
                           htmlFor="collection_center"
                         >
-                          Collection center<span>*</span>
+                          Collection center<span className="text-error">*</span>
                         </label>
                         <select
                           id="collection_center"
@@ -414,12 +437,17 @@ const profile = () => {
                         </select>
                       </div>
 
-                      <button
-                        type="submit"
-                        className="inline-block px-7 py-3 text-white font-medium text-sm leading-snug uppercase rounded-full shadow-md bg-[#DD7D37] hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out w-full"
-                      >
-                        {loading === true ? <Loader /> : 'Create Offer'}
-                      </button>
+                      {inputs.amount_per_unit * inputs.quantity_required >
+                      balance ? (
+                        ''
+                      ) : (
+                        <button
+                          type="submit"
+                          className="inline-block px-7 py-3 text-white font-medium text-sm leading-snug uppercase rounded-full shadow-md bg-[#DD7D37] hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out w-full"
+                        >
+                          {loading === true ? <Loader /> : 'Create Offer'}
+                        </button>
+                      )}
                     </form>
                   </div>
                 </div>

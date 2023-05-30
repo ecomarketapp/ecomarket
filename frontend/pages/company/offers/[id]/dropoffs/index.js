@@ -179,7 +179,7 @@ const DropOffs = () => {
                     <div className="rounded-full w-full bg-gray-200 h-2">
                       <div
                         className="bg-[#DD7D37] h-2 rounded-full wrapper relative "
-                        style={{ width: '55%' }}
+                        style={{ width: '1%' }}
                       ></div>
                     </div>
 

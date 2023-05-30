@@ -1,17 +1,18 @@
 const withPWA = require('next-pwa')({
-  dest: "public",
-})
+  dest: 'public',
+});
+
+// pwa: {
+//   dest: "public",
+//   register: true,
+//   skipWaiting: true,
+//   disable: process.env.NODE_ENV === "development",
+// },
 
 module.exports = withPWA({
   reactStrictMode: true,
   eslint: {
     ignoreDuringBuilds: true,
-  },
-  pwa: {
-    dest: "public",
-    register: true,
-    skipWaiting: true,
-    disable: process.env.NODE_ENV === "development",
   },
   webpack: (config) => {
     config.resolve.fallback = {
@@ -23,4 +24,4 @@ module.exports = withPWA({
     };
     return config;
   },
-})
+});

@@ -15,7 +15,7 @@ contract EcoMarket is Pausable, Ownable, ReentrancyGuard {
     //Track used msgHashes to prevent replay
     mapping(bytes => bool) public msgHashes;
 
-    mapping(address => uint256) private balances;
+    mapping(address => uint256) public balances;
 
     function redeemPaymentFromEscrow(
         uint256 amount,
@@ -47,7 +47,7 @@ contract EcoMarket is Pausable, Ownable, ReentrancyGuard {
     }
 
     function removeFromEscrow(uint256 amount) public whenNotPaused {
-        require(amount > balances[msg.sender], "Invalid amount");
+        require(amount < balances[msg.sender], "Invalid amount");
         require(address(this).balance > amount, "Insufficient balance!");
 
         balances[msg.sender] -= amount;
