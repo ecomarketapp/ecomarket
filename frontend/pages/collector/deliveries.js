@@ -6,6 +6,8 @@ import TabList from 'react-tabs/lib/components/TabList';
 import TabPanel from 'react-tabs/lib/components/TabPanel';
 import UserLayout from '../../components/UserLayout/Layout';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
+import { useRouter } from 'next/router';
+
 import {
   findProfile,
   newProfile,
@@ -16,6 +18,7 @@ import {
 const Deliveries = () => {
   const [user, setUser] = useState();
   const [deliveries, setDeliveries] = useState();
+  const router = useRouter();
 
   const {
     wallet,
