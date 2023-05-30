@@ -73,20 +73,22 @@ const profile = () => {
   const getUser = async () => {
     const profile = await findProfile(address, 'collectors');
 
-    if (profile.status) {
-      setUser(profile.data);
-      setInputs({ ...inputs, ...profile.data });
+    if (profile?.status) {
+      console.log(profile?.data, 'Data');
+      setUser(profile?.data);
+      setInputs({ ...inputs, ...profile?.data });
     } else {
       const profile = await newProfile(address, 'collectors');
 
-      setUser(profile.data);
-      setInputs({ ...inputs, ...profile.data });
+      setUser(profile?.data);
+      setInputs({ ...inputs, ...profile?.data });
     }
   };
 
   const getLocations = async () => {
     const locations = await getCollectionLocations();
 
+    console.log(locations.data, 'Locations');
     setLocations(locations.data);
     // setCenters(centers.collection_centers);
   };
@@ -184,11 +186,11 @@ const profile = () => {
                           placeholder="Enter your phone number"
                           className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none transition duration-150 ease-in-out"
                           required
-                          defaultValue={user.contact_phone}
+                          defaultValue={user.phone}
                           onChange={(e) => {
                             setInputs({
                               ...inputs,
-                              contact_phone: e.target.value,
+                              phone: e.target.value,
                             });
                           }}
                         />
@@ -216,7 +218,11 @@ const profile = () => {
                             -- Preferred Delivery Location --
                           </option>
                           {locations.map((location, index) => (
-                            <option key={index} value={location.id}>
+                            <option
+                              key={index}
+                              value={location.id}
+                              selected={user?.location._id == location.id}
+                            >
                               {location.name} : {location.state}
                             </option>
                           ))}

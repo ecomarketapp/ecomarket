@@ -70,15 +70,23 @@ module.exports = {
             ).exec();
 
             if (!company) {
-                return res.status(404).json({
-                    status: false,
-                    message: "Company does not exist",
+                // return res.status(404).json({
+                //     status: false,
+                //     message: "Company does not exist",
+                // });
+
+                let company = new Company({
+                    wallet_address: wallet,
                 });
+
+                company = await company.save();
+                // todo: change `company` to `data: company`
+                return res.json({ status: true, company });
             }
             // see if company has any collection centers, if no, create seeded ones
             // attach company's collection centers, along with random locations (of the locations we have). requirement is that locations have been seeded
             const collection_center = await CollectionCenter.findOne({
-                company: company.id
+                company: company.id,
             });
             if (!collection_center) {
                 let companyCollectionCenters = [
@@ -121,10 +129,18 @@ module.exports = {
                 wallet_address: wallet,
             }).exec();
             if (!company) {
-                return res.status(404).json({
-                    status: false,
-                    message: `Could not find company of wallet address ${company}`,
+                // return res.status(404).json({
+                //     status: false,
+                //     message: `Could not find company of wallet address ${company}`,
+                // });
+
+                let company = new Company({
+                    wallet_address: wallet,
                 });
+
+                company = await company.save();
+                // todo: change `company` to `data: company`
+                return res.json({ status: true, company });
             }
             return res.json({ status: true, data: company });
         } catch (error) {

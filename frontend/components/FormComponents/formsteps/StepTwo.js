@@ -111,7 +111,7 @@ const StepTwo = ({
           </p>
         </div>
 
-        <FormTimer />
+        <FormTimer request={data} />
 
         {/* </div> */}
 

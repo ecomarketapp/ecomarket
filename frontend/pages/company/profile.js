@@ -66,14 +66,16 @@ const profile = () => {
   const getUser = async () => {
     const profile = await findProfile(address, 'companies');
 
-    if (profile.status) {
-      setUser(profile.data);
-      setInputs({ ...inputs, ...profile.data });
+    console.log('Profile found:', profile);
+
+    if (profile?.status) {
+      setUser(profile?.data);
+      setInputs({ ...inputs, ...profile?.data });
     } else {
       const profile = await newProfile(address, 'companies');
 
-      setUser(profile.data);
-      setInputs({ ...inputs, ...profile.data });
+      setUser(profile?.data);
+      setInputs({ ...inputs, ...profile?.data });
     }
   };
 

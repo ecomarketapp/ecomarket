@@ -41,7 +41,7 @@ const StepApprove = ({ handleClick, currentStep, steps, data, quantity }) => {
           </p>
         </div>
 
-        <FormTimer />
+        <FormTimer request={data} />
 
         <div className="px-6 py-6  border border-gray-300 rounded-lg">
           <div>

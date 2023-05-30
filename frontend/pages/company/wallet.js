@@ -8,7 +8,7 @@ import CompanyLayout from '../../components/CompanyLayout/Layout';
 import ExpandMoreVertical from '../../components/Icons/ExpandMoreVertical';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
 import Waiting from '../../components/Waiting';
-import Head from "next/head";
+import Head from 'next/head';
 
 const wallet = () => {
   const [contract, setContract] = useState();
@@ -32,6 +32,8 @@ const wallet = () => {
 
   const setEscrowContract = async () => {
     const trc20ContractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS; //contract address
+
+    console.log('contract address', trc20ContractAddress);
 
     try {
       let contract = await window.tronWeb.contract().at(trc20ContractAddress);

@@ -30,7 +30,7 @@ const wallet = () => {
     signTransaction,
   } = useWallet();
 
-  const setEscrowContract = async (address) => {
+  const setEscrowContract = async () => {
     const trc20ContractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS; //contract address
 
     try {
@@ -44,6 +44,8 @@ const wallet = () => {
 
   const getWalletBalance = async () => {
     if (contract) {
+      console.log(contract, address);
+
       const balance = await contract.balances(address).call();
 
       setBalance(parseInt(balance) / 1e6);
@@ -92,16 +94,18 @@ const wallet = () => {
   };
 
   useEffect(() => {
+    window.tronLink.request({ method: 'tron_requestAccounts' });
+  }, []);
+
+  useEffect(() => {
     setEscrowContract();
   }, []);
 
   useEffect(() => {
-    getWalletBalance();
+    if (address) {
+      getWalletBalance();
+    }
   }, [contract]);
-
-  useEffect(() => {
-    window.tronLink.request({ method: 'tron_requestAccounts' });
-  }, []);
 
   return (
     <>
@@ -136,7 +140,7 @@ const wallet = () => {
                         </div>
                         <div className="py-4">
                           <h3 className="text-neutral800 text-4xl	">
-                            {parseFloat(balance).toFixed(2)} TRX
+                            {parseFloat(balance).toFixed(4)} TRX
                           </h3>
                         </div>
                       </div>

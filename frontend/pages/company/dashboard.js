@@ -36,13 +36,13 @@ const Dashboard = () => {
   const getUser = async () => {
     const profile = await findProfile(address, 'companies');
 
-    if (!profile.status) {
+    if (!profile?.status) {
       router.push(`/${getPage()}/profile`);
     } else {
-      if (profile.data.name == undefined) {
+      if (!profile?.data?.name) {
         router.push(`/${getPage()}/profile`);
       }
-      setUser(profile.data);
+      setUser(profile?.data);
     }
   };
 
@@ -202,8 +202,8 @@ const Dashboard = () => {
                                         </div>
                                         <div className="flex gap-1 flex-row justify-between items-center w-full">
                                           <p className="text-sm text-[#5B5B5B] font-normal">
-                                            Amount: {request.amount_per_unit}{' '}
-                                            TRX / kg (Total:{' '}
+                                            Offer: {request.amount_per_unit} TRX
+                                            / kg (Total:{' '}
                                             {request.amount_per_unit *
                                               request.quantity_required}{' '}
                                             TRX)
@@ -213,7 +213,7 @@ const Dashboard = () => {
                                         <div className="flex gap-1 flex-row justify-between items-end w-full">
                                           <p className="text-sm">
                                             Dropoff location:{' '}
-                                            {request?.location?.name}
+                                            {request?.collection_center?.title}
                                           </p>
                                         </div>
                                       </div>

@@ -69,7 +69,7 @@ const SingleOffer = ({ id }) => {
                   <div className="rounded-full w-full bg-gray-200 h-2">
                     <div
                       className="bg-[#DD7D37] h-2 rounded-full wrapper relative "
-                      style={{ width: '55%' }}
+                      style={{ width: '0%' }}
                     >
                       {/* <span className="tooltipper text-[10px]">Blockchain explorer</span> */}
                     </div>
