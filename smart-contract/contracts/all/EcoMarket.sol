@@ -37,7 +37,8 @@ contract EcoMarket is Pausable, Ownable, ReentrancyGuard {
         msgHashes[signature] = true;
         balances[company] -= amount;
 
-        require(payable(msg.sender).send(amount), "Error");
+        balances[msg.sender] += amount;
+        balances[company] += amount;
     }
 
     function addToEscrow() public payable whenNotPaused {
@@ -55,7 +56,7 @@ contract EcoMarket is Pausable, Ownable, ReentrancyGuard {
         require(payable(msg.sender).send(amount), "Error");
     }
 
-    function _getHash(uint256 amount, uint256 nonce, address company) private view returns (bytes32) {
+    function _getHash(uint256 amount, uint256 nonce, address company) public view returns (bytes32) {
         return keccak256(abi.encodePacked(msg.sender, amount, nonce, company));
     }
 
