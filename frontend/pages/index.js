@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef,useEffect, useState  } from 'react';
 import Layout from '../components/layout/Layout';
 import { useQuery, useInfiniteQuery } from 'react-query';
 import LoadingState from '../components/LoadingState';
@@ -8,13 +8,34 @@ import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { InstagramEmbed } from 'react-social-media-embed';
+import axios from 'axios';
+
 // import InstagramEmbed from 'react-instagram-embed';
 // import 'react-tabs/style/react-tabs.css';
 import Head from 'next/head';
 
 const Home = () => {
   const resultRef = useRef(null);
+  const [posts, setPosts] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchInstagramFeed = async () => {
+  //     try {
+  //       // Make a request to the Instagram Basic Display API
+  //       const response = await axios.get(
+  //         `https://graph.instagram.com/me/media?fields=id,caption,media_url,permalink&access_token=33637752489793e1c3c5e0a65676966e`
+  //       );
+  //       setPosts(response.data.data);
+  //     } catch (error) {
+  //       console.error('Error fetching Instagram feed:', error);
+  //     }
+  //   };
+
+  //   fetchInstagramFeed();
+  // }, []);
+
   return (
     <>
       <Head>
@@ -811,23 +832,24 @@ const Home = () => {
                   {/* <div style={{ display: 'flex', justifyContent: 'center' }}> */}
                   <div className="w-full h-full overflow-x-hidden">
                     <InstagramEmbed
-                      url="https://www.instagram.com/p/CUbHfhpswxt/"
+                      url="https://www.instagram.com/p/Cs2xBebo1M7/"
                       width="100%"
                       // height={550}
                     />
                   </div>
                   <div className="w-full h-full overflow-x-hidden">
                     <InstagramEmbed
-                      url="https://www.instagram.com/p/CUbHfhpswxt/"
+                      url="https://www.instagram.com/p/Cs2wVA3o8OR/"
                       width="100%"
-                      // height="100%"
+                      // height={550} 
+                      // captioned={false}
                     />
                   </div>
                   <div className="w-full h-full overflow-x-hidden">
                     <InstagramEmbed
-                      url="https://www.instagram.com/p/CUbHfhpswxt/"
+                      url="https://www.instagram.com/p/Cs2xBebo1M7/"
                       width="100%"
-                      // height={450}
+                      // height={550}
                     />
                   </div>
                   {/*  <div className='w-44'>
@@ -869,7 +891,7 @@ const Home = () => {
                 }
               >
                 <a className="cursor-pointer w-14 h-14" target="_blank">
-                  <YouTubeIcon className="social_icons" />
+                  <YouTubeIcon className="social_icons " />
                 </a>
               </Link>
               <Link href={'https://www.instagram.com/ecomarketapp/'}>
@@ -1057,6 +1079,9 @@ const Home = () => {
                     <div className="text-center">
                       <h5>Darabong E.</h5>
                       <p>Strategy & Operations</p>
+
+                      {/* <LinkedInIcon/> */}
+                      
                     </div>
                   </div>
                   <div className="">
@@ -1066,6 +1091,7 @@ const Home = () => {
                     <div className="text-center">
                       <h5>Paul O.</h5>
                       <p>Product</p>
+                      {/* <LinkedInIcon/> */}
                     </div>
                   </div>
                   <div className="">
@@ -1075,6 +1101,10 @@ const Home = () => {
                     <div className="text-center">
                       <h5>Femi A</h5>
                       <p>Engineering</p>
+                      {/* <span className='text-lg'>
+                        <LinkedInIcon />
+                      </span> */}
+                      
                     </div>
                   </div>
                   <div className="">
@@ -1084,6 +1114,7 @@ const Home = () => {
                     <div className="text-center">
                       <h5>Wale O.</h5>
                       <p>Country Manager</p>
+                      {/* <LinkedInIcon/> */}
                     </div>
                   </div>
                 </div>
