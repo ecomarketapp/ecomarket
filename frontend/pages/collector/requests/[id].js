@@ -38,6 +38,7 @@ const RequestDetail = ({ id }) => {
   const getRequest = async () => {
     const request = await getRequestById(id);
 
+    console.log(request.data, 'RRR');
     setRequest(request.data);
   };
 
@@ -140,7 +141,6 @@ const RequestDetail = ({ id }) => {
   const getUser = async () => {
     const profile = await findProfile(address, 'collectors');
 
-    console.log(profile, 'User');
     setUser(profile.data);
   };
 
@@ -148,7 +148,6 @@ const RequestDetail = ({ id }) => {
     if (user.id && request.id) {
       const res = await getRequestDeliveryForCollector(request.id, user.id);
 
-      console.log(res, 'Delivery');
       setDelivery(res.data);
     }
   };
@@ -277,7 +276,7 @@ const RequestDetail = ({ id }) => {
                           <div className="rounded-full w-full bg-gray-200 h-2">
                             <div
                               className="bg-[#DD7D37] h-2 rounded-full wrapper relative "
-                              style={{ width: '55%' }}
+                              style={{ width: '0%' }}
                             ></div>
                           </div>
 

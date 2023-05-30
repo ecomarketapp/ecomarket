@@ -1,12 +1,68 @@
 import Head from 'next/head';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tabs } from 'react-tabs';
 import Tab from 'react-tabs/lib/components/Tab';
 import TabList from 'react-tabs/lib/components/TabList';
 import TabPanel from 'react-tabs/lib/components/TabPanel';
 import UserLayout from '../../components/UserLayout/Layout';
+import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
+import {
+  findProfile,
+  newProfile,
+  getPage,
+  getCollectorDeliveries,
+} from '../../utils/utils';
 
 const Deliveries = () => {
+  const [user, setUser] = useState();
+  const [deliveries, setDeliveries] = useState();
+
+  const {
+    wallet,
+    address,
+    connected,
+    select,
+    connect,
+    disconnect,
+    signMessage,
+    signTransaction,
+  } = useWallet();
+
+  const getUser = async () => {
+    const profile = await findProfile(address, 'collectors');
+
+    console.log('Collector found:', profile);
+
+    if (!profile?.status) {
+      router.push(`/${getPage()}/profile`);
+    } else {
+      if (!profile?.data?.name) {
+        router.push(`/${getPage()}/profile`);
+      }
+      setUser(profile?.data);
+    }
+  };
+
+  const getDeliveries = async () => {
+    const deliveries = await getCollectorDeliveries(user.id);
+
+    console.log('Deliveries found:', deliveries.data);
+
+    setDeliveries(requests.data);
+  };
+
+  useEffect(() => {
+    if (address) {
+      getUser(address);
+    }
+  }, [address]);
+
+  useEffect(() => {
+    if (user) {
+      getDeliveries();
+    }
+  }, [user]);
+
   return (
     <>
       <Head>

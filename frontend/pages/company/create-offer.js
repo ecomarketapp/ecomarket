@@ -99,6 +99,8 @@ const profile = () => {
     if (user?.id) {
       const centers = await getCollectionCenter(user.id);
 
+      console.log(centers);
+
       setCenters(centers.collection_centers);
     }
   };

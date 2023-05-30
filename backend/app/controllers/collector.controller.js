@@ -146,10 +146,12 @@ module.exports = {
                 })
                 .exec();
             if (!collector) {
-                return res.json({
-                    status: false,
-                    msg: "Collector does not exist",
+                let collector = new Collectors({
+                    wallet_address: wallet,
                 });
+
+                collector = await collector.save();
+                return res.json({ status: true, collector });
             }
 
             return res.json({ status: true, data: collector });

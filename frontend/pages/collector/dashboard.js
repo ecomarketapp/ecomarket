@@ -69,7 +69,7 @@ const Dashboard = () => {
 
   const getRequests = async () => {
     if (user.location) {
-      console.log(user.location, 'locate');
+      console.log(user, 'locate');
       const requests = await getRequestsByLocation(user?.location?._id);
 
       setRequests(requests.data);
