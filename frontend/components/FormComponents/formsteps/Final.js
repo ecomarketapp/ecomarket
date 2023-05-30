@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import DropdownIcon from '../../Icons/DropdownIcon';
 import LoadingState from '../../LoadingState';
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks';
+import Waiting from '../../Waiting';
+import { finalizeDelivery } from '../../../utils/utils';
 
 const Final = ({ data, quantity, delivery }) => {
   const [collectClaim, setCollectClaim] = useState(false);
@@ -11,6 +13,9 @@ const Final = ({ data, quantity, delivery }) => {
   const [successTransfer, setSuccessTransfer] = useState();
   const [moneyClaimed, setMoneyClaimed] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [contract, setContract] = useState();
+  const [waiting, setWaiting] = useState(false);
+
   const {
     wallet,
     address,
@@ -22,21 +27,81 @@ const Final = ({ data, quantity, delivery }) => {
     signTransaction,
   } = useWallet();
 
+  const router = useRouter();
+
+  const setEscrowContract = async () => {
+    const trc20ContractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS; //contract address
+
+    try {
+      let contract = await window.tronWeb.contract().at(trc20ContractAddress);
+
+      setContract(contract);
+    } catch (error) {
+      console.error('trigger smart contract error', error);
+    }
+  };
+
+  useEffect(() => {
+    window.tronLink.request({ method: 'tron_requestAccounts' });
+  }, []);
+
+  useEffect(() => {
+    setEscrowContract();
+  }, []);
+
   const handleconfirmTransfer = () => {
     setConfirmTransfer(!confirmTransfer);
   };
 
-  const router = useRouter();
+  const handleSuccessTransfer = async () => {
+    const amount =
+      delivery.delivery_amount * delivery.request.amount_per_unit * 1e6;
+    const signature = delivery.approver_signature;
+    const nonce = 10;
+    const companyHex = window.tronWeb.address
+      .toHex(delivery.approver_wallet_address)
+      .replace('41', '0x');
 
-  const handleSuccessTransfer = () => {
-    setConfirmTransfer(false);
-    setSuccessTransfer(!successTransfer);
+    // console.log(delivery);
+    // console.log(amount);
+    // console.log(signature);
+    // console.log(companyHex);
+    // return;
 
-    const moneyClaimInterval = setInterval(() => {
-      setMoneyClaimed(true);
-    }, 1000);
+    if (contract) {
+      try {
+        const tx = await contract
+          .redeemPaymentFromEscrow(amount, nonce, companyHex, signature)
+          .send();
 
-    return () => clearInterval(moneyClaimInterval);
+        setWaiting(true);
+
+        await finalizeDelivery(
+          delivery.id || delivery._id,
+          address,
+          delivery.request._id
+        );
+
+        setTimeout(() => {
+          setWaiting(false);
+          window.location.assign('/collector/wallet');
+        }, 5000);
+      } catch (error) {
+        console.log('Claim up error: ', error);
+      }
+    }
+
+    //0x26ddb52630f376f534632859f687bec5dd9bdd0aa600f02cc91715ef8392dbb2 === 0x26ddb52630f376f534632859f687bec5dd9bdd0aa600f02cc91715ef8392dbb2
+    //0x39b90f90ffedf90bfebfc4307687b9841a1bd0ebb8e57edaead907d8dba42e49536dedfc928f5c5494be27a5b7dff306e211e354551d4fa7680e9e4916dc17351b
+
+    // setConfirmTransfer(false);
+    // setSuccessTransfer(!successTransfer);
+
+    // const moneyClaimInterval = setInterval(() => {
+    //   setMoneyClaimed(true);
+    // }, 1000);
+
+    // return () => clearInterval(moneyClaimInterval);
   };
 
   useEffect(() => {
@@ -222,56 +287,64 @@ const Final = ({ data, quantity, delivery }) => {
               <h1 className="text-2xl font-semibold ">Claim your money</h1>
             </div>
 
-            <div>
-              <h3 className="mb-3">
-                {delivery.delivery_amount} TRX would be transferred to your
-                wallet
-              </h3>
-              <small className="text-xs font-thin  text-[#6D747D]">
-                EcoMarket would collect{' '}
-                <span className="text-gray-700 font-bold">0% </span>
-              </small>
-              <h3 className="my-3">Wallet Address: {address}</h3>
-            </div>
+            {waiting && <Waiting />}
 
-            <button
-              className=" flex items-center rounded-full border-2 border-gray-700 absolute top-3 right-2  "
-              onClick={() => setConfirmTransfer(false)}
-            >
-              <span className="pointer-events-none flex items-center p-1">
-                <svg
-                  className="h-3 w-3"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+            {!waiting && (
+              <>
+                <div>
+                  <h3 className="mb-3">
+                    {delivery.delivery_amount} TRX would be transferred to your
+                    wallet
+                  </h3>
+                  <small className="text-xs font-thin  text-[#6D747D]">
+                    EcoMarket would collect{' '}
+                    <span className="text-gray-700 font-bold">0% </span>
+                  </small>
+                  <h3 className="my-3">Wallet Address: {address}</h3>
+                </div>
+
+                <button
+                  className=" flex items-center rounded-full border-2 border-gray-700 absolute top-3 right-2  "
+                  onClick={() => setConfirmTransfer(false)}
                 >
-                  <path
-                    d="M15 5L5 15M5 5L15 15"
-                    stroke="currentColor"
-                    strokeWidth="1.67"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  ></path>
-                </svg>
-              </span>
-            </button>
+                  <span className="pointer-events-none flex items-center p-1">
+                    <svg
+                      className="h-3 w-3"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M15 5L5 15M5 5L15 15"
+                        stroke="currentColor"
+                        strokeWidth="1.67"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      ></path>
+                    </svg>
+                  </span>
+                </button>
+              </>
+            )}
           </div>
 
-          <div className="flex items-center justify-center gap-4 mt-7 mx-auto w-full">
-            <button
-              className="px-9 py-3 border border-gray-300 bg-white text-gray-700 rounded-full w-1/2"
-              type="button"
-              onClick={() => setConfirmTransfer(false)}
-            >
-              Cancel
-            </button>
-            <button
-              className="px-9 py-3 border border-[#DD7D37] bg-[#DD7D37] text-white rounded-full w-1/2"
-              onClick={handleSuccessTransfer}
-            >
-              Transfer
-            </button>
-          </div>
+          {!waiting && (
+            <div className="flex items-center justify-center gap-4 mt-7 mx-auto w-full">
+              <button
+                className="px-9 py-3 border border-gray-300 bg-white text-gray-700 rounded-full w-1/2"
+                type="button"
+                onClick={() => setConfirmTransfer(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-9 py-3 border border-[#DD7D37] bg-[#DD7D37] text-white rounded-full w-1/2"
+                onClick={handleSuccessTransfer}
+              >
+                Transfer
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

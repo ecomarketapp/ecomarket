@@ -6,8 +6,7 @@ const deliveries = require("../controllers/delivery.controller");
 router.post("/", requests.create);
 router.get("/", requests.getRequests);
 router.get("/:id", requests.getOneRequest);
-router.get("collector/:id/deliveries", deliveries.getRequestDeliveries);
-
+router.get("/:id/deliveries", deliveries.getRequestDeliveries);
 router.get(
     "/:requestId/collectors/:collectorId",
     deliveries.getCollectorDeliveryForRequest

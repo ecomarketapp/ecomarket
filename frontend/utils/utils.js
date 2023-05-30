@@ -137,6 +137,27 @@ async function newProfile(address, type = 'companies') {
   return data;
 }
 
+async function finalizeDelivery(deliveryID, collectorWalletAddress, requestID) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/deliveries/${deliveryID}/rewards`,
+    {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        collector_wallet_address: collectorWalletAddress,
+        requestId: requestID,
+      }),
+    }
+  );
+
+  const data = await res.json();
+
+  return data;
+}
+
 function getPage() {
   return window.location.pathname.split('/')[1];
 }
@@ -180,4 +201,5 @@ export {
   getDeliveryById,
   getTrxPrice,
   getCollectorDeliveries,
+  finalizeDelivery,
 };

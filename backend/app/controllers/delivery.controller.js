@@ -415,12 +415,12 @@ module.exports = {
                     "hour"
                 )
             );
-            if (!cooloff_period_elapsed) {
-                return res.status(403).json({
-                    status: false,
-                    message: `Cool off period has not elapsed`,
-                });
-            }
+            // if (!cooloff_period_elapsed) {
+            //     return res.status(403).json({
+            //         status: false,
+            //         message: `Cool off period has not elapsed`,
+            //     });
+            // }
             /* we found delivery, so now, we can do claim */
             delivery.delivery_status = "REWARD_CLAIMED";
             delivery.claimed_at = new Date();
@@ -537,6 +537,7 @@ module.exports = {
                 collector: collectorId,
             })
                 .populate({ path: "collector", model: Collector })
+                .populate({ path: "request", model: Request })
                 .exec();
             if (!delivery) {
                 return res.status(404).json({

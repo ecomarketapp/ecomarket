@@ -34,6 +34,7 @@ const DropOffs = () => {
 
   const [offerId, setOfferId] = useState();
   const [offer, setOffer] = useState();
+  const [request, setRequest] = useState(null);
   const [requests, setRequests] = useState([]);
   const [pending, setPending] = useState([]);
   const [approved, setApproved] = useState([]);
@@ -67,7 +68,10 @@ const DropOffs = () => {
   const web3 = new Web3(Web3.givenProvider);
 
   const handleApproveRequest = async () => {
-    const amount = offer.total_amount;
+    console.log(offer.amount_per_unit * request.delivery_size);
+    // console.log(request);
+    // return;
+    const amount = offer.amount_per_unit * request.delivery_size * 1e6;
     const nonce = 10;
     const companyHex = window.tronWeb.address
       .toHex(address)
@@ -111,6 +115,8 @@ const DropOffs = () => {
     window.location.reload();
 
     console.table({ messageHash, signature: signature });
+
+    //TRY AGAIN!
 
     // r: '0xea2e552ffc2ee639ddd59d51131079dc5ffaa75c7bbc9f79d536585221b6813c';
     // recoveryParam: 0;
@@ -264,6 +270,7 @@ const DropOffs = () => {
                                         <button
                                           onClick={(e) => {
                                             e.preventDefault();
+                                            setRequest(request);
                                             setApproveRequest(request.id);
                                             setCollector(
                                               request.collector.wallet_address
