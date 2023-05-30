@@ -158,7 +158,7 @@ module.exports = {
             } else if (filter === "company" && companyId) {
                 // confirm that company exists, if not - pass error
                 const foundcompany = await Company.findById(companyId)
-                    .sort({ datefield: -1 })
+                    .sort({ createdAt: -1 })
                     .limit(limit)
                     .populate({ path: "location", model: Location })
                     .populate({ path: "company", model: Company })
@@ -187,7 +187,7 @@ module.exports = {
             } else {
                 // get all requests
                 requests = await Request.find()
-                    .sort({ datefield: -1 })
+                    .sort({ createdAt: -1 })
                     .limit(limit)
                     .populate({ path: "location", model: Location })
                     .populate({ path: "company", model: Company })
@@ -217,7 +217,7 @@ module.exports = {
                 // confirm that location exists, if not - pass error
                 if (location === "all") {
                     requests = await Request.find()
-                        .sort({ datefield: -1 })
+                        .sort({ createdAt: -1 })
                         .limit(limit)
                         .populate({ path: "location", model: Location })
                         .populate({ path: "company", model: Company })

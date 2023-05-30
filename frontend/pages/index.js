@@ -18,22 +18,22 @@ const Home = () => {
   return (
     <>
       <Head>
-        <title>Ecomarket</title>
+        <title>EcoMarket - Open Marketplace for Recycled Materials</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content="Ecomarket" />
+        <meta name="description" content="EcoMarket" />
       </Head>
       <Layout resultRef={resultRef}>
         <section className="bg-white py-14">
           <div className="container mx-auto px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 items-center ">
-              <div className="w-5/6">
+              <div className="w-full md:w-5/6">
                 <div>
-                  <h1 className="text-4xl font-extrabold ">
+                  <h1 className="text-5xl font-extrabold text-[#351F0F]">
                     Open Marketplace for Recycled Plastics
                   </h1>
                 </div>
                 <div className="mb-10 mt-5">
-                  <p className="text-md">
+                  <p className="text-base text-[#3F3F3F]">
                     In order to fight plastic pollution, EcoMarket is an open
                     marketplace that connects buyers of used and recycled
                     plastics with individuals and businesses who want to donate
@@ -66,10 +66,6 @@ const Home = () => {
               </div>
 
               <div>
-                {/* <div className='flex items-center justify-center gap-10 mb-9'>
-                                <button className="">Company</button>
-                                <button className="p-6"></button>
-                            </div> */}
 
                 <Tabs>
                   <TabList className="flex flex-row items-center justify-center w-full tabs-header rounded-md gap-16 mb-6">
@@ -803,11 +799,62 @@ const Home = () => {
           </div>
         </section>
 
+        <section className="py-4 meet__team">
+          <div className="container mx-auto px-6">
+            <div className="py-14">
+              <div className="mb-9">
+                <h2 className="h2 text-center text-xl">We're making recycling more rewarding!</h2>
+              </div>
+
+              <div className="w-full">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-7">
+                  {/* <div style={{ display: 'flex', justifyContent: 'center' }}> */}
+                  <div className="w-full h-full overflow-x-hidden">
+                    <InstagramEmbed
+                      url="https://www.instagram.com/p/CUbHfhpswxt/"
+                      width="100%"
+                      // height={550}
+                    />
+                  </div>
+                  <div className="w-full h-full overflow-x-hidden">
+                    <InstagramEmbed
+                      url="https://www.instagram.com/p/CUbHfhpswxt/"
+                      width="100%"
+                      // height="100%"
+                    />
+                  </div>
+                  <div className="w-full h-full overflow-x-hidden">
+                    <InstagramEmbed
+                      url="https://www.instagram.com/p/CUbHfhpswxt/"
+                      width="100%"
+                      // height={450}
+                    />
+                  </div>
+                  {/*  <div className='w-44'>
+                    <InstagramEmbed
+                      url="https://www.instagram.com/p/CUbHfhpswxt/"
+                      width="100%" 
+                      height={50}
+                    />
+                  </div>
+                  <div className='w-44'>
+                    <InstagramEmbed
+                      url="https://www.instagram.com/p/CUbHfhpswxt/"
+                      width="100%" 
+                      height={50}
+                    />
+                  </div> */}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <div>
           <div className="flex items-center justify-between w-full py-6 px-6 max-w-7xl mx-auto container flex-wrap social_cta gap-x-2 gap-y-5">
             <div className="">
-              <h1 className="text-3xl">Check out our Socials</h1>
-              <p>EcoMarket is there for you!</p>
+              <h1 className="text-3xl text-[#351F0F]">We're social!</h1>
+              <p>Stay up to date on EcoMarket's activities.</p>
             </div>
 
             <div className="flex items-center gap-4">
@@ -833,6 +880,7 @@ const Home = () => {
             </div>
           </div>
         </div>
+
 
         <section className="antialised bg-[#FFFBF9] py-14">
           <div className="container mx-auto px-6">
@@ -997,69 +1045,18 @@ const Home = () => {
           <div className="container mx-auto px-6">
             <div className="py-14">
               <div className="mb-9">
-                <h2 className="h2 text-center text-xl">Our Instagram feed</h2>
-              </div>
-
-              <div className="w-full">
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-7">
-                  {/* <div style={{ display: 'flex', justifyContent: 'center' }}> */}
-                  <div className="w-full h-full overflow-x-hidden">
-                    <InstagramEmbed
-                      url="https://www.instagram.com/p/CUbHfhpswxt/"
-                      width="100%"
-                      // height={550}
-                    />
-                  </div>
-                  <div className="w-full h-full overflow-x-hidden">
-                    <InstagramEmbed
-                      url="https://www.instagram.com/p/CUbHfhpswxt/"
-                      width="100%"
-                      // height="100%"
-                    />
-                  </div>
-                  <div className="w-full h-full overflow-x-hidden">
-                    <InstagramEmbed
-                      url="https://www.instagram.com/p/CUbHfhpswxt/"
-                      width="100%"
-                      // height={450}
-                    />
-                  </div>
-                  {/*  <div className='w-44'>
-                    <InstagramEmbed
-                      url="https://www.instagram.com/p/CUbHfhpswxt/"
-                      width="100%" 
-                      height={50}
-                    />
-                  </div>
-                  <div className='w-44'>
-                    <InstagramEmbed
-                      url="https://www.instagram.com/p/CUbHfhpswxt/"
-                      width="100%" 
-                      height={50}
-                    />
-                  </div> */}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-4 meet__team">
-          <div className="container mx-auto px-6">
-            <div className="py-14">
-              <div className="mb-9">
                 <h2 className="h2 text-center text-xl">Meet the team</h2>
               </div>
 
               <div>
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-7">
-                  <div className="">
+                <div className="">
                     <div className="mb-4 flex items-center justify-center">
                       <div className="square"></div>
                     </div>
                     <div className="text-center">
-                      <h5>Paul Oladimeji</h5>
-                      <p>Product Manager</p>
+                      <h5>Darabong E.</h5>
+                      <p>Strategy & Operations</p>
                     </div>
                   </div>
                   <div className="">
@@ -1067,8 +1064,8 @@ const Home = () => {
                       <div className="square"></div>
                     </div>
                     <div className="text-center">
-                      <h5>Femi ..</h5>
-                      <p>Product Designer</p>
+                      <h5>Paul O.</h5>
+                      <p>Product</p>
                     </div>
                   </div>
                   <div className="">
@@ -1076,8 +1073,8 @@ const Home = () => {
                       <div className="square"></div>
                     </div>
                     <div className="text-center">
-                      <h5>Dara ...</h5>
-                      <p>Frontend Developer</p>
+                      <h5>Femi A</h5>
+                      <p>Engineering</p>
                     </div>
                   </div>
                   <div className="">
@@ -1085,8 +1082,8 @@ const Home = () => {
                       <div className="square"></div>
                     </div>
                     <div className="text-center">
-                      <h5>Wale ..</h5>
-                      <p>Frontend Developer</p>
+                      <h5>Wale O.</h5>
+                      <p>Country Manager</p>
                     </div>
                   </div>
                 </div>

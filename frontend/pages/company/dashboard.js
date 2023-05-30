@@ -12,6 +12,7 @@ import {
 } from '../../utils/utils';
 import Waiting from '../../components/Waiting';
 import Head from 'next/head';
+import Notification from '../../components/Notification';
 
 const Dashboard = () => {
   const [user, setUser] = useState();
@@ -126,9 +127,13 @@ const Dashboard = () => {
                     </div>
                   </div>
 
+                  <div>
+                    <Notification />
+                  </div>
+
                   <div className="w-full mb-6 py-6 h-full">
                     <div className="grid  full-width">
-                      <div className="shadow w-full bg-white relative py-6 rounded flex flex-col justify-between">
+                      <div className="shadow w-full bg-white relative py-6 rounded flex flex-col justify-between border">
                         <div className="px-6">
                           <div className="flex items-center justify-between flex-row w-full">
                             <h5 className="text-gray-600">Wallet Balance</h5>
@@ -163,7 +168,7 @@ const Dashboard = () => {
                     <div className=" grid grid-cols-1 py-6 w-full gap-6 relative">
                       <div className=" flex flex-col justify-between">
                         <div className=" flex flex-col  ">
-                          {requests ? (
+                          {requests && (
                             <>
                               {requests.map((request, index) => (
                                 <div
@@ -188,18 +193,28 @@ const Dashboard = () => {
                                             )}
                                           </p>
                                         </div>
-                                        <div className="flex gap-1 flex-row justify-between items-center w-full">
+                                        <div className="flex gap-1 flex-row justify-between items-end w-full">
                                           <p className="text-sm text-[#5B5B5B] font-normal">
-                                            {request.amount_per_unit} TRX / kg
-                                            of {request.quantity_required}kg
-                                            needed.
+                                            Volume needed:{' '}
+                                            {request.quantity_required}kg
                                           </p>
                                           <p className="text-sm text-[#12B76A]">
                                             0% Provided
                                           </p>
                                         </div>
+                                        <div className="flex gap-1 flex-row justify-between items-center w-full">
+                                          <p className="text-sm text-[#5B5B5B] font-normal">
+                                            Amount: {request.amount_per_unit}{' '}
+                                            TRX / kg (Total:{' '}
+                                            {request.amount_per_unit *
+                                              request.quantity_required}{' '}
+                                            TRX)
+                                          </p>
+                                        </div>
+
                                         <div className="flex gap-1 flex-row justify-between items-end w-full">
                                           <p className="text-sm">
+                                            Dropoff location:{' '}
                                             {request?.location?.name}
                                           </p>
                                         </div>
@@ -209,11 +224,13 @@ const Dashboard = () => {
                                 </div>
                               ))}
                             </>
-                          ) : (
+                          )}
+
+                          {requests?.length < 1 && (
                             <div className=" w-full bg-white mt-3 md:mt-0  relative overflow-hidden rounded h-full fade-in">
                               <div className="flex items-center justify-center flex-col gap-4">
                                 <img src="/images/file-not-found.svg" />
-                                <p>No requests avalaible</p>
+                                <p>No offers avalaible</p>
                               </div>
                             </div>
                           )}

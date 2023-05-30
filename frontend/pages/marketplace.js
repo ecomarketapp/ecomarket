@@ -14,9 +14,9 @@ const MarketPlace = () => {
   return (
     <>
       <Head>
-        <title>Ecomarket | Marketplace</title>
+        <title>EcoMarket | Marketplace</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content="Ecomarket Marketplace" />
+        <meta name="description" content="EcoMarket Marketplace" />
       </Head>
       <Layout resultRef={resultRef}>
         <section
@@ -59,12 +59,12 @@ const MarketPlace = () => {
         <section className="py-12">
           <div className="container mx-auto px-6">
             <div className="px-6 ">
-              <div className="flex items-center py-4 mb-6">
+              <div className="flex items-start md:items-center  py-4 mb-6 flex-col md:flex-row gap-3">
                 <div className="flex-1">
                   <h3 className="h2">Requests</h3>
                 </div>
 
-                <div className="mt-1 relative rounded-full flex-1  items-center grow flex h-12 ">
+                {/* <div className="mt-1 relative rounded-full flex-1  items-center grow flex h-12">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none h-full">
                     <span className="text-gray-500 px-3">
                       <svg
@@ -99,7 +99,7 @@ const MarketPlace = () => {
                     className="border border-gray-300 py-2 px-4  block w-full pl-12 pr-12 sm:text-sm rounded-full h-full focus:outline-none focus:border-gray-400"
                     placeholder="Search for different scaps, company"
                   />
-                </div>
+                </div> */}
 
                 <div className=" font-normal flex items-center justify-end flex-row gap-3 flex-1">
                   <button className="flex items-center text-neutral700 bg-white text-sm border-gray-300 border px-5 py-2 rounded-full h-12">
@@ -269,7 +269,7 @@ const MarketPlace = () => {
           </div>
         </section>
 
-        <section className="py-12">
+        {/* <section className="py-12">
           <div className="container mx-auto px-6">
             <div>
               <div className="grid grid-cols-1 md:grid-cols-2">
@@ -283,7 +283,7 @@ const MarketPlace = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
       </Layout>
     </>
   );

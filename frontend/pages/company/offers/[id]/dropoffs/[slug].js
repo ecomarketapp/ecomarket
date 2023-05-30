@@ -43,6 +43,8 @@ const SingleDropoff = () => {
     }
   }, [deliveryId]);
 
+  console.log(delivery, "delivery")
+
   return (
     <>
       <Head>

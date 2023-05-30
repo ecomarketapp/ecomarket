@@ -15,9 +15,9 @@ const ConnectWallet = () => {
   return (
     <>
       <Head>
-        <title>Ecomarket | Connect-Wallet</title>
+        <title>EcoMarket | Connect Wallet</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content="Ecomarket Connect Wallet" />
+        <meta name="description" content="EcoMarket Connect Wallet" />
       </Head>
 
       <section className="h-screen">

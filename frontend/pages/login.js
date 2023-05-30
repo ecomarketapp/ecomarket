@@ -93,9 +93,9 @@ const Login = () => {
   return (
     <>
       <Head>
-        <title>Ecomarket | Login</title>
+        <title>EcoMarket | Login</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content="Ecomarket Login" />
+        <meta name="description" content="EcoMarket Login" />
       </Head>
       <Toaster />
 
