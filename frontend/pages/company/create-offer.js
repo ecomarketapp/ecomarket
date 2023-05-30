@@ -144,11 +144,11 @@ const profile = () => {
     getTrxPrice().then((price) => {
       setTrxPrice(price);
     });
+    setEscrowContract();
   }, [user]);
 
-  useEffect(() => {
-    setEscrowContract();
-  }, []);
+  // useEffect(() => {
+  // }, [user]);
 
   useEffect(() => {
     getWalletBalance();
