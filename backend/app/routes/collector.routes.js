@@ -9,5 +9,5 @@ router.post('/:id/save', Collector.saveProfile);
 router.post('/auth/register', Collector.register);
 router.post('/auth/login', Collector.login);
 router.get('/:id', Collector.getOneCollector);
-router.get('/:id/deliveries', Delivery.getCollectorDeliveries);
+router.get("/:id/collector", Delivery.getCollectorDeliveries);
 module.exports = router;

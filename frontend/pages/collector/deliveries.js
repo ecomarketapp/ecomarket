@@ -12,12 +12,14 @@ import {
   findProfile,
   newProfile,
   getPage,
+  dateConv,
   getCollectorDeliveries,
 } from '../../utils/utils';
 
 const Deliveries = () => {
   const [user, setUser] = useState();
-  const [deliveries, setDeliveries] = useState();
+  const [pendingDeliveries, setPendingDeliveries] = useState([]);
+  const [completedDeliveries, setCompletedDeliveries] = useState([]);
   const router = useRouter();
 
   const {
@@ -34,8 +36,6 @@ const Deliveries = () => {
   const getUser = async () => {
     const profile = await findProfile(address, 'collectors');
 
-    console.log('Collector found:', profile);
-
     if (!profile?.status) {
       router.push(`/${getPage()}/profile`);
     } else {
@@ -46,12 +46,12 @@ const Deliveries = () => {
     }
   };
 
-  const getDeliveries = async () => {
+  const getDeliveries = async (user) => {
     const deliveries = await getCollectorDeliveries(user.id);
 
-    console.log('Deliveries found:', deliveries.data);
-
-    setDeliveries(requests.data);
+    console.log(deliveries?.data?.approved, 'Approved');
+    setPendingDeliveries(deliveries?.data?.pending_approval);
+    setCompletedDeliveries(deliveries?.data?.approved);
   };
 
   useEffect(() => {
@@ -62,7 +62,8 @@ const Deliveries = () => {
 
   useEffect(() => {
     if (user) {
-      getDeliveries();
+      console.log(user, 'User');
+      getDeliveries(user);
     }
   }, [user]);
 
@@ -101,276 +102,112 @@ const Deliveries = () => {
                 <div className="py-6">
                   <TabPanel>
                     <div className=" w-full bg-white mt-3 md:mt-0  relative overflow-hidden rounded h-full fade-in">
-                      <div className=" py-6 w-full relative">
-                        <div className=" grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-x-12 gap-y-4">
-                          <div className="flex items-center py-3 mb-2 text-sm w-full border-b border-gray-200">
-                            <div className="flex items-start gap-4 w-full">
-                              <div className="h-12 w-12 ">
-                                <img
-                                  src="/images/Avatar.png"
-                                  className="w-full object-cover rounded-full  "
-                                />
+                      {pendingDeliveries.length > 0 ? (
+                        pendingDeliveries.map((delivery) => (
+                          <div className="flex items-start gap-3 w-full">
+                            <div className="w-full">
+                              <div className="flex gap-1 items-center flex-row justify-between w-full">
+                                <p className="text-lg text-[#5B5B5B] font-semibold">
+                                  {delivery?.request?.title}
+                                </p>
+
+                                <p className="text-xs font-normal">
+                                  Status: {delivery.delivery_status} on{' '}
+                                  {dateConv(delivery.updatedAt)}
+                                </p>
+                              </div>
+                              <div className="flex gap-1 flex-row justify-between items-end w-full">
+                                <p className="text-sm text-[#5B5B5B] font-normal">
+                                  Volume provided: {delivery.delivery_size}kg
+                                </p>
+                                <p className="text-sm text-[#12B76A]">
+                                  {(delivery.delivery_size /
+                                    delivery?.request?.total_amount) *
+                                    100}
+                                  % Provided
+                                </p>
+                              </div>
+                              <div className="flex gap-1 flex-row justify-between items-center w-full">
+                                <p className="text-sm text-[#5B5B5B] font-normal">
+                                  Offer:{' '}
+                                  {delivery.request.amount_per_unit *
+                                    delivery.request.quantity_required}{' '}
+                                  TRX / for {delivery.request.amount_per_unit}{' '}
+                                  kg (Earned:{' '}
+                                  {delivery.request.amount_per_unit *
+                                    delivery.delivery_size}{' '}
+                                  TRX)
+                                </p>
                               </div>
 
-                              <div className="w-full grow">
-                                <div className="flex gap-1 items-center flex-row justify-between w-full">
-                                  <p className="text-lg text-[#5B5B5B] font-semibold">
-                                    Demi Wikinson{' '}
-                                    <span className="font-thin text-graay-400 text-xs">
-                                      2 mins ago
-                                    </span>
-                                  </p>
-                                </div>
-                                <div className="flex gap-1 flex-row justify-between items-center w-full">
-                                  <p className="text-sm  text-[#5B2D0B] font-normal">
-                                    <span className="font-thin text-[#5B5B5B] text-xs">
-                                      Deposited
-                                    </span>{' '}
-                                    10kg 0f PET Bottles
-                                  </p>
-                                </div>
-                                <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                                  <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
-                                    <img src="/images/Icon.png" alt="" />
-                                  </div>
-                                  <div className="flex gap-1 flex-col items-start w-full">
-                                    <p className="text-base  text-[#344054] font-normal">
-                                      {' '}
-                                      10kg 0f PET Bottles
-                                    </p>
-                                    <p className="text-sm  text-[#667085] font-normal">
-                                      720KB
-                                    </p>
-                                  </div>
-                                </div>
+                              <div className="flex gap-1 flex-row justify-between items-end w-full">
+                                <p className="text-sm">
+                                  Dropoff location:{' '}
+                                  {delivery.request?.collection_center?.title}
+                                </p>
                               </div>
                             </div>
                           </div>
-                          <div className="flex items-center py-3 mb-2 text-sm w-full border-b border-gray-200">
-                            <div className="flex items-start gap-4 w-full">
-                              <div className="h-12 w-12 ">
-                                <img
-                                  src="/images/Avatar.png"
-                                  className="w-full object-cover rounded-full  "
-                                />
-                              </div>
-
-                              <div className="w-full grow">
-                                <div className="flex gap-1 items-center flex-row justify-between w-full">
-                                  <p className="text-lg text-[#5B5B5B] font-semibold">
-                                    Demi Wikinson{' '}
-                                    <span className="font-thin text-graay-400 text-xs">
-                                      2 mins ago
-                                    </span>
-                                  </p>
-                                </div>
-                                <div className="flex gap-1 flex-row justify-between items-center w-full">
-                                  <p className="text-sm  text-[#5B2D0B] font-normal">
-                                    <span className="font-thin text-[#5B5B5B] text-xs">
-                                      Deposited
-                                    </span>{' '}
-                                    10kg 0f PET Bottles
-                                  </p>
-                                </div>
-                                <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                                  <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
-                                    <img src="/images/Icon.png" alt="" />
-                                  </div>
-                                  <div className="flex gap-1 flex-col items-start w-full">
-                                    <p className="text-base  text-[#344054] font-normal">
-                                      {' '}
-                                      10kg 0f PET Bottles
-                                    </p>
-                                    <p className="text-sm  text-[#667085] font-normal">
-                                      720KB
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex items-center py-3 mb-2 text-sm w-full border-b border-gray-200">
-                            <div className="flex items-start gap-4 w-full">
-                              <div className="h-12 w-12 ">
-                                <img
-                                  src="/images/Avatar.png"
-                                  className="w-full object-cover rounded-full  "
-                                />
-                              </div>
-
-                              <div className="w-full grow">
-                                <div className="flex gap-1 items-center flex-row justify-between w-full">
-                                  <p className="text-lg text-[#5B5B5B] font-semibold">
-                                    Demi Wikinson{' '}
-                                    <span className="font-thin text-graay-400 text-xs">
-                                      2 mins ago
-                                    </span>
-                                  </p>
-                                </div>
-                                <div className="flex gap-1 flex-row justify-between items-center w-full">
-                                  <p className="text-sm  text-[#5B2D0B] font-normal">
-                                    <span className="font-thin text-[#5B5B5B] text-xs">
-                                      Deposited
-                                    </span>{' '}
-                                    10kg 0f PET Bottles
-                                  </p>
-                                </div>
-                                <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                                  <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
-                                    <img src="/images/Icon.png" alt="" />
-                                  </div>
-                                  <div className="flex gap-1 flex-col items-start w-full">
-                                    <p className="text-base  text-[#344054] font-normal">
-                                      {' '}
-                                      10kg 0f PET Bottles
-                                    </p>
-                                    <p className="text-sm  text-[#667085] font-normal">
-                                      720KB
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex items-center py-3 mb-2 text-sm w-full border-b border-gray-200">
-                            <div className="flex items-start gap-4 w-full">
-                              <div className="h-12 w-12 ">
-                                <img
-                                  src="/images/Avatar.png"
-                                  className="w-full object-cover rounded-full  "
-                                />
-                              </div>
-
-                              <div className="w-full grow">
-                                <div className="flex gap-1 items-center flex-row justify-between w-full">
-                                  <p className="text-lg text-[#5B5B5B] font-semibold">
-                                    Demi Wikinson{' '}
-                                    <span className="font-thin text-graay-400 text-xs">
-                                      2 mins ago
-                                    </span>
-                                  </p>
-                                </div>
-                                <div className="flex gap-1 flex-row justify-between items-center w-full">
-                                  <p className="text-sm  text-[#5B2D0B] font-normal">
-                                    <span className="font-thin text-[#5B5B5B] text-xs">
-                                      Deposited
-                                    </span>{' '}
-                                    10kg 0f PET Bottles
-                                  </p>
-                                </div>
-                                <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                                  <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
-                                    <img src="/images/Icon.png" alt="" />
-                                  </div>
-                                  <div className="flex gap-1 flex-col items-start w-full">
-                                    <p className="text-base  text-[#344054] font-normal">
-                                      {' '}
-                                      10kg 0f PET Bottles
-                                    </p>
-                                    <p className="text-sm  text-[#667085] font-normal">
-                                      720KB
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex items-center py-3 mb-2 text-sm w-full border-b border-gray-200">
-                            <div className="flex items-start gap-4 w-full">
-                              <div className="h-12 w-12 ">
-                                <img
-                                  src="/images/Avatar.png"
-                                  className="w-full object-cover rounded-full  "
-                                />
-                              </div>
-
-                              <div className="w-full grow">
-                                <div className="flex gap-1 items-center flex-row justify-between w-full">
-                                  <p className="text-lg text-[#5B5B5B] font-semibold">
-                                    Demi Wikinson{' '}
-                                    <span className="font-thin text-graay-400 text-xs">
-                                      2 mins ago
-                                    </span>
-                                  </p>
-                                </div>
-                                <div className="flex gap-1 flex-row justify-between items-center w-full">
-                                  <p className="text-sm  text-[#5B2D0B] font-normal">
-                                    <span className="font-thin text-[#5B5B5B] text-xs">
-                                      Deposited
-                                    </span>{' '}
-                                    10kg 0f PET Bottles
-                                  </p>
-                                </div>
-                                <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                                  <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
-                                    <img src="/images/Icon.png" alt="" />
-                                  </div>
-                                  <div className="flex gap-1 flex-col items-start w-full">
-                                    <p className="text-base  text-[#344054] font-normal">
-                                      {' '}
-                                      10kg 0f PET Bottles
-                                    </p>
-                                    <p className="text-sm  text-[#667085] font-normal">
-                                      720KB
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex items-center py-3 mb-2 text-sm w-full border-b border-gray-200">
-                            <div className="flex items-start gap-4 w-full">
-                              <div className="h-12 w-12 ">
-                                <img
-                                  src="/images/Avatar.png"
-                                  className="w-full object-cover rounded-full  "
-                                />
-                              </div>
-
-                              <div className="w-full grow">
-                                <div className="flex gap-1 items-center flex-row justify-between w-full">
-                                  <p className="text-lg text-[#5B5B5B] font-semibold">
-                                    Demi Wikinson{' '}
-                                    <span className="font-thin text-graay-400 text-xs">
-                                      2 mins ago
-                                    </span>
-                                  </p>
-                                </div>
-                                <div className="flex gap-1 flex-row justify-between items-center w-full">
-                                  <p className="text-sm  text-[#5B2D0B] font-normal">
-                                    <span className="font-thin text-[#5B5B5B] text-xs">
-                                      Deposited
-                                    </span>{' '}
-                                    10kg 0f PET Bottles
-                                  </p>
-                                </div>
-                                <div className="flex gap-2 flex-row justify-start items-start w-full mt-2">
-                                  <div className="p-2 bg-[#FEF8F3] rounded-full flex items-center justify-center">
-                                    <img src="/images/Icon.png" alt="" />
-                                  </div>
-                                  <div className="flex gap-1 flex-col items-start w-full">
-                                    <p className="text-base  text-[#344054] font-normal">
-                                      {' '}
-                                      10kg 0f PET Bottles
-                                    </p>
-                                    <p className="text-sm  text-[#667085] font-normal">
-                                      720KB
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                        ))
+                      ) : (
+                        <div className="flex items-center justify-center flex-col gap-4">
+                          <img src="/images/file-not-found.svg" />
+                          <p>You have no pending orders yet.</p>
                         </div>
-                      </div>
+                      )}
                     </div>
                   </TabPanel>
                   <TabPanel>
                     <div className=" w-full bg-white mt-3 md:mt-0  relative overflow-hidden rounded h-full fade-in">
-                      <div className="flex items-center justify-center flex-col gap-4">
-                        <img src="/images/file-not-found.svg" />
-                        <p>You have no completed orders yet.</p>
-                      </div>
+                      {completedDeliveries.length > 0 ? (
+                        completedDeliveries.map((delivery) => (
+                          <div className="flex items-start gap-3 w-full border py-4 px-4">
+                            <div className="w-full">
+                              <div className="flex gap-1 items-center flex-row justify-between w-full">
+                                <p className="text-lg text-[#5B5B5B] font-semibold">
+                                  {delivery?.request?.title}
+                                </p>
+
+                                <p className="text-xs font-normal">
+                                  {dateConv(delivery?.updatedAt)}
+                                </p>
+                              </div>
+                              <div className="flex gap-1 flex-row justify-between items-end w-full">
+                                <p className="text-sm text-[#5B5B5B] font-normal">
+                                  Volume provided: {delivery.delivery_size}kg
+                                </p>
+                                <p className="text-sm text-[#12B76A]">
+                                  {(delivery.delivery_size /
+                                    delivery?.request?.total_amount) *
+                                    100}
+                                  % Provided
+                                </p>
+                              </div>
+                              <div className="flex gap-1 flex-row justify-between items-center w-full">
+                                <p className="text-sm text-[#5B5B5B] font-normal">
+                                  Offer: {delivery.request.total_amount} TRX for{' '}
+                                  {delivery.request.quantity_required} kg
+                                  (Earned:{' '}
+                                  {delivery.request.amount_per_unit *
+                                    delivery.delivery_size}{' '}
+                                  TRX)
+                                </p>
+                              </div>
+
+                              <div className="flex gap-1 flex-row justify-between items-end w-full">
+                                <p className="text-sm font-semibold ">
+                                  Status: {delivery.delivery_status}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="flex items-center justify-center flex-col gap-4">
+                          <img src="/images/file-not-found.svg" />
+                          <p>You have no completed orders yet.</p>
+                        </div>
+                      )}
                     </div>
                   </TabPanel>
                 </div>

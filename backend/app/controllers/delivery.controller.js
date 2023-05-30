@@ -574,42 +574,63 @@ module.exports = {
         }
     },
     getCollectorDeliveries: async (req, res) => {
-      const { collectorId } = req.params;
-      try {
-        const collector = await Collector.findById(collectorId).exec();
-        if (!collector) {
-          return res.status(404).json({
-            status: false,
-            message: `Could not find collector of ID ${collectorId}`,
-          });
+        const { id: collectorId } = req.params;
+        try {
+            const collector = await Collector.findById(collectorId).exec();
+            if (!collector) {
+                return res.status(404).json({
+                    status: false,
+                    message: `Could not find collector of ID ${collectorId}`,
+                });
+            }
+            let deliveries = {};
+            // all deliveries
+            deliveries.all = await Delivery.find({
+                collector: collectorId,
+            })
+                .populate({ path: `request`, model: Request })
+                .populate({ path: "collector", model: Collector });
+            // pending approval
+            deliveries.pending_approval = await Delivery.find({
+                collector: collectorId,
+                delivery_status: "AWAITING_APPROVAL",
+            })
+                .populate({ path: `request`, model: Request })
+                .populate({ path: "collector", model: Collector });
+            // approved & otherwise
+            deliveries.approved_only = await Delivery.find({
+                collector: collectorId,
+                delivery_status: "APPROVED",
+            }).populate({ path: "collector", model: Collector });
+            // approved & otherwise
+            deliveries.approved = await Delivery.find({
+                collector: collectorId,
+                delivery_status: { $ne: "AWAITING_APPROVAL" },
+            })
+                .populate({ path: `request`, model: Request })
+                .populate({ path: "collector", model: Collector });
+            // reward claimed
+            deliveries.claimed = await Delivery.find({
+                collector: collectorId,
+                delivery_status: "REWARD_CLAIMED",
+            })
+                .populate({ path: `request`, model: Request })
+                .populate({ path: "collector", model: Collector });
+            // disputed
+            deliveries.disputed = await Delivery.find({
+                collector: collectorId,
+                delivery_status: "DISPUTED",
+            })
+                .populate({ path: `request`, model: Request })
+                .populate({ path: "collector", model: Collector });
+            return res.json({ success: true, data: deliveries });
+        } catch (error) {
+            return res.status(500).json({
+                status: false,
+                message:
+                    error.message ||
+                    `There was an error retrieving this collector's deliveriest`,
+            });
         }
-        let deliveries = {};
-        // all deliveries
-        deliveries.all = await Delivery.find({ collector: collectorId })
-        .populate({ path: 'collector', model: Collector });
-        // pending approval
-        deliveries.pending_approval = await Delivery.find({ collector: collectorId, delivery_status: 'AWAITING_APPROVAL' })
-        .populate({ path: 'collector', model: Collector });
-        // approved & otherwise
-        deliveries.approved_only = await Delivery.find({ collector: collectorId, delivery_status: 'APPROVED' })
-        .populate({ path: 'collector', model: Collector });
-        // approved & otherwise
-        deliveries.approved = await Delivery.find({ collector: collectorId, delivery_status: { $ne: 'AWAITING_APPROVAL' } })
-        .populate({ path: 'collector', model: Collector });
-        // reward claimed
-        deliveries.claimed = await Delivery.find({ collector: collectorId, delivery_status: 'REWARD_CLAIMED' })
-        .populate({ path: 'collector', model: Collector });
-        // disputed
-        deliveries.disputed = await Delivery.find({ collector: collectorId, delivery_status: 'DISPUTED' })
-        .populate({ path: 'collector', model: Collector });
-        return res.json({ success: true, data: deliveries });
-      } catch (error) {
-        return res.status(500).json({
-          status: false,
-          message:
-            error.message ||
-            `There was an error retrieving this collector's deliveriest`,
-        });
-      }
-    }
+    },
 };
