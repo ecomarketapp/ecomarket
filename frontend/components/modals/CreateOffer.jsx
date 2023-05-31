@@ -198,7 +198,7 @@ function CreateOfferForm({
       let center = centers.find((x) => x.id == selectedCenter);
       console.log(center.location._id, 'center.location._id');
       // return
-      setCenterLocation(center.location._id);
+      setCenterLocation(center?.location?._id);
       console.log(centerLocation);
       setForm((form) => ({
         ...form,
