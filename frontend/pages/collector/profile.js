@@ -112,7 +112,7 @@ const profile = () => {
       <Toaster />
 
       <UserLayout>
-        {user ? (
+        {user && locations ? (
           <section className="">
             <div className="  h-full">
               <div className="flex justify-between items-center h-full g-6 text-gray-800">
@@ -221,7 +221,7 @@ const profile = () => {
                             <option
                               key={index}
                               value={location.id}
-                              selected={user?.location?._id == location.id}
+                              selected={user?.location?._id == location?.id}
                             >
                               {location.name} : {location.state}
                             </option>
