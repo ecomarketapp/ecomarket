@@ -91,6 +91,7 @@ const StepTwo = ({
 
     const delivery = await res.json();
 
+    window.location.reload();
     handleClick('next');
   };
 
