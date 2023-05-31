@@ -221,7 +221,7 @@ const profile = () => {
                             <option
                               key={index}
                               value={location.id}
-                              selected={user?.location._id == location.id}
+                              selected={user?.location?._id == location.id}
                             >
                               {location.name} : {location.state}
                             </option>
