@@ -263,12 +263,29 @@ a {
 
 /* MEET THE TEAM */
 .square{
-    width: 323px;
-    height: 271px;
+    width: 250px;
+    height: 200px;
+    /* width: 323px;
+    height: 271px; */
+
     border-radius: 16px;
+    position: relative;
+    display: block;
 
     background: #FCE4D3;
+    object-fit: cover;
+    overflow: hidden;
 
+}
+.square:hover img{
+    transform: scale(1.2);
+    transition: all 1s ease;
+
+}
+.square img{
+    border-radius: 16px;
+    object-fit: cover;
+    transition: all 1s ease;
 }
 
 .meet__team h5{
@@ -894,4 +911,10 @@ button[disabled]{
   .MuiAccordionDetails-root {
       padding: 8px 16px 16px 16px !important;
   }
+}
+
+/* instagram embed */
+.instagram-media.instagram-media-rendered{
+  min-height: 300px;
+  max-height: 500px;
 }

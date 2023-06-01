@@ -1,4 +1,4 @@
-import React, { useRef,useEffect, useState  } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Layout from '../components/layout/Layout';
 import { useQuery, useInfiniteQuery } from 'react-query';
 import LoadingState from '../components/LoadingState';
@@ -15,6 +15,7 @@ import axios from 'axios';
 // import InstagramEmbed from 'react-instagram-embed';
 // import 'react-tabs/style/react-tabs.css';
 import Head from 'next/head';
+import Image from 'next/image';
 
 const Home = () => {
   const resultRef = useRef(null);
@@ -87,7 +88,6 @@ const Home = () => {
               </div>
 
               <div>
-
                 <Tabs>
                   <TabList className="flex flex-row items-center justify-center w-full tabs-header rounded-md gap-16 mb-6">
                     <Tab className="p-6 border-b-4 outline-none cursor-pointer tablist__header">
@@ -824,7 +824,9 @@ const Home = () => {
           <div className="container mx-auto px-6">
             <div className="py-14">
               <div className="mb-9">
-                <h2 className="h2 text-center text-xl">We're making recycling more rewarding!</h2>
+                <h2 className="h2 text-center text-xl">
+                  We're making recycling more rewarding!
+                </h2>
               </div>
 
               <div className="w-full">
@@ -841,13 +843,13 @@ const Home = () => {
                     <InstagramEmbed
                       url="https://www.instagram.com/p/Cs2wVA3o8OR/"
                       width="100%"
-                      // height={550} 
+                      // height={550}
                       // captioned={false}
                     />
                   </div>
                   <div className="w-full h-full overflow-x-hidden">
                     <InstagramEmbed
-                      url="https://www.instagram.com/p/Cs2xBebo1M7/"
+                      url="https://www.instagram.com/p/Cs8h-ZcI2w8/"
                       width="100%"
                       // height={550}
                     />
@@ -902,7 +904,6 @@ const Home = () => {
             </div>
           </div>
         </div>
-
 
         <section className="antialised bg-[#FFFBF9] py-14">
           <div className="container mx-auto px-6">
@@ -1071,50 +1072,89 @@ const Home = () => {
               </div>
 
               <div>
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-7">
-                <div className="">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-4 gap-y-6 grid-flow-row-dense ">
+                  <div className="">
                     <div className="mb-4 flex items-center justify-center">
-                      <div className="square"></div>
+                      <div className="square">
+                        <Image src="/images/dara.jpeg" layout="fill" />
+                      </div>
                     </div>
                     <div className="text-center">
-                      <h5>Darabong E.</h5>
+                      <h5>Dara E.</h5>
                       <p>Strategy & Operations</p>
-
-                      {/* <LinkedInIcon/> */}
-                      
+                      {/* <Link href='' targer='_blank'>
+                        <LinkedInIcon/>
+                      </Link> */}
                     </div>
                   </div>
                   <div className="">
                     <div className="mb-4 flex items-center justify-center">
-                      <div className="square"></div>
+                      <div className="square">
+                        <Image src="/images/paul.jpeg" layout="fill" />
+                      </div>
                     </div>
                     <div className="text-center">
                       <h5>Paul O.</h5>
                       <p>Product</p>
-                      {/* <LinkedInIcon/> */}
-                    </div>
-                  </div>
-                  <div className="">
-                    <div className="mb-4 flex items-center justify-center">
-                      <div className="square"></div>
-                    </div>
-                    <div className="text-center">
-                      <h5>Femi A</h5>
-                      <p>Engineering</p>
-                      {/* <span className='text-lg'>
+                      {/* <Link href="" targer="_blank">
                         <LinkedInIcon />
-                      </span> */}
-                      
+                      </Link> */}
                     </div>
                   </div>
                   <div className="">
                     <div className="mb-4 flex items-center justify-center">
-                      <div className="square"></div>
+                      <div className="square">
+                        <Image src="/images/femi.jpeg" layout="fill" />
+                      </div>
                     </div>
                     <div className="text-center">
-                      <h5>Wale O.</h5>
+                      <h5>Olu A.</h5>
+                      <p>Engineering</p>
+                      {/* <Link href='' targer='_blank'>
+                        <LinkedInIcon/>
+                      </Link> */}
+                    </div>
+                  </div>
+                  <div className="">
+                    <div className="mb-4 flex items-center justify-center">
+                      <div className="square">
+                        <Image src="/images/wale.jpg" layout="fill" />
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <h5>Wale A.</h5>
                       <p>Country Manager</p>
-                      {/* <LinkedInIcon/> */}
+                      {/* <Link href='' targer='_blank'>
+                        <LinkedInIcon/>
+                      </Link> */}
+                    </div>
+                  </div>
+                  <div className="">
+                    <div className="mb-4 flex items-center justify-center">
+                      <div className="square">
+                        <Image src="/images/bose.jpeg" layout="fill" />
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <h5>May B.</h5>
+                      <p>UI/UX Designer</p>
+                      {/* <Link href='' targer='_blank'>
+                        <LinkedInIcon/>
+                      </Link>                    */}
+                    </div>
+                  </div>
+                  <div className="">
+                    <div className="mb-4 flex items-center justify-center">
+                      <div className="square">
+                        <Image src="/images/praise.jpg" layout="fill" />
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <h5>Praise U.</h5>
+                      <p>Engineering</p>
+                      {/* <Link href='' targer='_blank'>
+                        <LinkedInIcon/>
+                      </Link> */}
                     </div>
                   </div>
                 </div>
