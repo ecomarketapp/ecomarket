@@ -76,10 +76,13 @@ const Final = ({ data, quantity, delivery }) => {
 
         setWaiting(true);
 
+        console.log(tx);
+        console.log(delivery);
+
         await finalizeDelivery(
-          delivery.id || delivery._id,
+          delivery?.id || delivery?._id,
           address,
-          delivery.request._id
+          delivery?.request?._id
         );
 
         setTimeout(() => {
@@ -258,18 +261,20 @@ const Final = ({ data, quantity, delivery }) => {
                     </h3>
                   ) : (
                     <>
-                      <button
-                        className={`px-9 py-3 border border-[#DD7D37] bg-[#DD7D37] text-white rounded-full w-full md:w-1/2 ${
-                          collectClaim === false ? 'disabled' : ''
-                        }`}
-                        onClick={handleconfirmTransfer}
-                      >
-                        Claim {delivery.delivery_amount} TRX
-                      </button>
-                      {/* <small className="text-xs font-thin mt-2 text-[#6D747D]">
-                        EcoMarket would collect{' '}
-                        <span className="text-gray-700 font-bold">2.5% </span>
-                      </small> */}
+                      {delivery.delivery_amount > 0 ? (
+                        <button
+                          className={`px-9 py-3 border border-[#DD7D37] bg-[#DD7D37] text-white rounded-full w-full md:w-1/2 ${
+                            collectClaim === false ? 'disabled' : ''
+                          }`}
+                          onClick={handleconfirmTransfer}
+                        >
+                          Claim {delivery.delivery_amount} TRX
+                        </button>
+                      ) : (
+                        <small className="text-xs font-thin mt-2 text-[#6D747D]">
+                          Reload this page to view and claim your payment
+                        </small>
+                      )}
                     </>
                   )}
                 </div>
