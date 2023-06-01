@@ -115,37 +115,38 @@ const wallet = () => {
         <meta name="description" content="Ecomarket Collector Wallet" />
       </Head>
       <UserLayout>
-        <section className="eco__orders">
-          <div className="container mx-auto px-6">
-            <div className="h-full pb-24 px-4 md:px-12 py-12">
-              <div className="grow py-4">
-                <h1 className="text-3xl font-bold text-gray-800 mb-3 ">
-                  Wallet
-                </h1>
-              </div>
+        {contract && (
+          <section className="eco__orders">
+            <div className="container mx-auto px-6">
+              <div className="h-full pb-24 px-4 md:px-12 py-12">
+                <div className="grow py-4">
+                  <h1 className="text-3xl font-bold text-gray-800 mb-3 ">
+                    Wallet
+                  </h1>
+                </div>
 
-              {waiting && <Waiting />}
-              {!waiting && (
-                <div className="mb-12">
-                  <div className="grid grids-cols-1  gap-5">
-                    <div className="shadow w-full bg-white relative py-4 rounded border border-[#E4E7EC] flex flex-col justify-between">
-                      <div className="px-6">
-                        <div className="flex items-center justify-between flex-row w-full">
-                          <h5 className="text-gray-600">
-                            Wallet Escrow Balance
-                          </h5>
-                          <button className="text-gray-400 text-xs rounded-full hover:bg-gray-200 p-2 transition duration-200 ease">
-                            <ExpandMoreVertical />
-                          </button>
+                {waiting && <Waiting />}
+                {!waiting && (
+                  <div className="mb-12">
+                    <div className="grid grids-cols-1  gap-5">
+                      <div className="shadow w-full bg-white relative py-4 rounded border border-[#E4E7EC] flex flex-col justify-between">
+                        <div className="px-6">
+                          <div className="flex items-center justify-between flex-row w-full">
+                            <h5 className="text-gray-600">
+                              Wallet Escrow Balance
+                            </h5>
+                            <button className="text-gray-400 text-xs rounded-full hover:bg-gray-200 p-2 transition duration-200 ease">
+                              <ExpandMoreVertical />
+                            </button>
+                          </div>
+                          <div className="py-4">
+                            <h3 className="text-neutral800 text-4xl	">
+                              {parseFloat(balance).toFixed(4)} TRX
+                            </h3>
+                          </div>
                         </div>
-                        <div className="py-4">
-                          <h3 className="text-neutral800 text-4xl	">
-                            {parseFloat(balance).toFixed(4)} TRX
-                          </h3>
-                        </div>
-                      </div>
-                      <div className="pt-4 border-t border-gray-100 flex items-center gap-2 justify-end px-6  w-full">
-                        {/* <button
+                        <div className="pt-4 border-t border-gray-100 flex items-center gap-2 justify-end px-6  w-full">
+                          {/* <button
                           className="text-white text-base px-4 py-2 bg-[#DD7D37] rounded-md"
                           onClick={() => {
                             setShowTopUp(true);
@@ -153,124 +154,126 @@ const wallet = () => {
                         >
                           Lock
                         </button> */}
-                        <button
-                          onClick={() => {
-                            setShowWithdraw(true);
-                          }}
-                          className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md"
-                        >
-                          Claim Funds
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {showTopUp && (
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    topUp();
-                  }}
-                >
-                  <div className="mb-12">
-                    <div className="grid grids-cols-1  gap-5">
-                      <div className="shadow w-full bg-white relative py-4 rounded border border-[#E4E7EC] flex flex-col justify-between">
-                        <div className="px-6">
-                          <div className="flex items-center justify-between flex-row w-full">
-                            <h5 className="text-gray-600">
-                              Lock funds in escrow to fufill collectors delivery
-                            </h5>
-                          </div>
-                          <div className="py-4">
-                            <input
-                              id="amount"
-                              type="number"
-                              placeholder="Enter amount of TRX to lock"
-                              onChange={(e) => {
-                                setTopUpAmount(e.target.value);
-                              }}
-                              className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none"
-                              required
-                            />
-                          </div>
-                        </div>
-                        <div className="pt-4 border-t border-gray-100 flex items-center gap-2 justify-end px-6  w-full">
-                          <button
-                            type="submit"
-                            className="text-white text-base px-4 py-2 bg-[#DD7D37] rounded-md"
-                          >
-                            Lock
-                          </button>
                           <button
                             onClick={() => {
-                              setShowTopUp(false);
+                              setShowWithdraw(true);
                             }}
                             className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md"
                           >
-                            Close
+                            Claim Funds
                           </button>
                         </div>
                       </div>
                     </div>
                   </div>
-                </form>
-              )}
+                )}
 
-              {showWithdraw && (
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    withdraw();
-                  }}
-                >
-                  <div className="mb-12">
-                    <div className="grid grids-cols-1  gap-5">
-                      <div className="shadow w-full bg-white relative py-4 rounded border border-[#E4E7EC] flex flex-col justify-between">
-                        <div className="px-6">
-                          <div className="flex items-center justify-between flex-row w-full">
-                            <h5 className="text-gray-600">
-                              Claim your earnings from escrow wallet
-                            </h5>
+                {showTopUp && (
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      topUp();
+                    }}
+                  >
+                    <div className="mb-12">
+                      <div className="grid grids-cols-1  gap-5">
+                        <div className="shadow w-full bg-white relative py-4 rounded border border-[#E4E7EC] flex flex-col justify-between">
+                          <div className="px-6">
+                            <div className="flex items-center justify-between flex-row w-full">
+                              <h5 className="text-gray-600">
+                                Lock funds in escrow to fufill collectors
+                                delivery
+                              </h5>
+                            </div>
+                            <div className="py-4">
+                              <input
+                                id="amount"
+                                type="number"
+                                placeholder="Enter amount of TRX to lock"
+                                onChange={(e) => {
+                                  setTopUpAmount(e.target.value);
+                                }}
+                                className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none"
+                                required
+                              />
+                            </div>
                           </div>
-                          <div className="py-4">
-                            <input
-                              id="amount"
-                              type="number"
-                              placeholder="Enter amount of TRX to lock"
-                              onChange={(e) => {
-                                setWithdrawAmount(e.target.value);
+                          <div className="pt-4 border-t border-gray-100 flex items-center gap-2 justify-end px-6  w-full">
+                            <button
+                              type="submit"
+                              className="text-white text-base px-4 py-2 bg-[#DD7D37] rounded-md"
+                            >
+                              Lock
+                            </button>
+                            <button
+                              onClick={() => {
+                                setShowTopUp(false);
                               }}
-                              className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none"
-                              required
-                            />
+                              className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md"
+                            >
+                              Close
+                            </button>
                           </div>
-                        </div>
-                        <div className="pt-4 border-t border-gray-100 flex items-center gap-2 justify-end px-6  w-full">
-                          <button
-                            type="submit"
-                            className="text-white text-base px-4 py-2 bg-[#DD7D37] rounded-md"
-                          >
-                            Unlock
-                          </button>
-                          <button
-                            onClick={() => {
-                              setShowWithdraw(false);
-                            }}
-                            className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md"
-                          >
-                            Close
-                          </button>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </form>
-              )}
+                  </form>
+                )}
+
+                {showWithdraw && (
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      withdraw();
+                    }}
+                  >
+                    <div className="mb-12">
+                      <div className="grid grids-cols-1  gap-5">
+                        <div className="shadow w-full bg-white relative py-4 rounded border border-[#E4E7EC] flex flex-col justify-between">
+                          <div className="px-6">
+                            <div className="flex items-center justify-between flex-row w-full">
+                              <h5 className="text-gray-600">
+                                Claim your earnings from escrow wallet
+                              </h5>
+                            </div>
+                            <div className="py-4">
+                              <input
+                                id="amount"
+                                type="number"
+                                placeholder="Enter amount of TRX to lock"
+                                onChange={(e) => {
+                                  setWithdrawAmount(e.target.value);
+                                }}
+                                className="block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 focus:border-gray-300 rounded-md focus:outline-none"
+                                required
+                              />
+                            </div>
+                          </div>
+                          <div className="pt-4 border-t border-gray-100 flex items-center gap-2 justify-end px-6  w-full">
+                            <button
+                              type="submit"
+                              className="text-white text-base px-4 py-2 bg-[#DD7D37] rounded-md"
+                            >
+                              Unlock
+                            </button>
+                            <button
+                              onClick={() => {
+                                setShowWithdraw(false);
+                              }}
+                              className="text-[#DD7D37] text-base  px-4 py-2 bg-whhite border border-[#DD7D37] rounded-md"
+                            >
+                              Close
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                )}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
       </UserLayout>
     </>
   );
