@@ -65,8 +65,9 @@ const wallet = () => {
 
         setTimeout(() => {
           setWaiting(false);
-          window.location.reload();
-        }, 5000);
+          setBalance(balance + withdrawAmount);
+          // window.location.reload();
+        }, 2000);
       } catch (error) {
         console.log('Top up error: ', error);
       }
@@ -85,8 +86,9 @@ const wallet = () => {
 
         setTimeout(() => {
           setWaiting(false);
-          window.location.reload();
-        }, 5000);
+          setBalance(balance - withdrawAmount);
+          // window.location.reload();
+        }, 2000);
       } catch (error) {
         console.log('Top up error: ', error);
       }
