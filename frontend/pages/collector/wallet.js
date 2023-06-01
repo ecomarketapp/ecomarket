@@ -94,7 +94,9 @@ const wallet = () => {
   };
 
   useEffect(() => {
-    window.tronLink.request({ method: 'tron_requestAccounts' });
+    if (window !== undefined && window.tronWeb && window.tronWeb.ready) {
+      window.tronLink.request({ method: 'tron_requestAccounts' });
+    }
   }, []);
 
   useEffect(() => {
