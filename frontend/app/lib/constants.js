@@ -2,19 +2,19 @@
 
 export const individualSlidesData = [
   {
-    title: 'Get onboarded',
+    title: 'Set up your profile in under 2 minutes',
     image: '/images/holding-phone.png'
   },
   {
-    title: 'Integrate reward system (coupons, vouchers or cash) via our APIs',
+    title: 'Choose a sustainable activity to participate in - drop-off recyclables, join cleanup events, etc.',
     image: '/images/man-laughing.png'
   },
   {
-    title: 'Make request for recyclables and specify your requirements.',
+    title: 'Get rewarded with EcoCredits and climb up the leaderboard',
     image: '/images/impact_pic1.png'
   },
   {
-    title: 'Track drop offs and process rewards automatically.',
+    title: 'Redeem your EcoCredits for coupons, vouchers or even cash!',
     image: '/images/impact_pic2.png'
   }
 ]
@@ -29,28 +29,28 @@ export const businessSlidesData = [
     image: '/images/impact_pic3.png'
   },
   {
-    title: 'Make request for recyclables and specify your requirements.',
+    title: 'Set up sustainable initiatives - be it cashback programs,  clean up events, etc.',
     image: '/images/holding-phone.png'
 
   },
   {
-    title: 'Track drop offs and process rewards automatically.',
+    title: 'Track user activity and process rewards automatically.',
     image: '/images/impact_pic1.png'
   }
 ]
 
 export const impactData = [
   {
-    src: '/images/impact_pic1.png',
-    text: 'Mobile-friendly app where you earn points and redeem rewards for recycling',
+    src: '/images/girl-holding-phone-online-using.png',
+    text: 'EcoMarket App: Compete, earn points and redeem rewards for recycling & other sustainable activities.',
   },
   {
-    src: '/images/impact_pic2.png',
-    text: "Africa's first home-built reverse vending machine, allowing people to easily recycle in public places",
+    src: '/images/colorful-buckets-sorting-garbage-glass-plastic-paper-standing-street.png',
+    text: "Africa\'s first home-built reverse vending machine, allowing people easily recycle in public places.",
   },
   {
-    src: '/images/impact_pic3.png',
-    text: 'Automated recycling operations for businesses.',
+    src: '/images/escalator-with-pile-plastic-bottles-factory-processing-recycling.png',
+    text: 'UBI-inspired shared income model incentivizing low-income individuals to participate in eco-friendly activities.',
   },
 ];
 

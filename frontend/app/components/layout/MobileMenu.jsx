@@ -116,13 +116,19 @@ const MobileMenu = () => {
               >
                 Contact us
               </Link>
-              <Link
-                href="/"
-                className="block text-[#272C35] hover:text-indigo-600 px-5 py-3 text-sm w-full text-left border-b border-[#D0D5DD]"
-              >
-                Language
-              </Link>
-
+              <div className="block  px-5 py-3 text-sm w-full text-left border-b border-[#D0D5DD]">
+                <select
+                  defaultValue={0}
+                  className="rounded-lg focus-visible:outline-none focus-within:outline-none focus:outline-none text-sm bg-transparent w-full"
+                >
+                  <option value={0}>English</option>
+                  <option value={1}>Français</option>
+                  <option value={2}>繁體中文</option>
+                  <option value={3}>한국어</option>
+                  <option value={4}>日本語</option>
+                  <option value={5}>Español</option>
+                </select>
+              </div>
               {user ? (
                 <div>
                   <Link
@@ -133,7 +139,7 @@ const MobileMenu = () => {
                   </Link>
                 </div>
               ) : (
-                <div className='flex mx-auto '>
+                <div className="flex mx-auto ">
                   <button
                     className="block lg:inline-block mt-4 lg:mt-0 text-white hover:text-[#12B76A] hover:bg-white hover:border-[#12B76A] border bg-[#12B76A] rounded-full px-9 py-3 transition duration-300 ease"
                     onClick={handleGetStarted}

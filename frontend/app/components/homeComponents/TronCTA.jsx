@@ -5,22 +5,28 @@ import React from 'react';
 const TronCTA = () => {
   return (
     <div className="px-4 py-12 ">
-      <div className="bg-[#022113] max-w-[960px] px-4 space-y-3 container mx-auto  py-14 rounded-lg text-center relative animate__animated wow animate__fadeInUp cta__box_shadow max-h-[400px] h-[300px]">
-        <div className="h-full relative">
-          <div className="flex items-center justify-center flex-col gap-4 h-full">
-            <h3 className="text-4xl text-white font-medium">
+      <div className="bg-[#022113] max-w-7xl px-4 space-y-3 container mx-auto  py-14 rounded-lg text-center relative animate__animated wow animate__fadeInUp cta__box_shadow max-h-[400px] h-[300px]">
+        <div className="h-full relative max-w-2xl px-3  text-center lg:text-left">
+          <div className="flex items-center lg:items-start justify-center flex-col h-full gap-4">
+            <h3 className="text-4xl text-white font-medium ">
               Winner of TRON Hackathon 2023
             </h3>
-            <div className="">
-              <Link href="/" className=" px-5 text-base  text-white underline">
-                <span className=" text-base ">Winner of TRON Hackathon 2023</span>
+            <p className="text-lg text-white font-medium">
+              Ecomarket was recognized by TRON as a promising application for
+              waste management in Africa.
+            </p>
+            <div className="mt-3">
+              <Link href="/" className=" text-base  text-white border border-[#12B76A] rounded-full px-8 py-3 text-center">
+                {/* <span className=" text-base "> */}
+                  Read More
+                {/* </span> */}
               </Link>
             </div>
           </div>
         </div>
-        <div className="absolute bottom-[0px] left-0 right-0 h-[200px] w-[250px] pointer-events-none mx-auto flex items-center">
+        <div className="absolute bottom-0 right-0 h-full w-[600px] pointer-events-none mx-auto flex items-center opacity-40 lg:opacity-100">
           <Image
-            src="/images/image22.svg"
+            src="/images/image 1 (4).png"
             fill
             className="pointer-events-none object-cover "
             alt="bg-image"

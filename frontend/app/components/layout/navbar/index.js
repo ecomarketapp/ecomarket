@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import Menu from '../../icons/Menu';
 import Image from 'next/image';
 import '../../../styles/navbar.css';
+import { useDisclosure } from "@chakra-ui/react";
+import GetStartedModal from '../../Modals/GetStartedModal';
 
 
 const Navbar = () => {
@@ -75,21 +77,59 @@ const Navbar = () => {
     // })
   }
 
+  const {
+    isOpen,
+    onOpen,
+    onClose,
+} = useDisclosure();
+
+const modalBtnRef = useRef();
+
+
   return (
     <>
-      <header className="shadow shadow-slate-300 border border-[#F1F1F3] z-50">
+      {/* <header className="shadow shadow-slate-300 border border-[#F1F1F3] z-[99999] relative"> */}
+      <header className=" z-[99999] relative">
         <div className="container mx-auto max-w-7xl">
           <nav className="flex  flex-wrap items-center justify-between px-6 py-4">
-            <div className="lg:order-1 w-auto lg:w-1/4 lg:text-center">
+            <div className="lg:order-1 w-auto lg:w-auto lg:text-center flex items-center ">
               <Link
                 href="/"
                 className="text-xl text-gray-800 font-semibold font-heading"
               >
-                <Image src="/images/ecomarket-logo.png" width={150}  height={100} alt="logo" />
+                <Image
+                  src="/images/ecomarket-logo.png"
+                  width={150}
+                  height={100}
+                  alt="logo"
+                />
               </Link>
+
+              {/* <div className="navbar-menu flex items-center justify-end gap-6  "> */}
+
+              <Link
+                href="/about-us"
+                className="hidden lg:inline-block mt-4 lg:mt-0 text-[#272626] hover:text-[#12B76A] px-5 "
+              >
+                About Us
+              </Link>
+              <Link
+                href="/"
+                className="hidden lg:inline-block mt-4 lg:mt-0 text-[#272626] hover:text-[#12B76A] px-5 "
+              >
+                For Organizations
+              </Link>
+              <Link
+                href="/"
+                className="hidden lg:inline-block mt-4 lg:mt-0 text-[#272626] hover:text-[#12B76A] px-5 "
+              >
+                Contact Us
+              </Link>
+
+              {/* </div> */}
             </div>
             <div className="block lg:hidden">
-            <button
+              <button
                 className={`navbar-burger flex items-center py-3 px-3 text-indigo-500  rounded relative transition-all duration-150 ease-linear `}
                 id="nav-icon3"
                 onClick={toggle}
@@ -106,24 +146,41 @@ const Navbar = () => {
             <div className="hidden lg:order-2 lg:block w-full lg:w-auto lg:text-center">
               <div className="navbar-menu flex items-center justify-end gap-6  ">
                 {/* { */}
-                
-                <Link href="/about-us"
-                  className="block lg:inline-block mt-4 lg:mt-0 text-blue-900 hover:text-indigo-600 px-5 "
+
+                {/* <Link href="/about-us"
+                  className="block lg:inline-block mt-4 lg:mt-0 text-[#272626] hover:text-[#12B76A] px-5 "
                   
                 >
                   About Us
                 </Link>
                 <Link href="/"
-                  className="block lg:inline-block mt-4 lg:mt-0 text-blue-900 hover:text-indigo-600 px-5 "
+                  className="block lg:inline-block mt-4 lg:mt-0 text-[#272626] hover:text-[#12B76A] px-5 "
                   
                 >
                   For Organizations
-                </Link>
-                <Link href="/"
-                  className="block lg:inline-block mt-4 lg:mt-0 text-blue-900 hover:text-indigo-600 px-5 "
-                  
+                </Link> */}
+                <div className="block lg:inline-block mt-4 lg:mt-0 text-[#11161F] px-5 ">
+                  <div className="flex items-center">
+                    <div>
+                      <select
+                        defaultValue={0}
+                        className="px-1 py-1 rounded-lg focus-visible:outline-none focus-within:outline-none focus:outline-none text-sm bg-transparent "
+                      >
+                        <option value={0}>English</option>
+                        <option value={1}>Français</option>
+                        <option value={2}>繁體中文</option>
+                        <option value={3}>한국어</option>
+                        <option value={4}>日本語</option>
+                        <option value={5}>Español</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <Link
+                  href="/"
+                  className="block lg:inline-block mt-4 lg:mt-0 text-[#272626] hover:text-[#12B76A] px-5 "
                 >
-                  Contact Us
+                  Login
                 </Link>
 
                 {user ? (
@@ -136,9 +193,10 @@ const Navbar = () => {
                 ) : (
                   <button
                     className="block lg:inline-block mt-4 lg:mt-0 text-white hover:text-[#12B76A] hover:bg-white  hover:border-[#12B76A] hover:border  border border-[#12B76A] bg-[#12B76A] rounded-full px-6 py-2 transition duration-300 ease text-sm"
-                    onClick={onClickGetStarted}
+                    ref={modalBtnRef}
+                    onClick={onOpen}
                   >
-                    Get Started
+                    Access the EcoMarket app
                   </button>
 
                   // <WalletConnectButton className='block lg:inline-block mt-4 lg:mt-0 text-white hover:text-[#DD7D37] hover:bg-white hover:border-[#DD7D37] border bg-[#DD7D37] rounded-full px-9 py-3 transition duration-300 ease'/>
@@ -153,6 +211,12 @@ const Navbar = () => {
 
       {/* <div className="block lg:hidden"> */}
       <MobileMenu />
+
+      <GetStartedModal
+        isOpen={isOpen}
+        onClose={onClose}
+        btnRef={modalBtnRef}
+      />
       {/* </div> */}
     </>
   );
