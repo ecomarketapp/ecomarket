@@ -3,8 +3,9 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-
+import { useDisclosure } from '@chakra-ui/react';
 import { MenuContext } from '@/app/utils/context';
+import GetStartedModal from '../Modals/GetStartedModal';
 
 const MobileMenu = () => {
   const { toggle, showMenu } = useContext(MenuContext) || {};
@@ -49,6 +50,9 @@ const MobileMenu = () => {
     // })
   }
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const modalBtnRef = useRef();
   return (
     <>
       <div
@@ -142,7 +146,10 @@ const MobileMenu = () => {
                 <div className="flex mx-auto ">
                   <button
                     className="block lg:inline-block mt-4 lg:mt-0 text-white hover:text-[#12B76A] hover:bg-white hover:border-[#12B76A] border bg-[#12B76A] rounded-full px-9 py-3 transition duration-300 ease"
-                    onClick={handleGetStarted}
+                    ref={modalBtnRef}
+                    onClick={() => {
+                      toggle(), onOpen();
+                    }}
                   >
                     Access the EcoMarket app
                   </button>
@@ -154,6 +161,8 @@ const MobileMenu = () => {
           </div>
         </nav>
       </div>
+
+      <GetStartedModal isOpen={isOpen} onClose={onClose} btnRef={modalBtnRef} />
     </>
   );
 };

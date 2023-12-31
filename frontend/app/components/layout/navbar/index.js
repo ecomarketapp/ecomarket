@@ -7,9 +7,8 @@ import { useRouter } from 'next/navigation';
 import Menu from '../../icons/Menu';
 import Image from 'next/image';
 import '../../../styles/navbar.css';
-import { useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from '@chakra-ui/react';
 import GetStartedModal from '../../Modals/GetStartedModal';
-
 
 const Navbar = () => {
   const { toggle, showMenu } = useContext(MenuContext) || {};
@@ -77,14 +76,9 @@ const Navbar = () => {
     // })
   }
 
-  const {
-    isOpen,
-    onOpen,
-    onClose,
-} = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-const modalBtnRef = useRef();
-
+  const modalBtnRef = useRef();
 
   return (
     <>
@@ -176,12 +170,13 @@ const modalBtnRef = useRef();
                     </div>
                   </div>
                 </div>
-                <Link
-                  href="/"
+                <button
+                  ref={modalBtnRef}
+                  onClick={onOpen}
                   className="block lg:inline-block mt-4 lg:mt-0 text-[#272626] hover:text-[#12B76A] px-5 "
                 >
                   Login
-                </Link>
+                </button>
 
                 {user ? (
                   <Link
@@ -212,11 +207,7 @@ const modalBtnRef = useRef();
       {/* <div className="block lg:hidden"> */}
       <MobileMenu />
 
-      <GetStartedModal
-        isOpen={isOpen}
-        onClose={onClose}
-        btnRef={modalBtnRef}
-      />
+      <GetStartedModal isOpen={isOpen} onClose={onClose} btnRef={modalBtnRef} />
       {/* </div> */}
     </>
   );

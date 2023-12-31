@@ -11,30 +11,33 @@
   "dependencies": {
     "@chakra-ui/next-js": "^2.1.5",
     "@chakra-ui/react": "^2.8.1",
-    "@videojs/themes": "^1.0.1",
     "@emotion/react": "^11.11.1",
     "@emotion/sheet": "^1.2.2",
     "@emotion/styled": "^11.11.0",
+    "@videojs/themes": "^1.0.1",
     "antd": "^5.10.3",
+    "axios": "^1.6.3",
     "classnames": "^2.3.2",
+    "framer-motion": "^10.16.4",
+    "iconsax-react": "^0.0.8",
+    "next": "13.5.4",
+    "next-pwa": "^5.6.0",
+    "react": "^18",
+    "react-countup": "^6.4.2",
+    "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
     "react-iconly": "^2.2.10",
+    "react-redux": "^9.0.4",
     "sequelize": "^6.34.0",
     "utf-8-validate": "^5.0.10",
     "uuid": "^9.0.1",
-    "video.js": "^8.6.1",
-    "react": "^18",
-    "react-dom": "^18",
-    "next": "13.5.4",
-    "react-countup": "^6.4.2",
-    "next-pwa": "^5.6.0",
-    "framer-motion": "^10.16.4",
-    "iconsax-react": "^0.0.8"
+    "video.js": "^8.6.1"
   },
   "devDependencies": {
     "autoprefixer": "^10",
-    "postcss": "^8",
-    "tailwindcss": "^3",
     "eslint": "^8",
-    "eslint-config-next": "13.5.4"
+    "eslint-config-next": "13.5.4",
+    "postcss": "^8",
+    "tailwindcss": "^3"
   }
 }
