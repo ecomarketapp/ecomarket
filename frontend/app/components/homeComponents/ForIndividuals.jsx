@@ -1,9 +1,9 @@
-'use client';
-import Image from 'next/image';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { individualSlidesData, slideVariants } from '@/app/lib/constants';
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useCallback, useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { individualSlidesData, slideVariants } from "@/app/lib/constants";
 
 const ForIndividuals = () => {
   // const [currentIndex, setCurrentIndex] = useState(0);
@@ -29,29 +29,29 @@ const ForIndividuals = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [manualInteraction, setManualInteraction] = useState(false);
-  const [direction, setDirection] = useState('right');
+  const [direction, setDirection] = useState("right");
   const totalSlidesLength = individualSlidesData.length;
 
   const handleDotClick = (index) => {
-    setDirection(index > currentIndex ? 'right' : 'left');
+    setDirection(index > currentIndex ? "right" : "left");
     setCurrentIndex(index);
     setManualInteraction(true);
   };
 
   // Function to switch to the next slide automatically
-  const autoSwitchSlides = () => {
+  const autoSwitchSlides = useCallback(() => {
     if (!manualInteraction) {
       const nextIndex = (currentIndex + 1) % totalSlidesLength;
-      setDirection('right');
+      setDirection("right");
       setCurrentIndex(nextIndex);
     }
     setManualInteraction(false);
-  };
+  }, [manualInteraction, currentIndex, totalSlidesLength]);
 
   useEffect(() => {
     const intervalId = setInterval(autoSwitchSlides, 10000);
     return () => clearInterval(intervalId);
-  }, [currentIndex, manualInteraction]);
+  }, [currentIndex, manualInteraction, autoSwitchSlides]);
 
   return (
     <section className="bg-[#F9FDFB] py-20 features__section relative">
@@ -75,8 +75,8 @@ const ForIndividuals = () => {
                       onClick={() => handleDotClick(idx)}
                       className={`px-3 lg:px-6 cursor-pointer hover:opacity-100 relative before:transition-all before:ease-in before:absolute before:w-1 before:h-full before:top-0 before:-left-[2px] transition-all duration-200 ease-in hover:text-[#3F3F3F] ${
                         currentIndex === idx
-                          ? 'before:bg-[#12B76A] before:opacity-100 opacity-100 text-[#3F3F3F]'
-                          : 'text-[#95989B] '
+                          ? "before:bg-[#12B76A] before:opacity-100 opacity-100 text-[#3F3F3F]"
+                          : "text-[#95989B] "
                       }`}
                     >
                       <h3 className="text-sm md:text-xl lg:text-[22px] font-bold mb-1  transition-all duration-200 ease-in py-2 lg:py-4">
@@ -103,7 +103,7 @@ const ForIndividuals = () => {
                         key={currentIndex}
                         variants={slideVariants}
                         initial={
-                          direction === 'right' ? 'hiddenRight' : 'hiddenLeft'
+                          direction === "right" ? "hiddenRight" : "hiddenLeft"
                         }
                         transition={{
                           repeat: Infinity,
@@ -141,7 +141,7 @@ const ForIndividuals = () => {
                             cx="2"
                             cy="2"
                             r="2"
-                            fill={currentIndex === idx ? '#12B76A' : '#EDEDED'}
+                            fill={currentIndex === idx ? "#12B76A" : "#EDEDED"}
                           />
                         </svg>
                       ))}
@@ -155,15 +155,15 @@ const ForIndividuals = () => {
       </div>
       <div className="w-full h-full absolute bottom-0 left-0 pointer-events-none">
         <Image
-          src={'/images/Ellipse 84.png'}
-          alt={'ecomarket'}
+          src={"/images/Ellipse 84.png"}
+          alt={"ecomarket"}
           fill
           // layout="responsive"
           // width={1200}
           // height={500}
           priority
           className={
-            ' flex items-center justify-center object-cover object-center w-full h-full '
+            " flex items-center justify-center object-cover object-center w-full h-full "
           }
         />
       </div>
