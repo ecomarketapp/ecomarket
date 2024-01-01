@@ -19,7 +19,7 @@ const SignupForm = () => {
   });
 
   const [error, setError] = useState(null);
-  const user = window.localStorage.getItem('user');
+  // const user = window.localStorage.getItem('user');
 
   // useEffect(() => {
   //   if (user) {

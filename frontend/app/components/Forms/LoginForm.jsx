@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
 // import { useDispatch, useSelector } from 'react-redux';
 // import Loader from '../components/Icons/Loader';
 // import { login } from '../state/apiCalls/userCalls';
-import toast, { Toaster } from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
+import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const LoginForm = () => {
-  const user = window.localStorage.getItem('user');
+  // const user = window.localStorage.getItem('user');
   // const state = {
   //     email: '',
   //     username: '',
@@ -19,37 +19,37 @@ const LoginForm = () => {
   //     errors: {},
   //   };
   const router = useRouter();
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState('');
+  const [loading, setLoading] = useState("");
   // redirect authenticated user to profile screen
 
   const toastOptions = {
     duration: 8000,
-    position: 'top-center',
+    position: "top-center",
     // Styling
     style: {},
-    className: '',
+    className: "",
     // Custom Icon
-    icon: '👏',
+    icon: "👏",
     // Change colors of success/error/loading icon
     iconTheme: {
-      primary: 'red',
-      secondary: '#fff',
+      primary: "red",
+      secondary: "#fff",
     },
     // Aria
     ariaProps: {
-      role: 'status',
-      'aria-live': 'polite',
+      role: "status",
+      "aria-live": "polite",
     },
   };
 
   // const {isFetching, error } = useSelector((state) => state.user);
 
   // const { loading, currentUser, error } = useSelector((state) => state.user)
-//   const dispatch = useDispatch();
+  //   const dispatch = useDispatch();
   useEffect(() => {
-    router.prefetch('/collector/dashboard');
+    router.prefetch("/collector/dashboard");
   }, [router]);
 
   const handleSubmit = async (e) => {
@@ -65,12 +65,12 @@ const LoginForm = () => {
       );
       if (res.data.status === true) {
         toast.success(res.data.msg, toastOptions);
-        window.localStorage.setItem('user', JSON.stringify(res.data.user));
+        // window.localStorage.setItem('user', JSON.stringify(res.data.user));
         setLoading(false);
-        setEmail('');
+        setEmail("");
 
         setTimeout(() => {
-          router.push('/collector/dashboard');
+          router.push("/collector/dashboard");
         }, 3000);
       } else {
         toast.error(res.data.msg, toastOptions);
@@ -84,11 +84,11 @@ const LoginForm = () => {
       console.log(err);
     }
   };
-//   useEffect(() => {
-//     if (user) {
-//       router.push('/collector/dashboard');
-//     }
-//   }, []);
+  //   useEffect(() => {
+  //     if (user) {
+  //       router.push('/collector/dashboard');
+  //     }
+  //   }, []);
   return (
     <>
       <Toaster />
@@ -104,8 +104,8 @@ const LoginForm = () => {
             placeholder="Enter your email"
             className={`block w-full h-12 px-4 py-2 mt-2 text-gray-700 bg-white border ${
               error
-                ? 'border-red-700 focus:border-red-700'
-                : 'border-gray-200 focus:border-gray-300'
+                ? "border-red-700 focus:border-red-700"
+                : "border-gray-200 focus:border-gray-300"
             }   rounded-md focus:outline-none`}
             name="email"
             min="3"
