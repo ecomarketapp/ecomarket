@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { businessSlidesData, slideVariants } from '@/app/lib/constants';
 
@@ -18,19 +18,19 @@ const ForBusiness = () => {
   };
 
   // Function to switch to the next slide automatically
-  const autoSwitchSlides = () => {
+  const autoSwitchSlides = useCallback(() => {
     if (!manualInteraction) {
       const nextIndex = (currentIndex + 1) % totalSlidesLength;
       setDirection('right');
       setCurrentIndex(nextIndex);
     }
     setManualInteraction(false);
-  };
+  }, [manualInteraction, currentIndex, totalSlidesLength]);
 
   useEffect(() => {
     const intervalId = setInterval(autoSwitchSlides, 10000);
     return () => clearInterval(intervalId); // Cleanup on component unmount
-  }, [currentIndex, manualInteraction]);
+  }, [currentIndex, manualInteraction, autoSwitchSlides]);
 
   return (
     <section className="bg-[#02351D] py-20 features__section relative">

@@ -1,57 +1,53 @@
-import React from 'react';
-import Link from 'next/link';
-import Head from 'next/head';
-import LoginForm from '@/app/components/Forms/LoginForm';
-
+import React from "react";
+import Link from "next/link";
+import Head from "next/head";
+import LoginForm from "@/app/components/Forms/LoginForm";
+import Image from "next/image";
 
 export const metadata = {
   title: "EcoMarket | Login",
   metadataBase: new URL("https://ecomarket.xyz"),
   description: "Open Marketplace for Recycled Materials",
-  keyword: [
-      "Recycle",
-      "Ecomarket",
-  ],
+  keyword: ["Recycle", "Ecomarket"],
   openGraph: {
-      title: "Open Marketplace for Recycled Materials",
-      description:
-          "Open Marketplace for Recycled Materials",
+    title: "Open Marketplace for Recycled Materials",
+    description: "Open Marketplace for Recycled Materials",
 
-      url: "https://ecomarket.xyz",
-      siteName: "EcoMarket",
-      images: [
-          {
-              url: "https://www.ecomarket.xyz/images/ecomarket-logo.png",
-              width: 800,
-              height: 600,
-          },
-          {
-              url: "https://www.ecomarket.xyz/images/ecomarket-logo.png",
-              width: 1800,
-              height: 1600,
-              alt: "EcoMarket Dashboard",
-          },
-      ],
-      locale: "en_US",
-      type: "website",
+    url: "https://ecomarket.xyz",
+    siteName: "EcoMarket",
+    images: [
+      {
+        url: "https://www.ecomarket.xyz/images/ecomarket-logo.png",
+        width: 800,
+        height: 600,
+      },
+      {
+        url: "https://www.ecomarket.xyz/images/ecomarket-logo.png",
+        width: 1800,
+        height: 1600,
+        alt: "EcoMarket Dashboard",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
   },
   icons: {
-      icon: [
-          { url: "/images/favicon/favicon-16x16.png", size: "16x16" },
-          { url: "/images/favicon/favicon-32x32.png", size: "32x32" },
-      ],
-      shortcut: "/images/favicon/favicon-32x32.png",
-      apple: "/images/favicon/apple-touch-icon.png",
-      andriod: [
-          {
-              url: "/images/favicon/android-chrome-192x192.png",
-              size: "192x192",
-          },
-          {
-              url: "/images/favicon/android-chrome-512x512.png",
-              size: "512x512",
-          },
-      ],
+    icon: [
+      { url: "/images/favicon/favicon-16x16.png", size: "16x16" },
+      { url: "/images/favicon/favicon-32x32.png", size: "32x32" },
+    ],
+    shortcut: "/images/favicon/favicon-32x32.png",
+    apple: "/images/favicon/apple-touch-icon.png",
+    andriod: [
+      {
+        url: "/images/favicon/android-chrome-192x192.png",
+        size: "192x192",
+      },
+      {
+        url: "/images/favicon/android-chrome-512x512.png",
+        size: "512x512",
+      },
+    ],
   },
 };
 
@@ -66,10 +62,11 @@ const Login = () => {
             <div className=" w-full md:w-1/2 lg:w-1/2  bg-white h-screen overflow-y-auto px-4 md:px-[60px] lg:px-[80px] xl:px-[100px] pt-[50px] pb-7 scrollbar ">
               <div className="container mx-auto fixed top-0 right-0 left-0 w-full px-6 py-3 bg-white">
                 <Link href="/">
-                  <img
+                  <Image
                     src="/images/ecomarket-logo.png"
                     width={150}
                     className="object-contain"
+                    alt="..."
                   />
                 </Link>
               </div>
@@ -103,10 +100,10 @@ const Login = () => {
             <div
               className=" left w-full md:w-1/2 lg:w-1/2 py-5 md:py-5 md:mb-0  relative hidden md:block h-full bg-slate-400 rounded-tl-[60px] rounded-bl-[60px]"
               style={{
-                backgroundImage: 'url(/images/LoginHero.png)',
-                backgroundPosition: 'center center',
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat',
+                backgroundImage: "url(/images/LoginHero.png)",
+                backgroundPosition: "center center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
               }}
             >
               {/* <div className="overlay"></div> */}

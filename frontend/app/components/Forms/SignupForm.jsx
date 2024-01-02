@@ -19,7 +19,7 @@ const SignupForm = () => {
   });
 
   const [error, setError] = useState(null);
-  const user = localStorage.getItem('user');
+  // const user = localStorage.getItem('user');
 
   // useEffect(() => {
   //   if (user) {
@@ -116,7 +116,7 @@ const SignupForm = () => {
 
   useEffect(() => {
     router.prefetch('/login');
-  }, []);
+  }, [router]);
   return (
     <>
       <Toaster />

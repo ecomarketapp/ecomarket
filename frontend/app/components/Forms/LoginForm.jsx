@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
 const LoginForm = () => {
-  const user = localStorage.getItem('user');
+  // const user = localStorage.getItem('user');
   // const state = {
   //     email: '',
   //     username: '',
@@ -65,7 +65,7 @@ const LoginForm = () => {
       );
       if (res.data.status === true) {
         toast.success(res.data.msg, toastOptions);
-        localStorage.setItem('user', JSON.stringify(res.data.user));
+        // localStorage.setItem('user', JSON.stringify(res.data.user));
         setLoading(false);
         setEmail('');
 
@@ -124,7 +124,7 @@ const LoginForm = () => {
         </button>
 
         <div className="flex items-center justify-center mt-5">
-          <span className="">Don't have an account?</span>
+          <span className="">Dont have an account?</span>
           <Link href="/auth/signup" className=" text-[#DD7D37] ml-2 underline">
             Sign Up
           </Link>
